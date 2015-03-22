@@ -18,20 +18,31 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(1, get_or_else($defined_var  , 0));
       $this->assertEquals(0, get_or_else($undefined_var, 0));
 
-      unset($undefined_var); // assertEquals() define $undefined_var above line, so this line unset it.
-      $without_php_notice = get_or_null($undefined_var);
-      $this->assertEquals(null, $without_php_notice);
+      $array = ['one' => 1, 'two' => 2];
+      $this->assertEquals( 2, get_or_else($array['two'  ], -2));
+      $this->assertEquals(-3, get_or_else($array['three'], -3));
+   }
+
+   public function testGetOrNull()
+   {
+      $defined_var = 'string';
+      $this->assertEquals('string', get_or_null($defined_var));
+      $this->assertEquals(    null, get_or_null($undefined_var));
    }
 
    public function testBetween()
    {
-      $int = 0;
-      $this->assertEquals( true, between($int,  0,  5));
-      $this->assertEquals( true, between($int, -5,  0));
-      $this->assertEquals( true, between($int, -5,  5));
-      $this->assertEquals(false, between($int,  1,  5));
-      $this->assertEquals(false, between($int, -5, -1));
-      $this->assertEquals(false, between($int,  5, -5));
+      $patterns = [
+         [true , 0,  0,  5],
+         [true , 0, -5,  0],
+         [true , 0, -5,  5],
+         [false, 0,  1,  5],
+         [false, 0, -5, -1],
+         [false, 0,  5, -5],
+      ];
+      foreach ($patterns as list($expected, $num, $min, $max)) {
+         $this->assertEquals($expected, between($num, $min, $max));
+      }
 
       $iso8601 = '1987-04-20 00:00:00';
       $this->assertEquals( true, between($iso8601, '1987-04-01 00:00:00', '1987-04-30 00:00:00'));
