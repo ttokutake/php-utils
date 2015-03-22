@@ -38,6 +38,9 @@ function array_zip()
  */
 function array_behead(array $array)
 {
+   if (empty($array)) {
+      throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
+   }
    $head = array_shift($array);
    return [$head, $array];
 }
@@ -50,6 +53,9 @@ function array_behead(array $array)
  */
 function array_depeditate(array $array)
 {
+   if (empty($array)) {
+      throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
+   }
    $last = array_pop($array);
    return [$array, $last];
 }

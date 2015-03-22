@@ -4,9 +4,25 @@ require_once('array.php');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
-   private $arrays = [
-      [],
+   public function testArrayZip()
+   {
+      $patterns = [
+         [[], [ ], [ ]],
+         [[], [1], [ ]],
+         [[], [ ], [1]],
 
+         [[[1, 4]        ], [1, 2], [4   ]],
+         [[[1, 4]        ], [1   ], [4, 5]],
+         [[[1, 4], [2, 5]], [1, 2], [4, 5]],
+      ];
+      foreach ($patterns as list($expected, $array1, $array2)) {
+         $this->assertEquals($expected, array_zip($array1, $array2));
+      }
+      return true;
+   }
+
+
+   private $arrays = [
       [1      ],
       [1, 2   ],
       [1, 2, 3],
@@ -16,11 +32,12 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ['one' => 1, 'two' => 2, 'three' => 3],
    ];
 
-   public function testArrayZipForArrayBehead()
+   /**
+    * @depends testArrayZip
+    */
+   public function testArrayBehead($ok)
    {
-      $next_expected = [
-         [null, []],
-
+      $expected = [
          [1, [    ]],
          [1, [2   ]],
          [1, [2, 3]],
@@ -29,29 +46,26 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [1, ['two' => 2              ]],
          [1, ['two' => 2, 'three' => 3]],
       ];
+      $patterns = array_zip($expected, $this->arrays);
 
-      $patterns = array_zip($next_expected, $this->arrays);
-      $expected = array_map(function ($e1, $e2) { return [$e1, $e2]; }, $next_expected, $this->arrays);
-
-      $this->assertEquals($expected, $patterns);
-
-      return $patterns;
-   }
-   /**
-    * @depends testArrayZipForArrayBehead
-    */
-   public function testArrayBehead($patterns)
-   {
       foreach ($patterns as list($expected, $arrays)) {
          $this->assertEquals($expected, array_behead($arrays));
       }
    }
-
-   public function testArrayZipForArrayDepeditate()
+   /**
+    * @expectedException UnexpectedValueException
+    */
+   public function testArrayBeheadException()
    {
-      $next_expected = [
-         [[], null],
+      array_behead([]);
+   }
 
+   /**
+    * @depends testArrayZip
+    */
+   public function testArrayDepeditate($ok)
+   {
+      $expected = [
          [[    ], 1],
          [[1   ], 2],
          [[1, 2], 3],
@@ -60,21 +74,17 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['one' => 1            ], 2],
          [['one' => 1, 'two' => 2], 3],
       ];
+      $patterns = array_zip($expected, $this->arrays);
 
-      $patterns = array_zip($next_expected, $this->arrays);
-      $expected = array_map(function ($e1, $e2) { return [$e1, $e2]; }, $next_expected, $this->arrays);
-
-      $this->assertEquals($expected, $patterns);
-
-      return $patterns;
-   }
-   /**
-    * @depends testArrayZipForArrayDepeditate
-    */
-   public function testArrayDepeditate($patterns)
-   {
       foreach ($patterns as list($expected, $arrays)) {
          $this->assertEquals($expected, array_depeditate($arrays));
       }
+   }
+   /**
+    * @expectedException UnexpectedValueException
+    */
+   public function testArrayDepeditateException()
+   {
+      array_depeditate([]);
    }
 }

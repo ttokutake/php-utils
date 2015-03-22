@@ -27,7 +27,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    {
       $defined_var = 'string';
       $this->assertEquals('string', get_or_null($defined_var));
-      $this->assertEquals(    null, get_or_null($undefined_var));
+      $this->assertNull(get_or_null($undefined_var));
    }
 
    public function testBetween()
