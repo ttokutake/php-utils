@@ -2,7 +2,7 @@
 
 require_once('general.php');
 
-class UtilsTest extends PHPUnit_Framework_TestCase
+class GeneralTest extends PHPUnit_Framework_TestCase
 {
    /**
     * @expectedException PHPUnit_Framework_Error_Notice
