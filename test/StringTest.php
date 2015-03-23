@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../lib/string.php');
+require_once('constants.inc');
+require_once(PATH_TO_LIB . '/string.php');
 
 class StringTest extends PHPUnit_Framework_TestCase
 {

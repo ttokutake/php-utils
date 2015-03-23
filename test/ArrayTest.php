@@ -1,8 +1,8 @@
 <?php
 
-$lib_path = __DIR__ . '/../lib';
-require_once("$lib_path/array.php");
-require_once("$lib_path/general.php");
+require_once('constants.inc');
+require_once(PATH_TO_LIB . '/array.php');
+require_once(PATH_TO_LIB . '/general.php');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
