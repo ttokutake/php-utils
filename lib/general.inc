@@ -26,19 +26,6 @@ function get_or_null(&$var)
 }
 
 /**
- * Judge if $var is in the range between $min and $max.
- *
- * @param  mixed   $var
- * @param  mixed   $min
- * @param  mixed   $max
- * @return boolean
- */
-function between($var, $min, $max)
-{
-   return ($min <= $var && $var <= $max) ? true : false;
-}
-
-/**
  * Judge if $num is odd.
  *
  * @param  mixed   $num
@@ -58,4 +45,17 @@ function is_odd($num)
 function is_even($num)
 {
    return !is_odd($num);
+}
+
+/**
+ * Judge if $var is in the range between $min and $max.
+ *
+ * @param  mixed   $var
+ * @param  mixed   $min
+ * @param  mixed   $max
+ * @return boolean
+ */
+function between($var, $min, $max)
+{
+   return ($min <= $var && $var <= $max) ? true : false;
 }
