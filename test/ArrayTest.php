@@ -22,7 +22,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
-   private $arrays = [
+   private $empty_array = [];
+   private $arrays      = [
       [1      ],
       [1, 2   ],
       [1, 2, 3],
@@ -48,8 +49,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ];
       $patterns = array_zip($expected, $this->arrays);
 
-      foreach ($patterns as list($expected, $arrays)) {
-         $this->assertEquals($expected, array_behead($arrays));
+      foreach ($patterns as list($expected, $array)) {
+         $this->assertEquals($expected, array_behead($array));
       }
    }
    /**
@@ -57,8 +58,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayBeheadException()
    {
-      $empty_array = [];
-      array_behead($empty_array);
+      array_behead($this->empty_array);
    }
 
    /**
@@ -77,8 +77,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ];
       $patterns = array_zip($expected, $this->arrays);
 
-      foreach ($patterns as list($expected, $arrays)) {
-         $this->assertEquals($expected, array_depeditate($arrays));
+      foreach ($patterns as list($expected, $array)) {
+         $this->assertEquals($expected, array_depeditate($array));
       }
    }
    /**
@@ -86,7 +86,42 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayDepeditateException()
    {
-      $empty_array = [];
-      array_depeditate($empty_array);
+      array_depeditate($this->empty_array);
+   }
+
+   /**
+    * @depends testArrayZip
+    */
+   public function testArrayPartition($ok)
+   {
+      $odd_expected = [
+         [[0 => 1        ], [      ]],
+         [[0 => 1        ], [1 => 2]],
+         [[0 => 1, 2 => 3], [1 => 2]],
+
+         [['one' => 1              ], [          ]],
+         [['one' => 1              ], ['two' => 2]],
+         [['one' => 1, 'three' => 3], ['two' => 2]],
+      ];
+      $patterns = array_zip($odd_expected, $this->arrays);
+
+      foreach ($patterns as list($odd_expected, $array)) {
+         $this->assertEquals($odd_expected, array_partition($array, function ($num) { return $num % 2; }));
+      }
+
+      $even_expected = [
+         [[      ], [0 => 1        ]],
+         [[1 => 2], [0 => 1        ]],
+         [[1 => 2], [0 => 1, 2 => 3]],
+
+         [[          ], ['one' => 1              ]],
+         [['two' => 2], ['one' => 1              ]],
+         [['two' => 2], ['one' => 1, 'three' => 3]],
+      ];
+      $patterns = array_zip($even_expected, $this->arrays);
+
+      foreach ($patterns as list($even_expected, $array)) {
+         $this->assertEquals($even_expected, array_partition($array, function ($num) { return !($num % 2); } ));
+      }
    }
 }

@@ -64,3 +64,23 @@ function array_depeditate(array &$array)
    reset($array);
    return array($init, $last);
 }
+
+/**
+ * Return the pair of Arrays, which of former is true value and latter is false value.
+ *
+ * @param  array    $array
+ * @param  callable $true_or_false
+ * @return array    [$trues, $falses]
+ */
+function array_partition(array $array, callable $true_or_false)
+{
+   $former = $latter = array();
+   foreach ($array as $key => $value) {
+      if ($true_or_false($value)) {
+         $former[$key] = $value;
+      } else {
+         $latter[$key] = $value;
+      }
+   }
+   return array($former, $latter);
+}
