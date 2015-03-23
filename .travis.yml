@@ -1,0 +1,10 @@
+language: php
+php:
+  - 5.5
+  - 5.4
+script:
+  - phpunit test/ArrayTest.php
+  - phpunit test/DebugTest.php
+  - phpunit test/GeneralTest.php
+  - phpunit test/StringTest.php
+
