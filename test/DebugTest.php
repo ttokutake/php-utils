@@ -1,7 +1,7 @@
 <?php
 
 require_once('constants.inc');
-require_once(PATH_TO_LIB . '/debug.php');
+require_once(PATH_TO_LIB . 'debug.php');
 
 class DebugTest extends PHPUnit_Framework_TestCase
 {

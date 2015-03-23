@@ -1,7 +1,7 @@
 <?php
 
 require_once('constants.inc');
-require_once(PATH_TO_LIB . '/general.php');
+require_once(PATH_TO_LIB . 'general.php');
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {
