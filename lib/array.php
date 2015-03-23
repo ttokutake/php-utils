@@ -18,12 +18,12 @@ function array_zip()
    $formatted_arrays = array_map('array_values', $arrays);
    $min_length       = min(array_map('count', $formatted_arrays));
 
-   $zipped_array = [];
+   $zipped_array = array();
    for ($i = 0; $i < $min_length; $i++) {
       $zipped_array[] = array_reduce($formatted_arrays, function ($carry, $array) use($i) {
             $carry[] = $array[$i];
             return $carry;
-         }, []
+         }, array()
       );
    }
 
@@ -42,7 +42,7 @@ function array_behead(array $array)
       throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
    }
    $head = array_shift($array);
-   return [$head, $array];
+   return array($head, $array);
 }
 
 /**
@@ -57,5 +57,5 @@ function array_depeditate(array $array)
       throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
    }
    $last = array_pop($array);
-   return [$array, $last];
+   return array($array, $last);
 }

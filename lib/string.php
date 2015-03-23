@@ -12,5 +12,5 @@ function split_at($str, $at, $encoding = 'UTF-8')
 {
    $former = mb_substr($str,   0,  $at, $encoding);
    $latter = mb_substr($str, $at, null, $encoding);
-   return [$former, $latter];
+   return array($former, $latter);
 }
