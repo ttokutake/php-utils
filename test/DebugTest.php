@@ -1,6 +1,6 @@
 <?php
 
-require_once('../lib/debug.php');
+require_once(__DIR__ . '/../lib/debug.php');
 
 class DebugTest extends PHPUnit_Framework_TestCase
 {

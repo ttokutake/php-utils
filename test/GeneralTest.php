@@ -1,6 +1,6 @@
 <?php
 
-require_once('../lib/general.php');
+require_once(__DIR__ . '/../lib/general.php');
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {

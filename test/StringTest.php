@@ -1,6 +1,6 @@
 <?php
 
-require_once('../lib/string.php');
+require_once(__DIR__ . '/../lib/string.php');
 
 class StringTest extends PHPUnit_Framework_TestCase
 {
