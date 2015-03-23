@@ -1,6 +1,6 @@
 <?php
 
-require_once('array.php');
+require_once('../lib/array.php');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
