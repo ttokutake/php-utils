@@ -15,8 +15,8 @@ function array_zip()
       }
    }
 
-   $formatted_arrays = array_map(function ($array) { return array_values($array); }, $arrays);
-   $min_length       = min(array_map(function ($array) { return count($array); }, $formatted_arrays));
+   $formatted_arrays = array_map('array_values', $arrays);
+   $min_length       = min(array_map('count', $formatted_arrays));
 
    $zipped_array = [];
    for ($i = 0; $i < $min_length; $i++) {
