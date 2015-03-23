@@ -57,7 +57,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayBeheadException()
    {
-      array_behead([]);
+      $empty_array = [];
+      array_behead($empty_array);
    }
 
    /**
@@ -85,6 +86,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayDepeditateException()
    {
-      array_depeditate([]);
+      $empty_array = [];
+      array_depeditate($empty_array);
    }
 }

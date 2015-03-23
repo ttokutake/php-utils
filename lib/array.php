@@ -32,30 +32,35 @@ function array_zip()
 
 /**
  * Return the pair of first element and the others of an array.
+ * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return array [$head, $tail]
  */
-function array_behead(array $array)
+function array_behead(array &$array)
 {
    if (empty($array)) {
       throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
    }
-   $head = array_shift($array);
-   return array($head, $array);
+   $head = reset($array);
+   $tail = array_slice($array, 1, count($array) - 1);
+   return array($head, $tail);
 }
 
 /**
  * Return the pair of last element and the others of an array.
+ * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return array [$init, $last]
  */
-function array_depeditate(array $array)
+function array_depeditate(array &$array)
 {
    if (empty($array)) {
       throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
    }
-   $last = array_pop($array);
-   return array($array, $last);
+   $init = array_slice($array, 0, count($array) - 1);
+   $last = end($array);
+   reset($array);
+   return array($init, $last);
 }
