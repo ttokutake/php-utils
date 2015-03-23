@@ -1,8 +1,8 @@
 <?php
 
 require_once('constants.inc');
-require_once(PATH_TO_LIB . 'array.php');
-require_once(PATH_TO_LIB . 'general.php');
+require_once(PATH_TO_LIB . 'array.inc');
+require_once(PATH_TO_LIB . 'general.inc');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {

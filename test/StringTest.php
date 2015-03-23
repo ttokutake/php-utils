@@ -1,7 +1,7 @@
 <?php
 
 require_once('constants.inc');
-require_once(PATH_TO_LIB . 'string.php');
+require_once(PATH_TO_LIB . 'string.inc');
 
 class StringTest extends PHPUnit_Framework_TestCase
 {
