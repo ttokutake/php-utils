@@ -1,6 +1,7 @@
 <?php
 
 require_once('../lib/array.php');
+require_once('../lib/general.php');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
@@ -106,7 +107,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $patterns = array_zip($odd_expected, $this->arrays);
 
       foreach ($patterns as list($odd_expected, $array)) {
-         $this->assertEquals($odd_expected, array_partition($array, function ($num) { return $num % 2; }));
+         $this->assertEquals($odd_expected, array_partition($array, 'is_odd'));
       }
 
       $even_expected = [
@@ -121,7 +122,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $patterns = array_zip($even_expected, $this->arrays);
 
       foreach ($patterns as list($even_expected, $array)) {
-         $this->assertEquals($even_expected, array_partition($array, function ($num) { return !($num % 2); } ));
+         $this->assertEquals($even_expected, array_partition($array, 'is_even'));
       }
    }
 }
