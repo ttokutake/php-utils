@@ -122,12 +122,13 @@ function array_last(array &$array)
 
 /**
  * Return the pair of Arrays, which of former is true value and latter is false value.
+ * Side effect: Array's internal pointer point nothing.
  *
  * @param  array    $array
  * @param  callable $true_or_false
  * @return array    [$trues, $falses]
  */
-function array_partition(array $array, callable $true_or_false)
+function array_partition(array &$array, callable $true_or_false)
 {
    $former = $latter = array();
    foreach ($array as $key => $value) {
