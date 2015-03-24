@@ -30,6 +30,7 @@ function array_zip()
    return $zipped_array;
 }
 
+
 /**
  * Return the pair of first element and the others of an array.
  * Side effect: Array's internal pointer is reset.
@@ -48,6 +49,33 @@ function array_behead(array &$array)
 }
 
 /**
+ * Return the first element of an array.
+ * Side effect: Array's internal pointer is reset.
+ *
+ * @param  array $array
+ * @return mixed
+ */
+function array_head(array &$array)
+{
+   list($head) = array_behead($array);
+   return $head;
+}
+
+/**
+ * Return the array excluding the first element of an array.
+ * Side effect: Array's internal pointer is reset.
+ *
+ * @param  array $array
+ * @return array
+ */
+function array_tail(array &$array)
+{
+   list(, $tail) = array_behead($array);
+   return $tail;
+}
+
+
+/**
  * Return the pair of last element and the others of an array.
  * Side effect: Array's internal pointer is reset.
  *
@@ -64,6 +92,33 @@ function array_depeditate(array &$array)
    reset($array);
    return array($init, $last);
 }
+
+/**
+ * Return the array excluding the last element of an array.
+ * Side effect: Array's internal pointer is reset.
+ *
+ * @param  array $array
+ * @return array
+ */
+function array_init(array &$array)
+{
+   list($init) = array_depeditate($array);
+   return $init;
+}
+
+/**
+ * Return the last element of an array.
+ * Side effect: Array's internal pointer is reset.
+ *
+ * @param  array $array
+ * @return mixed
+ */
+function array_last(array &$array)
+{
+   list(, $last) = array_depeditate($array);
+   return $last;
+}
+
 
 /**
  * Return the pair of Arrays, which of former is true value and latter is false value.
