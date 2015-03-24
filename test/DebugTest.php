@@ -27,7 +27,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
    }
 
 
-   //private $array = ['one' => 1, 'two' => 2];
+   private $array = ['one' => 1, 'two' => 2];
 
    //public function testVarDumpHtml()
    //{
@@ -41,15 +41,15 @@ class DebugTest extends PHPUnit_Framework_TestCase
    //   var_dump_html($this->array, false);
    //}
 
-   //public function testPrintRHtml()
-   //{
-   //   $this->expectOutputString("<!--<pre>\nArray\n(\n    [one] => 1\n    [two] => 2\n)\n</pre>-->\n");
-   //   print_r_html($this->array);
-   //}
+   public function testPrintRHtml()
+   {
+      $this->expectOutputString("<!--<pre>\nArray\n(\n    [one] => 1\n    [two] => 2\n)\n</pre>-->\n");
+      print_r_html($this->array);
+   }
 
-   //public function testPrintRHtmlWithoutCommentOut()
-   //{
-   //   $this->expectOutputString("<pre>\nArray\n(\n    [one] => 1\n    [two] => 2\n)\n</pre>\n");
-   //   print_r_html($this->array, false);
-   //}
+   public function testPrintRHtmlWithoutCommentOut()
+   {
+      $this->expectOutputString("<pre>\nArray\n(\n    [one] => 1\n    [two] => 2\n)\n</pre>\n");
+      print_r_html($this->array, false);
+   }
 }
