@@ -24,13 +24,6 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(-3, get_or_else($array['three'], -3));
    }
 
-   public function testGetOrNull()
-   {
-      $defined_var = 'string';
-      $this->assertEquals('string', get_or_null($defined_var));
-      $this->assertNull(get_or_null($undefined_var));
-   }
-
 
    private $odds  = [1, 3, 5];
    private $evens = [0, 2, 4];
