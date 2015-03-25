@@ -18,7 +18,7 @@ function echoln($var)
  * @param callable $echo
  * @param boolean  $comment_out
  */
-function debug_assuming_html($var, callable $echo, $comment_out = true)
+function debug_assuming_html($var, $echo, $comment_out = true)
 {
    if ($comment_out) echo '<!--';
    echo "<pre>\n";

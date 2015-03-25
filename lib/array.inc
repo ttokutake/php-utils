@@ -128,7 +128,7 @@ function array_last(array &$array)
  * @param  callable $true_or_false
  * @return array    [$trues, $falses]
  */
-function array_partition(array &$array, callable $true_or_false)
+function array_partition(array &$array, $true_or_false)
 {
    $former = $latter = array();
    foreach ($array as $key => $value) {
