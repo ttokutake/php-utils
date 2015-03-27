@@ -5,9 +5,9 @@ class CombinationMap
    private $array = array();
    private $delimiter;
 
-   public function __construct($delimiter = null)
+   public function __construct($delimiter = ',')
    {
-      $this->delimiter = empty($delimiter) ? uniqid() : $delimiter;
+      $this->delimiter = $delimiter;
    }
 
    public function size()
