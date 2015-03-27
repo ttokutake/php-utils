@@ -4,6 +4,7 @@
  * If $var's value is "defined" or not "null", return it.
  * Otherwise, return $default.
  * This function is for not outputting "PHP Notice".
+ * Side effect: $var is defined as "null".
  *
  * @param  &mixed $var
  * @param  mixed  $default
@@ -16,6 +17,7 @@ function get_or_else(&$var, $default)
 
 /**
  * The alias of get_or_else($var, null).
+ * Side effect: $var is defined as "null".
  *
  * @param  &mixed     $var
  * @return mixed|null $var|null

@@ -1,6 +1,33 @@
 <?php
 
 /**
+ * Return the specified value of an array if it's defined.
+ * Otherwise, return "null".
+ *
+ * @param  array      $array
+ * @param  int|string $key
+ * @return mixed
+ */
+function array_get(array &$array, $key)
+{
+   return isset($array[$key]) ? $array[$key] : null;
+}
+
+/**
+ * Return the specified value of an array if it's defined.
+ * Otherwise, return $default.
+ *
+ * @param  array      $array
+ * @param  int|string $key
+ * @return mixed
+ */
+function array_get_or_else(array &$array, $key, $default)
+{
+   return array_key_exists($key, $array) ? $array[$key] : $default;
+}
+
+
+/**
  * Return an array consisting of the pairs of each element for two arrays.
  *
  * @param  array $array1,$array2,...

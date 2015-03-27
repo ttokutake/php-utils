@@ -22,6 +22,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    public function testGet($cm)
    {
       $this->assertEquals($this->element, $cm->get($this->combination));
+      $this->assertNull($cm->get([]));
    }
 
    /**

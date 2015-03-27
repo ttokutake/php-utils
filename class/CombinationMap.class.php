@@ -1,7 +1,7 @@
 <?php
 
 require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'constants.inc')));
-require_once(PATH_TO_LIB . 'general.inc');
+require_once(PATH_TO_LIB . 'array.inc');
 
 class CombinationMap
 {
@@ -30,7 +30,7 @@ class CombinationMap
 
    public function get(array $combination)
    {
-      return get_or_null($this->array[$this->toKey($combination)]);
+      return array_get($this->array, $this->toKey($combination));
    }
 
    private function toKey(array $combination)
