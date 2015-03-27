@@ -51,11 +51,11 @@ function print_r_html($var, $comment_out = true)
 }
 
 /**
- * var_dump() to the log file.
+ * var_export() to the log file.
  *
  * @param mixed $var
  */
-function var_dump_log($var)
+function var_export_log($var)
 {
    error_log(var_export($var, true));
 }
