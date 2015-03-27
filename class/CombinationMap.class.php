@@ -39,6 +39,11 @@ class CombinationMap
       return array_get($this->array, $this->toKey($combination));
    }
 
+   public function sum()
+   {
+      return array_sum($this->array);
+   }
+
 
    private function toKey(array $combination)
    {

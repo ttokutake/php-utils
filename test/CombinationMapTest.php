@@ -2,17 +2,20 @@
 
 require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'constants.inc']));
 require_once(PATH_TO_CLASS . 'CombinationMap.class.php');
+require_once(PATH_TO_LIB   . 'array.inc');
 
 class CombinationMapTest extends PHPUnit_Framework_TestCase
 {
-   private $combination = ['blowser', 'firefox'];
-   private $element     = 100;
+   private $combinations = [['blowser', 'firefox'], ['blowser', 'chrome']];
+   private $elements     = [100, 200];
 
    public function testSetAndSize()
    {
       $cm = new CombinationMap();
-      $cm->set($this->combination, $this->element);
-      $this->assertEquals(1, $cm->size());
+      foreach (array_zip($this->combinations, $this->elements) as $index => list($combination, $element)) {
+         $cm->set($combination, $element);
+         $this->assertEquals($index + 1, $cm->size());
+      }
       return $cm;
    }
 
@@ -21,20 +24,31 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testGet($cm)
    {
-      $this->assertEquals($this->element, $cm->get($this->combination));
+      foreach (range(0, count($this->elements) - 1) as $index) {
+         $this->assertEquals($this->elements[$index], $cm->get($this->combinations[$index]));
+      }
       $this->assertNull($cm->get([]));
       return $cm;
    }
 
    /**
-    * @depends testGet
+    * @depends testSetAndSize
+    */
+   public function testSum($cm)
+   {
+      $this->assertEquals(array_sum($this->elements), $cm->sum());
+   }
+
+   /**
+    * @depends testSetAndSize
     */
    public function testApply($cm)
    {
-      $double = function ($int) { return 2 * $int; };
-
-      $cm->apply($this->combination, $double);
-      $this->assertEquals($double($this->element), $cm->get($this->combination));
+      $twice = function ($int) { return 2 * $int; };
+      foreach (range(0, count($this->elements) - 1) as $index) {
+         $cm->apply($this->combinations[$index], $twice);
+         $this->assertEquals($twice($this->elements[$index]), $cm->get($this->combinations[$index]));
+      }
    }
 
    /**
@@ -42,7 +56,10 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testErase($cm)
    {
-      $cm->erase($this->combination);
-      $this->assertEquals(0, $cm->size());
+      foreach (range(count($this->elements) - 1, 0) as $index) {
+         $cm->erase($this->combinations[$index]);
+         $array_size = $index;
+         $this->assertEquals($array_size, $cm->size());
+      }
    }
 }
