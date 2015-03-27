@@ -6,7 +6,7 @@
  *
  * @param  array      $array
  * @param  int|string $key
- * @return mixed
+ * @return mixed      $array[$key]|null
  */
 function array_get(array &$array, $key)
 {
@@ -19,7 +19,7 @@ function array_get(array &$array, $key)
  *
  * @param  array      $array
  * @param  int|string $key
- * @return mixed
+ * @return mixed      $array[$key]|$default
  */
 function array_get_or_else(array &$array, $key, $default)
 {

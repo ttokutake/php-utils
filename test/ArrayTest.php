@@ -6,6 +6,32 @@ require_once(PATH_TO_LIB . 'general.inc');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
+   private $array = ['defined_key' => null, 'not_null' => true];
+
+   /**
+    * @expectedException PHPUnit_Framework_Error_Notice
+    */
+   public function testPhpNotice()
+   {
+      echo $this->array['undefined_key'];
+   }
+
+   public function testArrayGet()
+   {
+      $this->assertNull(array_get($this->array, 'undefined_key'));
+      $this->assertNull(array_get($this->array, 'defined_key'  ));
+      $this->assertTrue(array_get($this->array, 'not_null'     ));
+   }
+
+   public function testArrayGetOrElse()
+   {
+      $default = false;
+      $this->assertFalse(array_get_or_else($this->array, 'undefined_key', $default));
+      $this->assertNull (array_get_or_else($this->array, 'defined_key'  , $default));
+      $this->assertTrue (array_get_or_else($this->array, 'not_null'     , $default));
+   }
+
+
    public function testArrayZip()
    {
       $patterns = [
