@@ -18,9 +18,15 @@ class CombinationMap
       return count($this->array);
    }
 
-   public function push(array $combination, $value)
+   public function set(array $combination, $value)
    {
       $this->array[$this->toKey($combination)] = $value;
+   }
+
+   public function apply(array $combination, $function)
+   {
+      $key = $this->toKey($combination);
+      $this->array[$key] = $function(array_get($this->array, $key));
    }
 
    public function erase(array $combination)
@@ -33,14 +39,10 @@ class CombinationMap
       return array_get($this->array, $this->toKey($combination));
    }
 
+
    private function toKey(array $combination)
    {
       return implode($this->delimiter, $combination);
    }
 
-   private function apply(array $combination, $function)
-   {
-      $key = $this->toKey($combination);
-      $this->array[$key] = $function($this->array[$key]);
-   }
 }
