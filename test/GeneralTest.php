@@ -5,26 +5,6 @@ require_once(PATH_TO_LIB . 'general.inc');
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {
-   /**
-    * @expectedException PHPUnit_Framework_Error_Notice
-    */
-   public function testPhpNotice()
-   {
-      echo $undefined_var;
-   }
-
-   public function testGetOrElse()
-   {
-      $defined_var = 1;
-      $this->assertEquals(1, get_or_else($defined_var  , 0));
-      $this->assertEquals(0, get_or_else($undefined_var, 0));
-
-      $array = ['one' => 1, 'two' => 2];
-      $this->assertEquals( 2, get_or_else($array['two'  ], -2));
-      $this->assertEquals(-3, get_or_else($array['three'], -3));
-   }
-
-
    private $odds  = [1, 3, 5];
    private $evens = [0, 2, 4];
 
