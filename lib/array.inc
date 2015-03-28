@@ -1,6 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
+require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'mandatory.inc')));
 require_lib('general.inc');
 
 /**
