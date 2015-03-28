@@ -2,6 +2,7 @@
 
 require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'mandatory.inc')));
 require_lib('array.inc');
+require_lib('general.inc');
 
 class CombinationMap
 {
@@ -38,6 +39,11 @@ class CombinationMap
    public function get(array $combination)
    {
       return array_get($this->array, $this->toKey($combination));
+   }
+
+   public function exist(array $combination)
+   {
+      return array_key_exists($this->toKey($combination), $this->array);
    }
 
    public function sum()

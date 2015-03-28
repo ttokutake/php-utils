@@ -25,11 +25,21 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testGet($cm)
    {
-      foreach (range(0, count($this->elements) - 1) as $index) {
+      foreach (incremental_range(0, count($this->elements) - 1) as $index) {
          $this->assertEquals($this->elements[$index], $cm->get($this->combinations[$index]));
       }
       $this->assertNull($cm->get([]));
-      return $cm;
+   }
+
+   /**
+    * @depends testSetAndSize
+    */
+   public function testExist($cm)
+   {
+      foreach ($this->combinations as $combination) {
+         $this->assertTrue($cm->exist($combination));
+      }
+      $this->assertFalse($cm->exist(['blowser', 'opera']));
    }
 
    /**
