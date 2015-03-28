@@ -32,8 +32,7 @@ function in_z($num)
  */
 function is_odd($num)
 {
-   ensure(in_z($num), __FUNCTION__ . "(): The first argument must be integer, actually '$num'.");
-   return $num % 2 == 1;
+   return in_z($num) ? ($num % 2 == 1) : false;
 }
 
 /**
@@ -44,7 +43,7 @@ function is_odd($num)
  */
 function is_even($num)
 {
-   return !is_odd($num);
+   return in_z($num) ? ($num % 2 == 0) : false;
 }
 
 /**

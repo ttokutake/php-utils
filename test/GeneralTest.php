@@ -19,17 +19,15 @@ class GeneralTest extends PHPUnit_Framework_TestCase
     */
    public function testInZ($ok)
    {
-      $int   = 1;
-      $this->assertTrue(in_z( $int  ));
-      $this->assertTrue(in_z(-$int  ));
-      $this->assertTrue(in_z("$int" ));
-      $this->assertTrue(in_z("-$int"));
+      $this->assertTrue(in_z(  1 ));
+      $this->assertTrue(in_z( -1 ));
+      $this->assertTrue(in_z( "1"));
+      $this->assertTrue(in_z("-1"));
 
-      $float = 1.0;
-      $this->assertTrue(in_z( $float));
-      $this->assertTrue(in_z(-$float));
-      $this->assertTrue(in_z('1.'   ));
-      $this->assertTrue(in_z('1.00' ));
+      $this->assertTrue(in_z( 1.0));
+      $this->assertTrue(in_z(-1.0));
+      $this->assertTrue(in_z( '1.'  ));
+      $this->assertTrue(in_z( '1.00'));
       $this->assertTrue(in_z('-1.00'));
 
       $this->assertFalse(in_z( 1.5));
@@ -48,6 +46,8 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       foreach ($this->evens as $even) {
          $this->assertFalse(is_odd($even));
       }
+
+      $this->assertFalse(is_odd(1.5));
    }
 
    public function testIsEven()
@@ -59,6 +59,8 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       foreach ($this->odds as $odd) {
          $this->assertFalse(is_even($odd));
       }
+
+      $this->assertFalse(is_even(1.5));
    }
 
    public function testBetween()
