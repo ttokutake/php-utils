@@ -1,6 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'constants.inc']));
+require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
 require_class('CombinationMap.class.php');
 require_lib('array.inc');
 require_lib('general.inc');

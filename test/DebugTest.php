@@ -1,6 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'constants.inc']));
+require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
 require_lib('debug.inc');
 
 class DebugTest extends PHPUnit_Framework_TestCase
