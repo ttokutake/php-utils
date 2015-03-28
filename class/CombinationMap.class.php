@@ -72,6 +72,22 @@ class CombinationMap
       return array_reduce($this->array, $function, $initialize);
    }
 
+   public function toAssociation()
+   {
+      $associative = array();
+      foreach ($this->array as $key => $value)
+      {
+         $combination = explode($this->delimiter, $key);
+
+         $pointer = &$associative;
+         foreach ($combination as $group) {
+            $pointer = &$pointer[$group];
+         }
+         $pointer = $value;
+      }
+      return $associative;
+   }
+
 
    private function toKey(array $combination)
    {

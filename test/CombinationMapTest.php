@@ -81,6 +81,15 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends testSetAndSize
+    */
+   public function testToAssociation($cm)
+   {
+      $expected = ['blowser' => ['firefox' => 100, 'chrome' => 200]];
+      $this->assertEquals($expected, $cm->toAssociation());
+   }
+
+   /**
     * @depends testGet
     */
    public function testApply($cm)
