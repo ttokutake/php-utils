@@ -1,7 +1,7 @@
 <?php
 
 require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
-require_lib('generic.inc');
+require_lib('general.inc');
 
 /**
  * Split the multibyte characters by num of former characters.
