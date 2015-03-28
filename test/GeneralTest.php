@@ -8,11 +8,11 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    public function testTypeViolationMessage()
    {
       $function = 'void_extreme';
-      $which    = 'first';
+      $which    = 'The character';
       $expected = 'Belenus';
       $var      = new Exception('VALKYRIE PROFILE');
 
-      $expected_message = "$function(): $which argument must be $expected, actually 'object'.";
+      $expected_message = "$function(): $which must be $expected, actually 'object'.";
       $this->assertEquals($expected_message, type_violation_message($function, $which, $expected, $var));
       return true;
    }

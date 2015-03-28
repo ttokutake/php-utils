@@ -22,7 +22,7 @@ function ensure($boolean, $error_message) {
  */
 function type_violation_message($function_name, $which_one, $expected_type, &$var)
 {
-   return "$function_name(): $which_one argument must be $expected_type, actually '" . gettype($var) . "'.";
+   return "$function_name(): $which_one must be $expected_type, actually '" . gettype($var) . "'.";
 }
 
 
@@ -35,7 +35,7 @@ function type_violation_message($function_name, $which_one, $expected_type, &$va
 function in_z($num)
 {
    // Actually, type_violation_message() should be lazy.
-   ensure(is_numeric($num), type_violation_message(__FUNCTION__, 'first', 'numeric', $num));
+   ensure(is_numeric($num), type_violation_message(__FUNCTION__, 'The first argument', 'numeric', $num));
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
 
@@ -84,8 +84,8 @@ function between($var, $min, $max)
  */
 function incremental_range($first, $last)
 {
-   ensure(is_integer($first), type_violation_message(__FUNCTION__,  'first', 'integer', $first));
-   ensure(is_integer($last ), type_violation_message(__FUNCTION__, 'second', 'integer', $last ));
+   ensure(is_integer($first), type_violation_message(__FUNCTION__, 'The first argument' , 'integer', $first));
+   ensure(is_integer($last ), type_violation_message(__FUNCTION__, 'The second argument', 'integer', $last ));
 
    $array = array();
    for ($i = $first; $i <= $last; $i++) {

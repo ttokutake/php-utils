@@ -14,8 +14,8 @@ require_lib('general.inc');
  */
 function split_at($str, $at, $encoding = 'UTF-8')
 {
-   ensure(is_string($str), type_violation_message(__FUNCTION__,  'first',  'string', $str));
-   ensure(is_int($at)    , type_violation_message(__FUNCTION__, 'second', 'integer', $at ));
+   ensure(is_string($str), type_violation_message(__FUNCTION__, 'The first argument',  'string', $str));
+   ensure(is_int($at)    , type_violation_message(__FUNCTION__, 'The second argument', 'integer', $at ));
 
    $former = mb_substr($str,   0,  $at, $encoding);
    $latter = mb_substr($str, $at, null, $encoding);
