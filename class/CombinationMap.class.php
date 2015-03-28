@@ -59,6 +59,12 @@ class CombinationMap
       return $cm;
    }
 
+   public function reduce($function, $initialize = null)
+   {
+      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The first argument', 'callable', $function));
+      return array_reduce($this->array, $function, $initialize);
+   }
+
 
    private function toKey(array $combination)
    {

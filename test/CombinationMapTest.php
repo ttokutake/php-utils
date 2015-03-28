@@ -64,6 +64,15 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends testSetAndSize
+    */
+   public function testReduce($cm)
+   {
+      $connect = function ($result, $elem) { return strval($result) . ' + ' . strval($elem); };
+      $this->assertEquals(array_reduce($this->elements, $connect), $cm->reduce($connect));
+   }
+
+   /**
     * @depends testGet
     */
    public function testApply($cm)
