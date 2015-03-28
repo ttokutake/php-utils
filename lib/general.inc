@@ -12,7 +12,7 @@ function ensure($boolean, $error_message) {
 }
 
 /**
- * Return the message for function argument's type violation.
+ * Return the message for variable's type violation.
  *
  * @param  string $function_name
  * @param  string $which_one
