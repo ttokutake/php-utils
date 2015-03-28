@@ -25,6 +25,7 @@ class CombinationMap
 
    public function apply(array $combination, $function)
    {
+      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The second argument', 'callable', $function));
       $key = $this->toKey($combination);
       $this->array[$key] = $function(array_get($this->array, $key));
    }
