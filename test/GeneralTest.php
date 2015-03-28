@@ -17,7 +17,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testEnsure
     */
-   public function testInZ()
+   public function testInZ($ok)
    {
       $int   = 1;
       $this->assertTrue(in_z( $int  ));
@@ -36,8 +36,8 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertFalse(in_z(-1.5));
    }
 
-   private $odds  = [1, 3, 5];
-   private $evens = [0, 2, 4];
+   private $odds  = [1, 3, 5, 1.0, '1.0'];
+   private $evens = [0, 2, 4, 0.0, '0.0'];
 
    public function testIsOdd()
    {
@@ -80,7 +80,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertFalse(between($iso8601, '1987-05-01 00:00:00', '1987-05-31 00:00:00'));
    }
 
-   public function testIncrementalRange()
+   /**
+    * @depends testEnsure
+    */
+   public function testIncrementalRange($ok)
    {
       $this->assertEquals([       ], incremental_range(0, -1));
       $this->assertEquals([0      ], incremental_range(0,  0));
@@ -88,7 +91,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertEquals([0, 1, 2], incremental_range(0,  2));
    }
 
-   public function testDecrementalRange()
+   /**
+    * @depends testEnsure
+    */
+   public function testDecrementalRange($ok)
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));
