@@ -11,6 +11,29 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    public function testEnsure()
    {
       ensure(false, 'Message for LogicException');
+      return true;
+   }
+
+   /**
+    * @depends testEnsure
+    */
+   public function testInZ()
+   {
+      $int   = 1;
+      $this->assertTrue(in_z( $int  ));
+      $this->assertTrue(in_z(-$int  ));
+      $this->assertTrue(in_z("$int" ));
+      $this->assertTrue(in_z("-$int"));
+
+      $float = 1.0;
+      $this->assertTrue(in_z( $float));
+      $this->assertTrue(in_z(-$float));
+      $this->assertTrue(in_z('1.'   ));
+      $this->assertTrue(in_z('1.00' ));
+      $this->assertTrue(in_z('-1.00'));
+
+      $this->assertFalse(in_z( 1.5));
+      $this->assertFalse(in_z(-1.5));
    }
 
    private $odds  = [1, 3, 5];

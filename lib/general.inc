@@ -11,6 +11,19 @@ function ensure($boolean, $error_message) {
    }
 }
 
+
+/**
+ * Judge if $num is in integer numbers.
+ *
+ * @param  mixed $num
+ * @return boolean
+ */
+function in_z($num)
+{
+   ensure(is_numeric($num), __FUNCTION__ . "(): The first argument must be numeric, actually '$num'.");
+   return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
+}
+
 /**
  * Judge if $num is odd.
  *
@@ -45,6 +58,7 @@ function between($var, $min, $max)
 {
    return ($min <= $var && $var <= $max) ? true : false;
 }
+
 
 /**
  * Return the array which each integer is incremental.
