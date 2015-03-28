@@ -40,7 +40,7 @@ function array_zip()
 {
    $arrays = func_get_args();
    foreach ($arrays as $array) {
-      ensure(is_array($array), __FUNCTION__ . "(): Each argment must be array, actually '" . gettype($array) . "'.");
+      ensure(is_array($array), type_violation_message(__FUNCTION__, 'each', 'array', $array));
    }
 
    $formatted_arrays = array_map('array_values', $arrays);
@@ -68,7 +68,7 @@ function array_zip()
  */
 function array_behead(array &$array)
 {
-   ensure(!empty($array), __FUNCTION__ . '(): The array must not be empty.');
+   ensure(!empty($array), __FUNCTION__ . '(): array must not be empty.');
 
    $head = reset($array);
    $tail = array_slice($array, 1, count($array) - 1);
@@ -111,7 +111,7 @@ function array_tail(array &$array)
  */
 function array_depeditate(array &$array)
 {
-   ensure(!empty($array), __FUNCTION__ . '(): The array must not be empty.');
+   ensure(!empty($array), __FUNCTION__ . '(): array must not be empty.');
 
    $init = array_slice($array, 0, count($array) - 1);
    $last = end($array);

@@ -12,7 +12,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $expected = 'Belenus';
       $var      = new Exception('VALKYRIE PROFILE');
 
-      $expected_message = "$function(): The $which argument must be $expected, actually 'object'.";
+      $expected_message = "$function(): $which argument must be $expected, actually 'object'.";
       $this->assertEquals($expected_message, type_violation_message($function, $which, $expected, $var));
       return true;
    }

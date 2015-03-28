@@ -22,7 +22,7 @@ function ensure($boolean, $error_message) {
  */
 function type_violation_message($function_name, $which_one, $expected_type, &$var)
 {
-   return "$function_name(): The $which_one argument must be $expected_type, actually '" . gettype($var) . "'.";
+   return "$function_name(): $which_one argument must be $expected_type, actually '" . gettype($var) . "'.";
 }
 
 
@@ -34,6 +34,7 @@ function type_violation_message($function_name, $which_one, $expected_type, &$va
  */
 function in_z($num)
 {
+   // Actually, type_violation_message() should be lazy.
    ensure(is_numeric($num), type_violation_message(__FUNCTION__, 'first', 'numeric', $num));
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
