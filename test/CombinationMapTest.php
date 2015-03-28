@@ -29,6 +29,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
          $this->assertEquals($this->elements[$index], $cm->get($this->combinations[$index]));
       }
       $this->assertNull($cm->get([]));
+      return $cm;
    }
 
    /**
@@ -51,7 +52,19 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testSetAndSize
+    * @depends testGet
+    */
+   public function testMap($cm)
+   {
+      $triple = function ($int) { return 3 * $int; };
+      $mapped = $cm->map($triple);
+      foreach (array_zip($this->combinations, $this->elements) as list($combination, $element)) {
+         $this->assertEquals($triple($element), $mapped->get($combination));
+      }
+   }
+
+   /**
+    * @depends testGet
     */
    public function testApply($cm)
    {

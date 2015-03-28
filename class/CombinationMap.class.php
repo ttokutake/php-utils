@@ -51,10 +51,23 @@ class CombinationMap
       return array_sum($this->array);
    }
 
+   public function map($function)
+   {
+      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The first argument', 'callable', $function));
+      $cm = new CombinationMap($this->delimiter);
+      $cm->replace(array_map($function, $this->array));
+      return $cm;
+   }
+
 
    private function toKey(array $combination)
    {
       return implode($this->delimiter, $combination);
+   }
+
+   private function replace(array $array)
+   {
+      $this->array = $array;
    }
 
 
