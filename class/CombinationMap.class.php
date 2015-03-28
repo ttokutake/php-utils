@@ -7,13 +7,14 @@ require_lib('general.inc');
 class CombinationMap
 {
    private $name;
-   private $array = array();
    private $delimiter;
+   private $array;
 
    public function __construct($delimiter = ',')
    {
       $this->name      = __CLASS__ . '::';
       $this->delimiter = $delimiter;
+      $this->array     = array();
    }
 
    public function size()
@@ -72,7 +73,7 @@ class CombinationMap
       return array_reduce($this->array, $function, $initialize);
    }
 
-   public function toAssociation()
+   public function toAssociative()
    {
       $associative = array();
       foreach ($this->array as $key => $value)
