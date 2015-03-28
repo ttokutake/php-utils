@@ -82,7 +82,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
    /**
-    * @expectedException UnexpectedValueException
+    * @expectedException LogicException
     */
    public function testArrayBeheadException()
    {
@@ -110,7 +110,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
    /**
-    * @expectedException UnexpectedValueException
+    * @expectedException LogicException
     */
    public function testArrayDepeditateException()
    {

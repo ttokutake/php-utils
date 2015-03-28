@@ -1,5 +1,8 @@
 <?php
 
+require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
+require_lib('general.inc');
+
 /**
  * Return the specified value of an array if it's defined.
  * Otherwise, return "null".
@@ -37,9 +40,7 @@ function array_zip()
 {
    $arrays = func_get_args();
    foreach ($arrays as $array) {
-      if (!is_array($array)) {
-         throw new UnexpectedValueException(__FUNCTION__ . ': Each argment must be "array" type.');
-      }
+      ensure(is_array($array), __FUNCTION__ . "(): Each argment must be array, actually '" . gettype($array) . "'.");
    }
 
    $formatted_arrays = array_map('array_values', $arrays);
@@ -67,9 +68,8 @@ function array_zip()
  */
 function array_behead(array &$array)
 {
-   if (empty($array)) {
-      throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
-   }
+   ensure(!empty($array), __FUNCTION__ . '(): The array must not be empty.');
+
    $head = reset($array);
    $tail = array_slice($array, 1, count($array) - 1);
    return array($head, $tail);
@@ -111,9 +111,8 @@ function array_tail(array &$array)
  */
 function array_depeditate(array &$array)
 {
-   if (empty($array)) {
-      throw new UnexpectedValueException(__FUNCTION__ . ': The array must not be empty.');
-   }
+   ensure(!empty($array), __FUNCTION__ . '(): The array must not be empty.');
+
    $init = array_slice($array, 0, count($array) - 1);
    $last = end($array);
    reset($array);
