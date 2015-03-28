@@ -3,6 +3,7 @@
 require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'constants.inc']));
 require_once(PATH_TO_CLASS . 'CombinationMap.class.php');
 require_once(PATH_TO_LIB   . 'array.inc');
+require_once(PATH_TO_LIB   . 'general.inc');
 
 class CombinationMapTest extends PHPUnit_Framework_TestCase
 {
@@ -45,7 +46,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    public function testApply($cm)
    {
       $twice = function ($int) { return 2 * $int; };
-      foreach (range(0, count($this->elements) - 1) as $index) {
+      foreach (incremental_range(0, count($this->elements) - 1) as $index) {
          $cm->apply($this->combinations[$index], $twice);
          $this->assertEquals($twice($this->elements[$index]), $cm->get($this->combinations[$index]));
       }
@@ -56,7 +57,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testErase($cm)
    {
-      foreach (range(count($this->elements) - 1, 0) as $index) {
+      foreach (decremental_range(count($this->elements) - 1, 0) as $index) {
          $cm->erase($this->combinations[$index]);
          $array_size = $index;
          $this->assertEquals($array_size, $cm->size());

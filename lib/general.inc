@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Throw the LogicException class if $boolean is false.
+ * @param  boolean $boolean
+ * @param  string  $error_message
+ */
+function ensure($boolean, $error_message) {
+   if (!$boolean) {
+      throw new LogicException($error_message);
+   }
+}
+
+/**
  * Judge if $num is odd.
  *
  * @param  mixed   $num
@@ -33,4 +44,35 @@ function is_even($num)
 function between($var, $min, $max)
 {
    return ($min <= $var && $var <= $max) ? true : false;
+}
+
+/**
+ * Return the array which each integer is incremental.
+ *
+ * @param  int   $first
+ * @param  int   $last
+ * @return array
+ */
+function incremental_range($first, $last)
+{
+   ensure(is_integer($first), __FUNCTION__ . "(): the first argument must be integer, actually was '$first'.");
+   ensure(is_integer($last ), __FUNCTION__ . "(): the second argument must be integer, actually was '$last'.");
+
+   $array = array();
+   for ($i = $first; $i <= $last; $i++) {
+      $array[] = $i;
+   }
+   return $array;
+}
+
+/**
+ * Return the array which each integer is decremental.
+ *
+ * @param  int   $first
+ * @param  int   $last
+ * @return array
+ */
+function decremental_range($first, $last)
+{
+   return array_reverse(incremental_range($last, $first));
 }
