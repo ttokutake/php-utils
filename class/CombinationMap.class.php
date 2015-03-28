@@ -50,4 +50,9 @@ class CombinationMap
       return implode($this->delimiter, $combination);
    }
 
+
+   public function dump()
+   {
+      print_r($this->array);
+   }
 }
