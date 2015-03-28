@@ -1,8 +1,8 @@
 <?php
 
 require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'constants.inc']));
-require_once(PATH_TO_LIB . 'array.inc');
-require_once(PATH_TO_LIB . 'general.inc');
+require_lib('array.inc');
+require_lib('general.inc');
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
