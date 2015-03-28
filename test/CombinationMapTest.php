@@ -46,6 +46,14 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testSetAndSize
     */
+   public function testValues($cm)
+   {
+      $this->assertEquals($this->elements, $cm->values());
+   }
+
+   /**
+    * @depends testSetAndSize
+    */
    public function testSum($cm)
    {
       $this->assertEquals(array_sum($this->elements), $cm->sum());

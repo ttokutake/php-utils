@@ -6,11 +6,13 @@ require_lib('general.inc');
 
 class CombinationMap
 {
+   private $name;
    private $array = array();
    private $delimiter;
 
    public function __construct($delimiter = ',')
    {
+      $this->name      = __CLASS__ . '::';
       $this->delimiter = $delimiter;
    }
 
@@ -26,7 +28,7 @@ class CombinationMap
 
    public function apply(array $combination, $function)
    {
-      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The second argument', 'callable', $function));
+      ensure(is_callable($function), type_violation_message($this->name . __FUNCTION__, 'The second argument', 'callable', $function));
       $key = $this->toKey($combination);
       $this->array[$key] = $function(array_get($this->array, $key));
    }
@@ -46,6 +48,11 @@ class CombinationMap
       return array_key_exists($this->toKey($combination), $this->array);
    }
 
+   public function values()
+   {
+      return array_values($this->array);
+   }
+
    public function sum()
    {
       return array_sum($this->array);
@@ -53,7 +60,7 @@ class CombinationMap
 
    public function map($function)
    {
-      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The first argument', 'callable', $function));
+      ensure(is_callable($function), type_violation_message($this->name . __FUNCTION__, 'The first argument', 'callable', $function));
       $cm = new CombinationMap($this->delimiter);
       $cm->replace(array_map($function, $this->array));
       return $cm;
@@ -61,7 +68,7 @@ class CombinationMap
 
    public function reduce($function, $initialize = null)
    {
-      ensure(is_callable($function), type_violation_message(__CLASS__ . '::' .  __FUNCTION__, 'The first argument', 'callable', $function));
+      ensure(is_callable($function), type_violation_message($this->name . __FUNCTION__, 'The first argument', 'callable', $function));
       return array_reduce($this->array, $function, $initialize);
    }
 
