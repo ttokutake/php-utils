@@ -61,8 +61,8 @@ class CombinationMap
    public function map($function)
    {
       ensure(is_callable($function), type_violation_message($this->name . __FUNCTION__, 'The first argument', 'callable', $function));
-      $cm = new CombinationMap($this->delimiter);
-      $cm->replace(array_map($function, $this->array));
+      $cm        = new CombinationMap($this->delimiter);
+      $cm->array = array_map($function, $this->array);
       return $cm;
    }
 
@@ -76,11 +76,6 @@ class CombinationMap
    private function toKey(array $combination)
    {
       return implode($this->delimiter, $combination);
-   }
-
-   private function replace(array $array)
-   {
-      $this->array = $array;
    }
 
 
