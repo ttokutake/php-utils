@@ -11,6 +11,20 @@ function ensure($boolean, $error_message) {
    }
 }
 
+/**
+ * Return the message for function argument's type violation.
+ *
+ * @param  string $function_name
+ * @param  string $which_one
+ * @param  string $expected_type
+ * @param  mixed  &$var
+ * @return string
+ */
+function type_violation_message($function_name, $which_one, $expected_type, &$var)
+{
+   return "$function_name(): The $which_one argument must be $expected_type, actually '" . gettype($var) . "'.";
+}
+
 
 /**
  * Judge if $num is in integer numbers.
@@ -20,7 +34,7 @@ function ensure($boolean, $error_message) {
  */
 function in_z($num)
 {
-   ensure(is_numeric($num), __FUNCTION__ . "(): The first argument must be numeric, actually '$num'.");
+   ensure(is_numeric($num), type_violation_message(__FUNCTION__, 'first', 'numeric', $num));
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
 
@@ -69,8 +83,8 @@ function between($var, $min, $max)
  */
 function incremental_range($first, $last)
 {
-   ensure(is_integer($first), __FUNCTION__ . "(): the first argument must be integer, actually was '$first'.");
-   ensure(is_integer($last ), __FUNCTION__ . "(): the second argument must be integer, actually was '$last'.");
+   ensure(is_integer($first), type_violation_message(__FUNCTION__,  'first', 'integer', $first));
+   ensure(is_integer($last ), type_violation_message(__FUNCTION__, 'second', 'integer', $last ));
 
    $array = array();
    for ($i = $first; $i <= $last; $i++) {

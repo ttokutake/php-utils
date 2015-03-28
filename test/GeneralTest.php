@@ -5,6 +5,18 @@ require_lib('general.inc');
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {
+   public function testTypeViolationMessage()
+   {
+      $function = 'void_extreme';
+      $which    = 'first';
+      $expected = 'Belenus';
+      $var      = new Exception('VALKYRIE PROFILE');
+
+      $expected_message = "$function(): The $which argument must be $expected, actually 'object'.";
+      $this->assertEquals($expected_message, type_violation_message($function, $which, $expected, $var));
+      return true;
+   }
+
    /**
     * @expectedException LogicException
     */
@@ -15,9 +27,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends testTypeViolationMessage
     * @depends testEnsure
     */
-   public function testInZ($ok)
+   public function testInZ($ok1, $ok2)
    {
       $this->assertTrue(in_z(  1 ));
       $this->assertTrue(in_z( -1 ));
@@ -37,6 +50,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    private $odds  = [1, 3, 5, 1.0, '1.0'];
    private $evens = [0, 2, 4, 0.0, '0.0'];
 
+   /**
+    * @depends testInZ
+    */
    public function testIsOdd()
    {
       foreach ($this->odds as $odd) {
@@ -50,6 +66,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertFalse(is_odd(1.5));
    }
 
+   /**
+    * @depends testInZ
+    */
    public function testIsEven()
    {
       foreach ($this->evens as $even) {
@@ -83,9 +102,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends testTypeViolationMessage
     * @depends testEnsure
     */
-   public function testIncrementalRange($ok)
+   public function testIncrementalRange($ok1, $ok2)
    {
       $this->assertEquals([       ], incremental_range(0, -1));
       $this->assertEquals([0      ], incremental_range(0,  0));
@@ -94,9 +114,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends testTypeViolationMessage
     * @depends testEnsure
     */
-   public function testDecrementalRange($ok)
+   public function testDecrementalRange($ok1,$ok2)
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));
