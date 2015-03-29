@@ -100,6 +100,21 @@ class CombinationMap
       }
    }
 
+   public function partLeft(array $partial_combination)
+   {
+      $regex = implode($this->delimiter, $this->escape($partial_combination));
+
+      $part = array();
+      foreach ($this->array as $key => $value) {
+         if (preg_match("/^$regex/", $key) === 1) {
+            $part[$key] = $value;
+         }
+      }
+      $cm = new CombinationMap($this->delimiter);
+      $cm->array = $part;
+      return $cm;
+   }
+
 
    private function toKey(array $combination)
    {
@@ -115,6 +130,11 @@ class CombinationMap
             $this->array[$this->toKey(array($key_chain, $key))] = $value;
          }
       }
+   }
+
+   private function escape(array $combination)
+   {
+      return array_map(function ($key) { return $key == '*' ? '\.*' : preg_quote($key); }, $combination);
    }
 
 
