@@ -153,6 +153,8 @@ class CombinationMap
             $second_regex = implode($this->quoted_delimiter, $this->escape($second_combination));
             $regex        = "^$first_regex.*$second_regex$";
             break;
+         default:
+            throw new LogicException('This line must not be passed!');
       }
 
       $part = array();
