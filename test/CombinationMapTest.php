@@ -38,7 +38,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
 
    public function testSetAndSize()
    {
-      $cm = new CombinationMap();
+      $cm = new CombinationMap('/');
       foreach (array_zip($this->combinations, $this->elements) as $index => list($combination, $element)) {
          $cm->set($combination, $element);
          $this->assertEquals($index + 1, $cm->size());

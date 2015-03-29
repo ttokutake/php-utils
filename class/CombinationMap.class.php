@@ -8,13 +8,15 @@ class CombinationMap
 {
    private $name;
    private $delimiter;
+   private $quoted_delimiter;
    private $array;
 
    public function __construct($delimiter = ',')
    {
-      $this->name      = __CLASS__ . '::';
-      $this->delimiter = $delimiter;
-      $this->array     = array();
+      $this->name             = __CLASS__ . '::';
+      $this->delimiter        = $delimiter;
+      $this->quoted_delimiter = $this->quote($delimiter);
+      $this->array            = array();
    }
 
    public function size()
@@ -111,6 +113,11 @@ class CombinationMap
    }
 
 
+   private function quote($str)
+   {
+      return preg_quote($str, '/');
+   }
+
    private function toKey(array $combination)
    {
       return implode($this->delimiter, $combination);
@@ -129,7 +136,7 @@ class CombinationMap
 
    private function part(array $combination, $type)
    {
-      $regex = implode($this->delimiter, $this->escape($combination));
+      $regex = implode($this->quoted_delimiter, $this->escape($combination));
       switch ($type) {
          case 'left':
             $regex = "^$regex";
@@ -152,7 +159,7 @@ class CombinationMap
 
    private function escape(array $combination)
    {
-      return array_map(function ($key) { return $key == '*' ? "[^$this->delimiter]*" : preg_quote($key); }, $combination);
+      return array_map(function ($key) { return $key === '*' ? "[^$this->quoted_delimiter]*" : $this->quote($key); }, $combination);
    }
 
 
