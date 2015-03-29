@@ -104,12 +104,17 @@ class CombinationMap
 
    public function beginWith(array $partial_combination)
    {
-      return $this->part($partial_combination, 'left');
+      return $this->part('left', $partial_combination);
    }
 
    public function endWith(array $partial_combination)
    {
-      return $this->part($partial_combination, 'right');
+      return $this->part('right', $partial_combination);
+   }
+
+   public function bothEndsWith(array $begin_combination, array $end_combination)
+   {
+      return $this->part('both', $begin_combination, $end_combination);
    }
 
 
@@ -134,15 +139,19 @@ class CombinationMap
       }
    }
 
-   private function part(array $combination, $type)
+   private function part($type, array $first_combination, array $second_combination = array())
    {
-      $regex = implode($this->quoted_delimiter, $this->escape($combination));
+      $first_regex  = implode($this->quoted_delimiter, $this->escape($first_combination ));
+      $second_regex = implode($this->quoted_delimiter, $this->escape($second_combination));
       switch ($type) {
          case 'left':
-            $regex = "^$regex";
+            $regex = "^$first_regex";
             break;
          case 'right':
-            $regex = "$regex$";
+            $regex = "$first_regex$";
+            break;
+         case 'both':
+            $regex = "^$first_regex.*$second_regex$";
             break;
       }
 
