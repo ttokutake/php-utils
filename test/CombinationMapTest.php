@@ -7,13 +7,32 @@ require_lib('general.inc');
 
 class CombinationMapTest extends PHPUnit_Framework_TestCase
 {
-   private $combinations = [['blowser', 'firefox'], ['blowser', 'chrome']];
-   private $elements     = [100, 200];
+   private $combinations = [
+      ['blowser', 'firefox'],
+      ['blowser', 'chrome' ],
+      ['blowser', 'safari' ],
+      ['os', 'windows'          ],
+      ['os', 'osx'              ],
+      ['os', 'linux'  , 'ubuntu'],
+      ['os', 'linux'  , 'centos'],
+      ['os', 'linux'  , 'gentoo'],
+   ];
+   private $elements     = [10, 20, 30, 100, 200, 310, 320, 330];
    private $associative  = [
       'blowser' => [
-         'firefox' => 100,
-         'chrome'  => 200,
+         'firefox' => 10,
+         'chrome'  => 20,
+         'safari'  => 30,
       ],
+      'os' => [
+         'windows' => 100,
+         'osx'     => 200,
+         'linux'   => [
+            'ubuntu' => 310,
+            'centos' => 320,
+            'gentoo' => 330,
+         ],
+      ]
    ];
 
 
@@ -47,7 +66,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
       foreach ($this->combinations as $combination) {
          $this->assertTrue($cm->exist($combination));
       }
-      $this->assertFalse($cm->exist(['blowser', 'safari']));
+      $this->assertFalse($cm->exist(['blowser', 'opera']));
    }
 
    /**
@@ -118,7 +137,6 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testToAssociative($cm)
    {
-      $cm = clone $cm;
       $this->assertEquals($this->associative, $cm->toAssociative());
       return $cm;
    }
