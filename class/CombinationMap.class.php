@@ -142,7 +142,6 @@ class CombinationMap
    private function part($type, array $first_combination, array $second_combination = array())
    {
       $first_regex  = implode($this->quoted_delimiter, $this->escape($first_combination ));
-      $second_regex = implode($this->quoted_delimiter, $this->escape($second_combination));
       switch ($type) {
          case 'left':
             $regex = "^$first_regex";
@@ -151,7 +150,8 @@ class CombinationMap
             $regex = "$first_regex$";
             break;
          case 'both':
-            $regex = "^$first_regex.*$second_regex$";
+            $second_regex = implode($this->quoted_delimiter, $this->escape($second_combination));
+            $regex        = "^$first_regex.*$second_regex$";
             break;
       }
 
