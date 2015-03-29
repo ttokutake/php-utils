@@ -9,6 +9,13 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
 {
    private $combinations = [['blowser', 'firefox'], ['blowser', 'chrome']];
    private $elements     = [100, 200];
+   private $associative  = [
+      'blowser' => [
+         'firefox' => 100,
+         'chrome'  => 200,
+      ],
+   ];
+
 
    public function testSetAndSize()
    {
@@ -40,7 +47,33 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
       foreach ($this->combinations as $combination) {
          $this->assertTrue($cm->exist($combination));
       }
-      $this->assertFalse($cm->exist(['blowser', 'opera']));
+      $this->assertFalse($cm->exist(['blowser', 'safari']));
+   }
+
+   /**
+    * @depends testGet
+    */
+   public function testApply($cm)
+   {
+      $cm = clone $cm;
+      $twice = function ($int) { return 2 * $int; };
+      foreach (incremental_range(0, count($this->elements) - 1) as $index) {
+         $cm->apply($this->combinations[$index], $twice);
+         $this->assertEquals($twice($this->elements[$index]), $cm->get($this->combinations[$index]));
+      }
+   }
+
+   /**
+    * @depends testSetAndSize
+    */
+   public function testErase($cm)
+   {
+      $cm = clone $cm;
+      foreach (decremental_range(count($this->elements) - 1, 0) as $index) {
+         $cm->erase($this->combinations[$index]);
+         $array_size = $index;
+         $this->assertEquals($array_size, $cm->size());
+      }
    }
 
    /**
@@ -85,50 +118,18 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
     */
    public function testToAssociative($cm)
    {
-      $expected = ['blowser' => ['firefox' => 100, 'chrome' => 200]];
-      $this->assertEquals($expected, $cm->toAssociative());
+      $cm = clone $cm;
+      $this->assertEquals($this->associative, $cm->toAssociative());
+      return $cm;
    }
 
    /**
-    * @depends testGet
+    * @depends testToAssociative
     */
-   public function testApply($cm)
+   public function testFromAssociative($ok)
    {
-      $twice = function ($int) { return 2 * $int; };
-      foreach (incremental_range(0, count($this->elements) - 1) as $index) {
-         $cm->apply($this->combinations[$index], $twice);
-         $this->assertEquals($twice($this->elements[$index]), $cm->get($this->combinations[$index]));
-      }
-   }
-
-   /**
-    * @depends testSetAndSize
-    */
-   public function testErase($cm)
-   {
-      foreach (decremental_range(count($this->elements) - 1, 0) as $index) {
-         $cm->erase($this->combinations[$index]);
-         $array_size = $index;
-         $this->assertEquals($array_size, $cm->size());
-      }
-   }
-
-
-   public function testFromAssociative()
-   {
-      $associative = [
-         'blowser' => [
-            'firefox' => 100,
-            'chrome'  => 200,
-            'opera'   => 300,
-         ],
-         'email' => [
-            'thunderbird' => 400,
-            'gmail'       => 500,
-         ],
-      ];
       $cm = new CombinationMap();
-      $cm->fromAssociative($associative);
-      $this->assertEquals($associative, $cm->toAssociative());
+      $cm->fromAssociative($this->associative);
+      $this->assertEquals($this->associative, $cm->toAssociative());
    }
 }
