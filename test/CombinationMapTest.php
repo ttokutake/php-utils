@@ -158,5 +158,16 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    {
       $this->assertEquals(['blowser' => $this->associative['blowser']], $cm->partLeft(['blowser'])->toAssociative());
       $this->assertEquals(['os' => ['linux' => $this->associative['os']['linux']]], $cm->partLeft(['os', 'linux'])->toAssociative());
+      $expected = ['os' => ['linux' => ['ubuntu' => $this->associative['os']['linux']['ubuntu']]]];
+      $this->assertEquals($expected, $cm->partLeft(['os', '*', 'ubuntu'])->toAssociative());
+   }
+
+   /**
+    * @depends testToAssociative
+    */
+   public function testPartRight($cm)
+   {
+      $expected = ['os' => ['linux' => ['ubuntu' => $this->associative['os']['linux']['ubuntu']]]];
+      $this->assertEquals($expected, $cm->partRight(['ubuntu'])->toAssociative());
    }
 }

@@ -102,17 +102,12 @@ class CombinationMap
 
    public function partLeft(array $partial_combination)
    {
-      $regex = implode($this->delimiter, $this->escape($partial_combination));
+      return $this->part($partial_combination, 'left');
+   }
 
-      $part = array();
-      foreach ($this->array as $key => $value) {
-         if (preg_match("/^$regex/", $key) === 1) {
-            $part[$key] = $value;
-         }
-      }
-      $cm = new CombinationMap($this->delimiter);
-      $cm->array = $part;
-      return $cm;
+   public function partRight(array $partial_combination)
+   {
+      return $this->part($partial_combination, 'right');
    }
 
 
@@ -132,9 +127,32 @@ class CombinationMap
       }
    }
 
+   private function part(array $combination, $type)
+   {
+      $regex = implode($this->delimiter, $this->escape($combination));
+      switch ($type) {
+         case 'left':
+            $regex = "^$regex";
+            break;
+         case 'right':
+            $regex = "$regex$";
+            break;
+      }
+
+      $part = array();
+      foreach ($this->array as $key => $value) {
+         if (preg_match("/$regex/", $key) === 1) {
+            $part[$key] = $value;
+         }
+      }
+      $cm = new CombinationMap($this->delimiter);
+      $cm->array = $part;
+      return $cm;
+   }
+
    private function escape(array $combination)
    {
-      return array_map(function ($key) { return $key == '*' ? '\.*' : preg_quote($key); }, $combination);
+      return array_map(function ($key) { return $key == '*' ? "[^$this->delimiter]*" : preg_quote($key); }, $combination);
    }
 
 
