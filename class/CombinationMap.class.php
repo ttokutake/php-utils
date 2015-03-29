@@ -109,7 +109,7 @@ class CombinationMap
    {
       foreach ($associative as $key => $value) {
          if (is_array($value)) {
-            $this->chain($value, $this->toKey(array($key_chain, $key)));
+            $this->chainFrom($value, $this->toKey(array($key_chain, $key)));
          } else {
             $this->array[$this->toKey(array($key_chain, $key))] = $value;
          }
