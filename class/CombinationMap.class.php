@@ -8,13 +8,12 @@ class CombinationMap
 {
    private $name;
    private $delimiter;
-   private $array;
+   private $array = array();
 
    public function __construct($delimiter = ',')
    {
       $this->name      = __CLASS__ . '::';
       $this->delimiter = $delimiter;
-      $this->array     = array();
    }
 
    public function size()
@@ -73,6 +72,17 @@ class CombinationMap
       return array_reduce($this->array, $function, $initialize);
    }
 
+   public function fromAssociative(array $associative)
+   {
+      foreach ($associative as $key => $value) {
+         if (is_array($value)) {
+            $this->chainFrom($value, $key);
+         } else {
+            $this->array[$key] = $value;
+         }
+      }
+   }
+
    public function toAssociative()
    {
       $associative = array();
@@ -93,6 +103,17 @@ class CombinationMap
    private function toKey(array $combination)
    {
       return implode($this->delimiter, $combination);
+   }
+
+   private function chainFrom(array $associative, $key_chain)
+   {
+      foreach ($associative as $key => $value) {
+         if (is_array($value)) {
+            $this->chain($value, $this->toKey(array($key_chain, $key)));
+         } else {
+            $this->array[$this->toKey(array($key_chain, $key))] = $value;
+         }
+      }
    }
 
 

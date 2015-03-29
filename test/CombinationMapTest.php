@@ -112,4 +112,23 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
          $this->assertEquals($array_size, $cm->size());
       }
    }
+
+
+   public function testFromArray()
+   {
+      $associative = [
+         'blowser' => [
+            'firefox' => 100,
+            'chrome'  => 200,
+            'opera'   => 300,
+         ],
+         'email' => [
+            'thunderbird' => 400,
+            'gmail'       => 500,
+         ],
+      ];
+      $cm = new CombinationMap();
+      $cm->fromAssociative($associative);
+      $this->assertEquals($associative, $cm->toAssociative());
+   }
 }
