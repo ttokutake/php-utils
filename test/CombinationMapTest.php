@@ -114,7 +114,7 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testFromArray()
+   public function testFromAssociative()
    {
       $associative = [
          'blowser' => [
