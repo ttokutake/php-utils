@@ -102,12 +102,12 @@ class CombinationMap
       }
    }
 
-   public function partLeft(array $partial_combination)
+   public function beginWith(array $partial_combination)
    {
       return $this->part($partial_combination, 'left');
    }
 
-   public function partRight(array $partial_combination)
+   public function endWith(array $partial_combination)
    {
       return $this->part($partial_combination, 'right');
    }
@@ -152,7 +152,7 @@ class CombinationMap
             $part[$key] = $value;
          }
       }
-      $cm = new CombinationMap($this->delimiter);
+      $cm        = new CombinationMap($this->delimiter);
       $cm->array = $part;
       return $cm;
    }

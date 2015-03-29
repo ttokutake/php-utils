@@ -154,20 +154,20 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testToAssociative
     */
-   public function testPartLeft($cm)
+   public function testBeginWith($cm)
    {
-      $this->assertEquals(['blowser' => $this->associative['blowser']], $cm->partLeft(['blowser'])->toAssociative());
-      $this->assertEquals(['os' => ['linux' => $this->associative['os']['linux']]], $cm->partLeft(['os', 'linux'])->toAssociative());
+      $this->assertEquals(['blowser' => $this->associative['blowser']], $cm->beginWith(['blowser'])->toAssociative());
+      $this->assertEquals(['os' => ['linux' => $this->associative['os']['linux']]], $cm->beginWith(['os', 'linux'])->toAssociative());
       $expected = ['os' => ['linux' => ['ubuntu' => $this->associative['os']['linux']['ubuntu']]]];
-      $this->assertEquals($expected, $cm->partLeft(['os', '*', 'ubuntu'])->toAssociative());
+      $this->assertEquals($expected, $cm->beginWith(['os', '*', 'ubuntu'])->toAssociative());
    }
 
    /**
     * @depends testToAssociative
     */
-   public function testPartRight($cm)
+   public function testEndWith($cm)
    {
       $expected = ['os' => ['linux' => ['ubuntu' => $this->associative['os']['linux']['ubuntu']]]];
-      $this->assertEquals($expected, $cm->partRight(['ubuntu'])->toAssociative());
+      $this->assertEquals($expected, $cm->endWith(['ubuntu'])->toAssociative());
    }
 }
