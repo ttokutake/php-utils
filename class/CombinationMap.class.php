@@ -8,12 +8,13 @@ class CombinationMap
 {
    private $name;
    private $delimiter;
-   private $array = array();
+   private $array;
 
    public function __construct($delimiter = ',')
    {
       $this->name      = __CLASS__ . '::';
       $this->delimiter = $delimiter;
+      $this->array     = array();
    }
 
    public function size()
