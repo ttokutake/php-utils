@@ -50,6 +50,28 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
+   public function testArrayHat()
+   {
+      $patterns = [
+         [[0   ], [ ], 0],
+         [[1, 0], [0], 1],
+      ];
+      foreach ($patterns as list($expected, $array, $value)) {
+         $this->assertEquals($expected, array_hat($array, $value));
+      }
+   }
+
+   public function testArrayShoe()
+   {
+      $patterns = [
+         [[0   ], [ ], 0],
+         [[0, 1], [0], 1],
+      ];
+      foreach ($patterns as list($expected, $array, $value)) {
+         $this->assertEquals($expected, array_shoe($array, $value));
+      }
+   }
+
    private $empty_array = [];
    private $arrays      = [
       [1      ],

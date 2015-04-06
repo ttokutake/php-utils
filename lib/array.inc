@@ -60,6 +60,28 @@ function array_zip()
 
 
 /**
+ * Return the array added $hat as first element.
+ *
+ * @param  array $array
+ * @param  mixed $hat
+ * @return array
+ */
+function array_hat(array &$array, $hat) {
+   return array_merge(array($hat), $array);;
+}
+
+/**
+ * Return the array added $shoe as last element.
+ *
+ * @param  array $array
+ * @param  mixed $shoe
+ * @return array
+ */
+function array_shoe(array &$array, $shoe) {
+   return array_merge($array, array($shoe));
+}
+
+/**
  * Return the pair of first element and the others of an array.
  * Side effect: Array's internal pointer is reset.
  *
