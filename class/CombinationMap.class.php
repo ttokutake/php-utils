@@ -102,6 +102,24 @@ class CombinationMap
       }
    }
 
+   public function toArrays()
+   {
+      $arrays = array();
+      foreach ($this->array as $keys => $value) {
+         $arrays[] = array_shoe(explode($this->delimiter, $keys), $value);
+      }
+      return $arrays;
+   }
+
+   public function fromArrays(array $arrays)
+   {
+      foreach ($arrays as $array) {
+         ensure(is_array($array), type_violation_message($this->name . __FUNCTION__, 'Each element', 'array', $array));
+         list($combination, $value) = array_depeditate($array);
+         $this->array[$this->toKey($combination)] = $value;
+      }
+   }
+
    public function beginWith(array $partial_combination)
    {
       return $this->part('left', $partial_combination);

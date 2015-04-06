@@ -34,6 +34,16 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
          ],
       ]
    ];
+   private $arrays = [
+      ['blowser', 'firefox', 10],
+      ['blowser', 'chrome' , 20],
+      ['blowser', 'safari' , 30],
+      ['os', 'windows', 100],
+      ['os', 'osx'    , 200],
+      ['os', 'linux'  , 'ubuntu', 310],
+      ['os', 'linux'  , 'centos', 320],
+      ['os', 'linux'  , 'gentoo', 330],
+   ];
 
 
    public function testSetAndSize()
@@ -149,6 +159,24 @@ class CombinationMapTest extends PHPUnit_Framework_TestCase
       $cm = new CombinationMap();
       $cm->fromAssociative($this->associative);
       $this->assertEquals($this->associative, $cm->toAssociative());
+   }
+
+   /**
+    * @depends testToAssociative
+    */
+   public function testToArrays($cm)
+   {
+      $this->assertEquals($this->arrays, $cm->toArrays());
+   }
+
+   /**
+    * @depends testToAssociative
+    */
+   public function testFromArrays($ok)
+   {
+      $cm = new CombinationMap();
+      $cm->fromArrays($this->arrays);
+      $this->assertEquals($this->arrays, $cm->toArrays());
    }
 
    /**
