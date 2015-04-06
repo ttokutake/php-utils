@@ -66,7 +66,7 @@ function array_zip()
  * @param  mixed $hat
  * @return array
  */
-function array_hat(array &$array, $hat) {
+function array_hat(array $array, $hat) {
    return array_merge(array($hat), $array);;
 }
 
@@ -77,7 +77,7 @@ function array_hat(array &$array, $hat) {
  * @param  mixed $shoe
  * @return array
  */
-function array_shoe(array &$array, $shoe) {
+function array_shoe(array $array, $shoe) {
    return array_merge($array, array($shoe));
 }
 
