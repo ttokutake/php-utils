@@ -142,6 +142,23 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
+   public function testArrayFind($ok)
+   {
+      $odd_expected = [1, 1, 1];
+      foreach (array_zip($odd_expected, $this->arrays) as list($expected, $array))
+      {
+         $this->assertEquals($expected, array_find($array, 'is_odd'));
+      }
+      $even_expected = [null, 2, 2];
+      foreach (array_zip($even_expected, $this->arrays) as list($expected, $array))
+      {
+         $this->assertEquals($expected, array_find($array, 'is_even'));
+      }
+   }
+
+   /**
+    * @depends testArrayZip
+    */
    public function testArrayPartition($ok)
    {
       $odd_expected = [

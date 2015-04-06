@@ -169,18 +169,36 @@ function array_last(array &$array)
 
 
 /**
+ * Return the first element returning $callable($element_of_array) to be true.
+ * Side effect: Array's internal pointer will point nothing.
+ *
+ * @param  $array    $array
+ * @param  $callable $callable
+ * @return mixed
+ */
+function array_find(array &$array, $callable)
+{
+   foreach ($array as $value) {
+      if ($callable($value)) {
+         return $value;
+      }
+   }
+   return null;
+}
+
+/**
  * Return the pair of Arrays, which of former is true value and latter is false value.
- * Side effect: Array's internal pointer point nothing.
+ * Side effect: Array's internal pointer will point nothing.
  *
  * @param  array    $array
- * @param  callable $true_or_false
+ * @param  callable $callable
  * @return array    [$trues, $falses]
  */
-function array_partition(array &$array, $true_or_false)
+function array_partition(array &$array, $callable)
 {
    $former = $latter = array();
    foreach ($array as $key => $value) {
-      if ($true_or_false($value)) {
+      if ($callable($value)) {
          $former[$key] = $value;
       } else {
          $latter[$key] = $value;
