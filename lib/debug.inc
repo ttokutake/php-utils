@@ -16,7 +16,7 @@
  */
 function echoln($var)
 {
-   echo $var . PHP_EOL;
+   echo $var, PHP_EOL;
 }
 
 /**
@@ -29,12 +29,9 @@ function echoln($var)
  */
 function debug_assuming_html($var, $echo, $comment_out = true)
 {
-   if ($comment_out) echo '<!--';
-   echo '<pre>' . PHP_EOL;
+   echoln(($comment_out ? '<!--' : '') . '<pre>');
    $echo($var);
-   echo '</pre>';
-   if ($comment_out) echo '-->';
-   echo PHP_EOL;
+   echoln('</pre>' . ($comment_out ? '-->' : ''));
 }
 
 /**
