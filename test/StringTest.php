@@ -1,7 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
-require_lib('string.inc');
+require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class StringTest extends PHPUnit_Framework_TestCase
 {

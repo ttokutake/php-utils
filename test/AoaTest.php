@@ -1,8 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
-require_lib('array_of_array.inc');
-require_lib('array.inc');
+require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class AoaTest extends PHPUnit_Framework_TestCase
 {

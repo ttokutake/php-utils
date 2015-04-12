@@ -1,7 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'mandatory.inc')));
-require_lib('general.inc');
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
 /**
  * Return the specified value of an array if it's defined.

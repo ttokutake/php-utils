@@ -1,8 +1,6 @@
 <?php
 
-require_once(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'mandatory.inc']));
-require_lib('array.inc');
-require_lib('general.inc');
+require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
