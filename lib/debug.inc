@@ -10,7 +10,7 @@
 
 
 /**
- * echo with LF
+ * echo with System's line break.
  *
  * @param mixed $var
  */
