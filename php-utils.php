@@ -14,13 +14,10 @@ function create_path(array $dirs)
    return array_reduce($dirs, function ($path, $dir) { return $path . $dir . DIRECTORY_SEPARATOR; }, '');
 }
 
-function demand_lib($php_file)
-{
-   require_once create_path(array(__DIR__, 'lib')) . $php_file;
-}
+define('PATH_TO_LIB_FOR_PHP_UTILS', create_path(array(__DIR__, 'lib')));
 
-demand_lib('general.inc'       );
-demand_lib('debug.inc'         );
-demand_lib('string.inc'        );
-demand_lib('array.inc'         );
-demand_lib('array_of_array.inc');
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'general.inc'       ;
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'debug.inc'         ;
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'string.inc'        ;
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'array.inc'         ;
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'array_of_array.inc';
