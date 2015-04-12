@@ -8,3 +8,16 @@
 ## Licence
 
 MIT Licence
+
+## Example
+
+```php
+require_once PATH_TO_PHP_UTILS . 'php-utils.php';
+
+$array = incremental_range(1, 10);
+
+list($head, $tail) = array_behead($array);
+
+echoln($head);
+print_r_html($tail);
+```
