@@ -63,6 +63,12 @@ class AoaTest extends PHPUnit_Framework_TestCase
       ],
    ];
 
+   public function testAoaValues()
+   {
+      $expected = ['hoge', 'fuga', 'piyo'];
+      $this->assertEquals($expected, aoa_values($this->aoa, 'name'));
+   }
+
    public function testAoaSum()
    {
       $expected = 22 + 80 + 443;

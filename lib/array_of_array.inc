@@ -22,6 +22,19 @@ function aoa_transpose(array &$matrix)
 }
 
 /**
+ * Return the array of elements for specified key.
+ *
+ * @param  array $aoa
+ * @return array
+ */
+function aoa_values(array &$aoa, $key)
+{
+   ensure(is_scalar($key), type_violation_message(__FUNCTION__, 'The second argument', 'scalar', $key));
+
+   return array_map(function ($array) use($key) { return array_get($array, $key); }, $aoa);
+}
+
+/**
  * Return the sum of elements for specified key.
  *
  * @param  array   $aoa
