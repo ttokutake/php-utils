@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the php-utils.php package.
+ *
+ * Copyright (C) 2015 Tadatoshi Tokutake <tadatoshi.tokutake@gmail.com>
+ *
+ * Licensed under the MIT License
+ */
+
+
 function create_path(array $dirs)
 {
    return array_reduce($dirs, function ($path, $dir) { return $path . $dir . DIRECTORY_SEPARATOR; }, '');
