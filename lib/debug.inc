@@ -16,7 +16,7 @@
  */
 function echoln($var)
 {
-   echo "$var\n";
+   echo $var . PHP_EOL;
 }
 
 /**
@@ -30,11 +30,11 @@ function echoln($var)
 function debug_assuming_html($var, $echo, $comment_out = true)
 {
    if ($comment_out) echo '<!--';
-   echo "<pre>\n";
+   echo '<pre>' . PHP_EOL;
    $echo($var);
    echo '</pre>';
    if ($comment_out) echo '-->';
-   echo "\n";
+   echo PHP_EOL;
 }
 
 /**
