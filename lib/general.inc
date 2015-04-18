@@ -10,6 +10,24 @@
 
 
 /**
+ * Run "require_once" that is equal to "require_once __DIR__ . $path_to_file;".
+ * But global variables can't be created.
+ *
+ * @param  string|array $path_to_file
+ */
+function require_relative($path_to_file)
+{
+   list($first) = debug_backtrace();
+   $base        = dirname($first['file']);
+
+   if (is_array($path_to_file)) {
+      $path_to_file = implode(DIRECTORY_SEPARATOR, $path_to_file);
+   }
+
+   require_once $base . DIRECTORY_SEPARATOR . $path_to_file;
+}
+
+/**
  * Throw the LogicException class if $boolean is false.
  *
  * @param boolean $boolean
