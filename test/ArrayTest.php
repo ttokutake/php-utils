@@ -102,6 +102,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
    /**
+    * @depends           testArrayBehead
     * @expectedException LogicException
     */
    public function testArrayBeheadException()
@@ -130,6 +131,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
    /**
+    * @depends           testArrayDepeditate
     * @expectedException LogicException
     */
    public function testArrayDepeditateException()
@@ -154,6 +156,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expected, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_drop($array, 2));
       }
+   }
+   /**
+    * @depends           testArrayZip
+    * @expectedException LogicException
+    */
+   public function testArrayDropException()
+   {
+      array_drop([1, 2, 3], -1);
    }
 
 
