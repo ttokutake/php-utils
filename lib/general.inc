@@ -11,8 +11,9 @@
 
 /**
  * Throw the LogicException class if $boolean is false.
- * @param  boolean $boolean
- * @param  string  $error_message
+ *
+ * @param boolean $boolean
+ * @param string  $error_message
  */
 function ensure($boolean, $error_message) {
    if (!$boolean) {
