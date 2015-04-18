@@ -101,7 +101,7 @@ function array_behead(array &$array)
    ensure(!empty($array), type_violation_message(__FUNCTION__, 'The first argument', 'non-empty', $array));
 
    $head = reset($array);
-   $tail = array_slice($array, 1, count($array) - 1);
+   $tail = array_slice($array, 1);
    return array($head, $tail);
 }
 
