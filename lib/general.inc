@@ -22,6 +22,20 @@ function ensure($boolean, $error_message) {
 }
 
 /**
+ * Return the message for variable's violation.
+ *
+ * @param  string $function_name
+ * @param  string $which_one
+ * @param  string $expected
+ * @param  string $value
+ * @return string
+ */
+function variable_violation_message($function_name, $which_one, $expected_type, $value)
+{
+   return "$function_name(): $which_one must be $expected_type, actually '$value'.";
+}
+
+/**
  * Return the message for variable's type violation.
  *
  * @param  string $function_name
@@ -32,7 +46,7 @@ function ensure($boolean, $error_message) {
  */
 function type_violation_message($function_name, $which_one, $expected_type, &$var)
 {
-   return "$function_name(): $which_one must be $expected_type, actually '" . gettype($var) . "'.";
+   return variable_violation_message($function_name, $which_one, $expected_type, gettype($var));
 }
 
 

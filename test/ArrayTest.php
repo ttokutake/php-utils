@@ -140,6 +140,26 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
+   public function testArrayDrop()
+   {
+      $expected = [
+         [ ],
+         [ ],
+         [3],
+
+         [            ],
+         [            ],
+         ['three' => 3],
+      ];
+      foreach (array_zip($expected, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_drop($array, 2));
+      }
+   }
+
+
+   /**
+    * @depends testArrayZip
+    */
    public function testArrayFind($ok)
    {
       $odd_expected = [1, 1, 1];
