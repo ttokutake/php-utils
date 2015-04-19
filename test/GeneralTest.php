@@ -28,8 +28,17 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testTypeViolationMessage
     * @depends testEnsure
+    * @expectedException LogicException
     */
-   public function testInZ($ok1, $ok2)
+   public function testInZException($ok1, $ok2)
+   {
+      in_z('not a number');
+      return true;
+   }
+   /**
+    * @depends testInZException
+    */
+   public function testInZ($ok)
    {
       $this->assertTrue(in_z(  1 ));
       $this->assertTrue(in_z( -1 ));
