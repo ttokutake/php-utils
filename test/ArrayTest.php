@@ -4,29 +4,29 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
-   private $array = ['defined_key' => null, 'not_null' => true];
+   private $array = ['defined key' => null, 'not null' => true];
 
    /**
     * @expectedException PHPUnit_Framework_Error_Notice
     */
    public function testPhpNotice()
    {
-      echo $this->array['undefined_key'];
+      echo $this->array['undefined key'];
    }
 
    public function testArrayGet()
    {
-      $this->assertNull(array_get($this->array, 'undefined_key'));
-      $this->assertNull(array_get($this->array, 'defined_key'  ));
-      $this->assertTrue(array_get($this->array, 'not_null'     ));
+      $this->assertNull(array_get($this->array, 'undefined key'));
+      $this->assertNull(array_get($this->array, 'defined key'  ));
+      $this->assertTrue(array_get($this->array, 'not null'     ));
    }
 
    public function testArrayGetOrElse()
    {
       $default = false;
-      $this->assertFalse(array_get_or_else($this->array, 'undefined_key', $default));
-      $this->assertNull (array_get_or_else($this->array, 'defined_key'  , $default));
-      $this->assertTrue (array_get_or_else($this->array, 'not_null'     , $default));
+      $this->assertFalse(array_get_or_else($this->array, 'undefined key', $default));
+      $this->assertNull (array_get_or_else($this->array, 'defined key'  , $default));
+      $this->assertTrue (array_get_or_else($this->array, 'not null'     , $default));
    }
 
    public function testArrayMapWithKey()
@@ -50,7 +50,6 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach ($patterns as list($expected, $array1, $array2)) {
          $this->assertEquals($expected, array_zip($array1, $array2));
       }
-      return true;
    }
 
 
@@ -76,6 +75,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+
    private $empty_array = [];
    private $arrays      = [
       [1      ],
@@ -87,10 +87,18 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ['one' => 1, 'two' => 2, 'three' => 3],
    ];
 
+
+   /**
+    * @expectedException LogicException
+    */
+   public function testArrayBeheadException()
+   {
+      array_behead($this->empty_array);
+   }
    /**
     * @depends testArrayZip
     */
-   public function testArrayBehead($ok)
+   public function testArrayBehead()
    {
       $expectations = [
          [1, [    ]],
@@ -104,21 +112,19 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_behead($array));
       }
-      return true;
-   }
-   /**
-    * @depends           testArrayBehead
-    * @expectedException LogicException
-    */
-   public function testArrayBeheadException($ok)
-   {
-      array_behead($this->empty_array);
    }
 
    /**
+    * @expectedException LogicException
+    */
+   public function testArrayDepeditateException()
+   {
+      array_depeditate($this->empty_array);
+   }
+   /**
     * @depends testArrayZip
     */
-   public function testArrayDepeditate($ok)
+   public function testArrayDepeditate()
    {
       $expectations = [
          [[    ], 1],
@@ -132,21 +138,20 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_depeditate($array));
       }
-      return true;
-   }
-   /**
-    * @depends           testArrayDepeditate
-    * @expectedException LogicException
-    */
-   public function testArrayDepeditateException($ok)
-   {
-      array_depeditate($this->empty_array);
    }
 
+
+   /**
+    * @expectedException LogicException
+    */
+   public function testArrayTakeException()
+   {
+      array_take([1, 2, 3], -1);
+   }
    /**
     * @depends testArrayZip
     */
-   public function testArrayTake($ok)
+   public function testArrayTake()
    {
       $expectations = [
          [1   ],
@@ -160,20 +165,11 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_take($array, 2));
       }
-      return true;
-   }
-   /**
-    * @depends           testArrayTake
-    * @expectedException LogicException
-    */
-   public function testArrayTakeException($ok)
-   {
-      array_take([1, 2, 3], -1);
    }
    /**
     * @depends testArrayTake
     */
-   public function testArrayTakeRight($ok)
+   public function testArrayTakeRight()
    {
       $expectations = [
          [1   ],
@@ -190,9 +186,16 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @expectedException LogicException
+    */
+   public function testArrayDropException()
+   {
+      array_drop([1, 2, 3], -1);
+   }
+   /**
     * @depends testArrayZip
     */
-   public function testArrayDrop($ok)
+   public function testArrayDrop()
    {
       $expectations = [
          [ ],
@@ -206,20 +209,11 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_drop($array, 2));
       }
-      return true;
-   }
-   /**
-    * @depends           testArrayDrop
-    * @expectedException LogicException
-    */
-   public function testArrayDropException($ok)
-   {
-      array_drop([1, 2, 3], -1);
    }
    /**
     * @depends testArrayDrop
     */
-   public function testArrayDropRight($ok)
+   public function testArrayDropRight()
    {
       $expectations = [
          [ ],
@@ -239,7 +233,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayFind($ok)
+   public function testArrayFind()
    {
       $odd_expected = [1, 1, 1];
       foreach (array_zip($odd_expected, $this->arrays) as list($expected, $array))
@@ -256,7 +250,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayPartition($ok)
+   public function testArrayPartition()
    {
       $odd_expectations = [
          [[0 => 1        ], [      ]],

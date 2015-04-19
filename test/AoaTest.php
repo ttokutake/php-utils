@@ -69,10 +69,12 @@ class AoaTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($expected, aoa_values($this->aoa, 'name'));
    }
 
+   /**
+    * @depends testAoaValues
+    */
    public function testAoaSum()
    {
-      $expected = 22 + 80 + 443;
-      $this->assertEquals($expected, aoa_sum($this->aoa, 'point'));
+      $this->assertEquals(array_sum(aoa_values($this->aoa, 'point')), aoa_sum($this->aoa, 'point'));
    }
 
    public function testAoaAssociate()

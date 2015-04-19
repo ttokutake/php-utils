@@ -10,22 +10,20 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    public function testEnsure()
    {
       ensure(false, 'Message for LogicException');
-      return true;
    }
 
    /**
-    * @depends testEnsure
+    * @depends           testEnsure
     * @expectedException LogicException
     */
-   public function testInZException($ok)
+   public function testInZException()
    {
       in_z('not a number');
-      return true;
    }
    /**
     * @depends testInZException
     */
-   public function testInZ($ok)
+   public function testInZ()
    {
       $this->assertTrue(in_z(  1 ));
       $this->assertTrue(in_z( -1 ));
@@ -99,7 +97,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testEnsure
     */
-   public function testIncrementalRange($ok)
+   public function testIncrementalRange()
    {
       $this->assertEquals([       ], incremental_range(0, -1));
       $this->assertEquals([0      ], incremental_range(0,  0));
@@ -108,9 +106,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testEnsure
+    * @depends testIncrementalRange
     */
-   public function testDecrementalRange($ok)
+   public function testDecrementalRange()
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));
