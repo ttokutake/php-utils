@@ -113,7 +113,8 @@ function array_shoe(array $array, $shoe) {
  * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
- * @return array [$head, $tail]
+ * @param  int   $added_trace_depth
+ * @return array [$head,$tail]
  */
 function array_behead(array &$array, $added_trace_depth = 0)
 {
@@ -156,7 +157,8 @@ function array_tail(array &$array)
  * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
- * @return array [$init, $last]
+ * @param  int   $added_trace_depth
+ * @return array [$init,$last]
  */
 function array_depeditate(array &$array, $added_trace_depth = 0)
 {
@@ -200,6 +202,7 @@ function array_last(array &$array)
  *
  * @param  array $array
  * @param  int   $num
+ * @param  int   $added_trace_depth
  * @return array
  */
 function array_take(array $array, $num, $added_trace_depth = 0)
@@ -225,6 +228,7 @@ function array_take_right(array $array, $num)
  *
  * @param  array $array
  * @param  int   $num
+ * @param  int   $added_trace_depth
  * @return array
  */
 function array_drop(array $array, $num, $added_trace_depth = 0)
@@ -270,7 +274,7 @@ function array_find(array &$array, $callable)
  *
  * @param  array    $array
  * @param  callable $callable
- * @return array    [$trues, $falses]
+ * @return array    [$trues,$falses]
  */
 function array_partition(array &$array, $callable)
 {

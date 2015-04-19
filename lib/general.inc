@@ -43,10 +43,10 @@ function ensure($boolean, $error_message) {
 /**
  * Return the message for variable's violation.
  *
- * @param  string $function_name
  * @param  string $which_one
  * @param  string $expected
  * @param  string $value
+ * @param  int    $added_trace_depth
  * @return string
  */
 function variable_violation_message($which_one, $expected_type, $value, $added_trace_depth = 0)
@@ -65,10 +65,10 @@ function variable_violation_message($which_one, $expected_type, $value, $added_t
 /**
  * Return the message for variable's type violation.
  *
- * @param  string $function_name
  * @param  string $which_one
  * @param  string $expected_type
  * @param  mixed  &$var
+ * @param  int    $added_trace_depth
  * @return string
  */
 function type_violation_message($which_one, $expected_type, &$var, $added_trace_depth = 0)
@@ -80,7 +80,8 @@ function type_violation_message($which_one, $expected_type, &$var, $added_trace_
 /**
  * Judge if $num is in integer numbers.
  *
- * @param  mixed $num
+ * @param  mixed   $num
+ * @param  int     $added_trace_depth
  * @return boolean
  */
 function in_z($num, $added_trace_depth = 0)
@@ -131,6 +132,7 @@ function between($var, $min, $max)
  *
  * @param  int   $first
  * @param  int   $last
+ * @param  int   $added_trace_depth
  * @return array
  */
 function incremental_range($first, $last, $added_trace_depth = 0)
