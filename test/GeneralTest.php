@@ -4,18 +4,6 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {
-   public function testTypeViolationMessage()
-   {
-      $function = 'void_extreme';
-      $which    = 'The character';
-      $expected = 'Belenus';
-      $var      = new Exception('VALKYRIE PROFILE');
-
-      $expected_message = "$function(): $which must be $expected, actually 'object'.";
-      $this->assertEquals($expected_message, type_violation_message($function, $which, $expected, $var));
-      return true;
-   }
-
    /**
     * @expectedException LogicException
     */
@@ -26,11 +14,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testTypeViolationMessage
     * @depends testEnsure
     * @expectedException LogicException
     */
-   public function testInZException($ok1, $ok2)
+   public function testInZException($ok)
    {
       in_z('not a number');
       return true;
@@ -110,10 +97,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testTypeViolationMessage
     * @depends testEnsure
     */
-   public function testIncrementalRange($ok1, $ok2)
+   public function testIncrementalRange($ok)
    {
       $this->assertEquals([       ], incremental_range(0, -1));
       $this->assertEquals([0      ], incremental_range(0,  0));
@@ -122,10 +108,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testTypeViolationMessage
     * @depends testEnsure
     */
-   public function testDecrementalRange($ok1,$ok2)
+   public function testDecrementalRange($ok)
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));

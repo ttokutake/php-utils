@@ -22,8 +22,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  */
 function split_at($str, $at, $encoding = 'UTF-8')
 {
-   ensure(is_string($str), type_violation_message(__FUNCTION__, 'The first argument',  'string', $str));
-   ensure(is_int($at)    , type_violation_message(__FUNCTION__, 'The second argument', 'integer', $at ));
+   ensure(is_string($str), type_violation_message('The first argument' ,  'string', $str));
+   ensure(is_int($at)    , type_violation_message('The second argument', 'integer', $at ));
 
    $former = mb_substr($str,   0,  $at, $encoding);
    $latter = mb_substr($str, $at, null, $encoding);

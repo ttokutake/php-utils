@@ -22,7 +22,7 @@ function aoa_transpose(array &$matrix)
 {
    $transposed = array();
    foreach ($matrix as $r_key => $row) {
-      ensure(is_array($row), type_violation_message(__FUNCTION__, 'Each argument', 'array', $row));
+      ensure(is_array($row), type_violation_message('Each argument', 'array', $row));
       foreach ($row as $c_key => $entry) {
          $transposed[$c_key][$r_key] = $entry;
       }
@@ -38,7 +38,7 @@ function aoa_transpose(array &$matrix)
  */
 function aoa_values(array &$aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message(__FUNCTION__, 'The second argument', 'scalar', $key));
+   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
    return array_map(function ($array) use($key) { return array_get($array, $key); }, $aoa);
 }
@@ -51,7 +51,7 @@ function aoa_values(array &$aoa, $key)
  */
 function aoa_sum(array &$aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message(__FUNCTION__, 'The second argument', 'scalar', $key));
+   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
    return array_reduce($aoa, function ($sum, $array) use($key) { return $sum + array_get_or_else($array, $key, 0); }, 0);
 }
@@ -64,7 +64,7 @@ function aoa_sum(array &$aoa, $key)
  */
 function aoa_associate(array &$aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message(__FUNCTION__, 'The second argument', 'scalar', $key));
+   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
    $filtered = array_filter($aoa, function ($array) use($key) { return array_key_exists($key, $array); });
 

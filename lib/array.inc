@@ -65,7 +65,7 @@ function array_zip()
 {
    $arrays = func_get_args();
    foreach ($arrays as $array) {
-      ensure(is_array($array), type_violation_message(__FUNCTION__, 'Each argument', 'array', $array));
+      ensure(is_array($array), type_violation_message('Each argument', 'array', $array));
    }
 
    $formatted_arrays = array_map('array_values', $arrays);
@@ -115,7 +115,7 @@ function array_shoe(array $array, $shoe) {
  */
 function array_behead(array &$array)
 {
-   ensure(!empty($array), type_violation_message(__FUNCTION__, 'The first argument', 'non-empty', $array));
+   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]'));
 
    $head = reset($array);
    $tail = array_slice($array, 1);
@@ -158,7 +158,7 @@ function array_tail(array &$array)
  */
 function array_depeditate(array &$array)
 {
-   ensure(!empty($array), type_violation_message(__FUNCTION__, 'The first argument', 'non-empty', $array));
+   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]'));
 
    $init = array_slice($array, 0, count($array) - 1);
    $last = end($array);
@@ -201,7 +201,7 @@ function array_last(array &$array)
  */
 function array_take(array $array, $num)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message(__FUNCTION__, 'The second argument', 'non-negative integer', $num));
+   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num));
    return array_slice($array, 0, $num);
 }
 
@@ -214,7 +214,7 @@ function array_take(array $array, $num)
  */
 function array_drop(array $array, $num)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message(__FUNCTION__, 'The second argument', 'non-negative integer', $num));
+   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num));
    return array_slice($array, $num);
 }
 

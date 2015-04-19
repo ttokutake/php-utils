@@ -48,9 +48,16 @@ function ensure($boolean, $error_message) {
  * @param  string $value
  * @return string
  */
-function variable_violation_message($function_name, $which_one, $expected_type, $value)
+function variable_violation_message($which_one, $expected_type, $value, $trace_depth = 1)
 {
-   return "$function_name(): $which_one must be $expected_type, actually '$value'.";
+   $backtrace = debug_backtrace();
+   $call      = isset($backtrace[$trace_depth]) ? $backtrace[$trace_depth] : array();
+   $class     = isset($call['class'   ]) ? $call['class'   ] : '';
+   $type      = isset($call['type'    ]) ? $call['type'    ] : '';
+   $function  = isset($call['function']) ? $call['function'] : '';
+   $file      = isset($call['file'    ]) ? $call['file'    ] : '';
+   $line      = isset($call['line'    ]) ? $call['line'    ] : '';
+   return "{$class}{$type}$function(): $which_one must be $expected_type, actually '$value' [FILE: $file, LINE: $line]" . PHP_EOL;
 }
 
 /**
@@ -62,9 +69,9 @@ function variable_violation_message($function_name, $which_one, $expected_type, 
  * @param  mixed  &$var
  * @return string
  */
-function type_violation_message($function_name, $which_one, $expected_type, &$var)
+function type_violation_message($which_one, $expected_type, &$var, $trace_depth = 2)
 {
-   return variable_violation_message($function_name, $which_one, $expected_type, gettype($var));
+   return variable_violation_message($which_one, $expected_type, gettype($var), $trace_depth);
 }
 
 
@@ -77,7 +84,7 @@ function type_violation_message($function_name, $which_one, $expected_type, &$va
 function in_z($num)
 {
    // Actually, type_violation_message() should be lazy.
-   ensure(is_numeric($num), type_violation_message(__FUNCTION__, 'The first argument', 'numeric', $num));
+   ensure(is_numeric($num), type_violation_message('The first argument', 'numeric', $num));
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
 
@@ -126,8 +133,8 @@ function between($var, $min, $max)
  */
 function incremental_range($first, $last)
 {
-   ensure(is_integer($first), type_violation_message(__FUNCTION__, 'The first argument' , 'integer', $first));
-   ensure(is_integer($last ), type_violation_message(__FUNCTION__, 'The second argument', 'integer', $last ));
+   ensure(is_integer($first), type_violation_message('The first argument' , 'integer', $first));
+   ensure(is_integer($last ), type_violation_message('The second argument', 'integer', $last ));
 
    $array = array();
    for ($i = $first; $i <= $last; $i++) {
