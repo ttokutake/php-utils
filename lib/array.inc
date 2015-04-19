@@ -199,10 +199,22 @@ function array_last(array &$array)
  * @param  int   $num
  * @return array
  */
-function array_take(array $array, $num)
+function array_take(array $array, $num, $added_trace_depth = 0)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num));
+   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num, $added_trace_depth));
    return array_slice($array, 0, $num);
+}
+
+/**
+ * Return the array taking tails of $array.
+ *
+ * @param  array $array
+ * @param  int   $num
+ * @return array
+ */
+function array_take_right(array $array, $num)
+{
+   return array_reverse(array_take(array_reverse($array), $num, 1));
 }
 
 /**
@@ -212,10 +224,22 @@ function array_take(array $array, $num)
  * @param  int   $num
  * @return array
  */
-function array_drop(array $array, $num)
+function array_drop(array $array, $num, $added_trace_depth = 0)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num));
+   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num, $added_trace_depth));
    return array_slice($array, $num);
+}
+
+/**
+ * Return the array dropping tails of $array.
+ *
+ * @param  array $array
+ * @param  int   $num
+ * @return array
+ */
+function array_drop_right(array $array, $num)
+{
+   return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
 
 /**

@@ -104,12 +104,13 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_behead($array));
       }
+      return true;
    }
    /**
     * @depends           testArrayBehead
     * @expectedException LogicException
     */
-   public function testArrayBeheadException()
+   public function testArrayBeheadException($ok)
    {
       array_behead($this->empty_array);
    }
@@ -131,12 +132,13 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_depeditate($array));
       }
+      return true;
    }
    /**
     * @depends           testArrayDepeditate
     * @expectedException LogicException
     */
-   public function testArrayDepeditateException()
+   public function testArrayDepeditateException($ok)
    {
       array_depeditate($this->empty_array);
    }
@@ -144,7 +146,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayTake()
+   public function testArrayTake($ok)
    {
       $expectations = [
          [1   ],
@@ -158,20 +160,39 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_take($array, 2));
       }
+      return true;
    }
    /**
     * @depends           testArrayTake
     * @expectedException LogicException
     */
-   public function testArrayTakeException()
+   public function testArrayTakeException($ok)
    {
       array_take([1, 2, 3], -1);
+   }
+   /**
+    * @depends testArrayTake
+    */
+   public function testArrayTakeRight($ok)
+   {
+      $expectations = [
+         [1   ],
+         [1, 2],
+         [2, 3],
+
+         ['one' => 1              ],
+         ['one' => 1, 'two'   => 2],
+         ['two' => 2, 'three' => 3],
+      ];
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_take_right($array, 2));
+      }
    }
 
    /**
     * @depends testArrayZip
     */
-   public function testArrayDrop()
+   public function testArrayDrop($ok)
    {
       $expectations = [
          [ ],
@@ -185,14 +206,33 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_drop($array, 2));
       }
+      return true;
    }
    /**
     * @depends           testArrayDrop
     * @expectedException LogicException
     */
-   public function testArrayDropException()
+   public function testArrayDropException($ok)
    {
       array_drop([1, 2, 3], -1);
+   }
+   /**
+    * @depends testArrayDrop
+    */
+   public function testArrayDropRight($ok)
+   {
+      $expectations = [
+         [ ],
+         [ ],
+         [1],
+
+         [          ],
+         [          ],
+         ['one' => 1],
+      ];
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_drop_right($array, 2));
+      }
    }
 
 
