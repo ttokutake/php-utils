@@ -11,6 +11,7 @@
 
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
+
 /**
  * Split the multibyte characters by num of former characters.
  * If $at is negative, it means "num of latter characters" X "-1".

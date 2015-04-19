@@ -12,6 +12,7 @@
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'array.inc'  ));
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
+
 /**
  * Return the transposed matrix
  *
@@ -29,6 +30,7 @@ function aoa_transpose(array &$matrix)
    }
    return $transposed;
 }
+
 
 /**
  * Return the array of elements for specified key.

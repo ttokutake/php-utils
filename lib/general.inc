@@ -27,6 +27,7 @@ function require_relative($path_to_file)
    require_once $base . DIRECTORY_SEPARATOR . $path_to_file;
 }
 
+
 /**
  * Throw the LogicException class if $boolean is false.
  *

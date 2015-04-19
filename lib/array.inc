@@ -11,6 +11,7 @@
 
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
+
 /**
  * Return the specified value of an array if it's defined.
  * Otherwise, return "null".
@@ -106,6 +107,7 @@ function array_shoe(array $array, $shoe) {
    return array_merge($array, array($shoe));
 }
 
+
 /**
  * Return the pair of first element and the others of an array.
  * Side effect: Array's internal pointer is reset.
@@ -192,6 +194,7 @@ function array_last(array &$array)
    return $last;
 }
 
+
 /**
  * Return the array taking heads of $array.
  *
@@ -241,6 +244,7 @@ function array_drop_right(array $array, $num)
 {
    return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
+
 
 /**
  * Return the first element returning $callable($element_of_array) to be true.
