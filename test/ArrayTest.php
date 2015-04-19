@@ -163,7 +163,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayTakeException()
    {
-      array_drop([1, 2, 3], -1);
+      array_take([1, 2, 3], -1);
    }
 
    /**
