@@ -92,7 +92,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayBehead($ok)
    {
-      $expected = [
+      $expectations = [
          [1, [    ]],
          [1, [2   ]],
          [1, [2, 3]],
@@ -101,9 +101,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [1, ['two' => 2              ]],
          [1, ['two' => 2, 'three' => 3]],
       ];
-      $patterns = array_zip($expected, $this->arrays);
-
-      foreach ($patterns as list($expected, $array)) {
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_behead($array));
       }
    }
@@ -121,7 +119,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayDepeditate($ok)
    {
-      $expected = [
+      $expectations = [
          [[    ], 1],
          [[1   ], 2],
          [[1, 2], 3],
@@ -130,9 +128,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['one' => 1            ], 2],
          [['one' => 1, 'two' => 2], 3],
       ];
-      $patterns = array_zip($expected, $this->arrays);
-
-      foreach ($patterns as list($expected, $array)) {
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_depeditate($array));
       }
    }
@@ -150,7 +146,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayTake()
    {
-      $expected = [
+      $expectations = [
          [1   ],
          [1, 2],
          [1, 2],
@@ -159,7 +155,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          ['one' => 1, 'two' => 2],
          ['one' => 1, 'two' => 2],
       ];
-      foreach (array_zip($expected, $this->arrays) as list($expected, $array)) {
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_take($array, 2));
       }
    }
@@ -177,7 +173,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayDrop()
    {
-      $expected = [
+      $expectations = [
          [ ],
          [ ],
          [3],
@@ -186,7 +182,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [            ],
          ['three' => 3],
       ];
-      foreach (array_zip($expected, $this->arrays) as list($expected, $array)) {
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_drop($array, 2));
       }
    }
@@ -222,7 +218,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayPartition($ok)
    {
-      $odd_expected = [
+      $odd_expectations = [
          [[0 => 1        ], [      ]],
          [[0 => 1        ], [1 => 2]],
          [[0 => 1, 2 => 3], [1 => 2]],
@@ -231,13 +227,11 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['one' => 1              ], ['two' => 2]],
          [['one' => 1, 'three' => 3], ['two' => 2]],
       ];
-      $patterns = array_zip($odd_expected, $this->arrays);
-
-      foreach ($patterns as list($odd_expected, $array)) {
+      foreach (array_zip($odd_expectations, $this->arrays) as list($odd_expected, $array)) {
          $this->assertEquals($odd_expected, array_partition($array, 'is_odd'));
       }
 
-      $even_expected = [
+      $even_expectations = [
          [[      ], [0 => 1        ]],
          [[1 => 2], [0 => 1        ]],
          [[1 => 2], [0 => 1, 2 => 3]],
@@ -246,9 +240,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['two' => 2], ['one' => 1              ]],
          [['two' => 2], ['one' => 1, 'three' => 3]],
       ];
-      $patterns = array_zip($even_expected, $this->arrays);
-
-      foreach ($patterns as list($even_expected, $array)) {
+      foreach (array_zip($even_expectations, $this->arrays) as list($even_expected, $array)) {
          $this->assertEquals($even_expected, array_partition($array, 'is_even'));
       }
    }
