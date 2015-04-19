@@ -133,10 +133,10 @@ function between($var, $min, $max)
  * @param  int   $last
  * @return array
  */
-function incremental_range($first, $last)
+function incremental_range($first, $last, $added_trace_depth = 0)
 {
-   ensure(is_integer($first), type_violation_message('The first argument' , 'integer', $first));
-   ensure(is_integer($last ), type_violation_message('The second argument', 'integer', $last ));
+   ensure(is_integer($first), type_violation_message('The first argument' , 'integer', $first, $added_trace_depth));
+   ensure(is_integer($last ), type_violation_message('The second argument', 'integer', $last , $added_trace_depth));
 
    $array = array();
    for ($i = $first; $i <= $last; $i++) {
@@ -154,5 +154,5 @@ function incremental_range($first, $last)
  */
 function decremental_range($first, $last)
 {
-   return array_reverse(incremental_range($last, $first));
+   return array_reverse(incremental_range($last, $first, 1));
 }
