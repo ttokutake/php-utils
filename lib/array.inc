@@ -113,9 +113,9 @@ function array_shoe(array $array, $shoe) {
  * @param  array $array
  * @return array [$head, $tail]
  */
-function array_behead(array &$array)
+function array_behead(array &$array, $added_trace_depth = 0)
 {
-   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]'));
+   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
 
    $head = reset($array);
    $tail = array_slice($array, 1);
@@ -131,7 +131,7 @@ function array_behead(array &$array)
  */
 function array_head(array &$array)
 {
-   list($head) = array_behead($array);
+   list($head) = array_behead($array, 1);
    return $head;
 }
 
@@ -144,7 +144,7 @@ function array_head(array &$array)
  */
 function array_tail(array &$array)
 {
-   list(, $tail) = array_behead($array);
+   list(, $tail) = array_behead($array, 1);
    return $tail;
 }
 
@@ -156,9 +156,9 @@ function array_tail(array &$array)
  * @param  array $array
  * @return array [$init, $last]
  */
-function array_depeditate(array &$array)
+function array_depeditate(array &$array, $added_trace_depth = 0)
 {
-   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]'));
+   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
 
    $init = array_slice($array, 0, count($array) - 1);
    $last = end($array);
@@ -175,7 +175,7 @@ function array_depeditate(array &$array)
  */
 function array_init(array &$array)
 {
-   list($init) = array_depeditate($array);
+   list($init) = array_depeditate($array, 1);
    return $init;
 }
 
@@ -188,7 +188,7 @@ function array_init(array &$array)
  */
 function array_last(array &$array)
 {
-   list(, $last) = array_depeditate($array);
+   list(, $last) = array_depeditate($array, 1);
    return $last;
 }
 

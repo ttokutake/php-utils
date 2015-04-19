@@ -48,16 +48,17 @@ function ensure($boolean, $error_message) {
  * @param  string $value
  * @return string
  */
-function variable_violation_message($which_one, $expected_type, $value, $trace_depth = 1)
+function variable_violation_message($which_one, $expected_type, $value, $added_trace_depth = 0)
 {
    $backtrace = debug_backtrace();
-   $call      = isset($backtrace[$trace_depth]) ? $backtrace[$trace_depth] : array();
+   $depth     = 1 + $added_trace_depth;
+   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : array();
    $class     = isset($call['class'   ]) ? $call['class'   ] : '';
    $type      = isset($call['type'    ]) ? $call['type'    ] : '';
    $function  = isset($call['function']) ? $call['function'] : '';
    $file      = isset($call['file'    ]) ? $call['file'    ] : '';
    $line      = isset($call['line'    ]) ? $call['line'    ] : '';
-   return "{$class}{$type}$function(): $which_one must be $expected_type, actually '$value' [FILE: $file, LINE: $line]" . PHP_EOL;
+   return "{$class}{$type}$function(): $which_one must be $expected_type, actually '$value' [FILE: $file, LINE: $line]";
 }
 
 /**
@@ -69,9 +70,9 @@ function variable_violation_message($which_one, $expected_type, $value, $trace_d
  * @param  mixed  &$var
  * @return string
  */
-function type_violation_message($which_one, $expected_type, &$var, $trace_depth = 2)
+function type_violation_message($which_one, $expected_type, &$var, $added_trace_depth = 0)
 {
-   return variable_violation_message($which_one, $expected_type, gettype($var), $trace_depth);
+   return variable_violation_message($which_one, $expected_type, gettype($var), 1 + $added_trace_depth);
 }
 
 
@@ -81,10 +82,10 @@ function type_violation_message($which_one, $expected_type, &$var, $trace_depth 
  * @param  mixed $num
  * @return boolean
  */
-function in_z($num)
+function in_z($num, $added_trace_depth = 0)
 {
    // Actually, type_violation_message() should be lazy.
-   ensure(is_numeric($num), type_violation_message('The first argument', 'numeric', $num));
+   ensure(is_numeric($num), type_violation_message('The first argument', 'numeric', $num, $added_trace_depth));
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
 
@@ -96,7 +97,7 @@ function in_z($num)
  */
 function is_odd($num)
 {
-   return in_z($num) ? ($num % 2 == 1) : false;
+   return in_z($num, 1) ? ($num % 2 == 1) : false;
 }
 
 /**
@@ -107,7 +108,7 @@ function is_odd($num)
  */
 function is_even($num)
 {
-   return in_z($num) ? ($num % 2 == 0) : false;
+   return in_z($num, 1) ? ($num % 2 == 0) : false;
 }
 
 /**
