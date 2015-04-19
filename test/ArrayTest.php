@@ -142,6 +142,33 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
+   public function testArrayTake()
+   {
+      $expected = [
+         [1   ],
+         [1, 2],
+         [1, 2],
+
+         ['one' => 1            ],
+         ['one' => 1, 'two' => 2],
+         ['one' => 1, 'two' => 2],
+      ];
+      foreach (array_zip($expected, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_take($array, 2));
+      }
+   }
+   /**
+    * @depends           testArrayTake
+    * @expectedException LogicException
+    */
+   public function testArrayTakeException()
+   {
+      array_drop([1, 2, 3], -1);
+   }
+
+   /**
+    * @depends testArrayZip
+    */
    public function testArrayDrop()
    {
       $expected = [
@@ -158,7 +185,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
    /**
-    * @depends           testArrayZip
+    * @depends           testArrayDrop
     * @expectedException LogicException
     */
    public function testArrayDropException()

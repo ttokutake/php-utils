@@ -175,8 +175,22 @@ function array_last(array &$array)
    return $last;
 }
 
+
 /**
- * Return the array dropped heads.
+ * Return the array taking heads of $array.
+ *
+ * @param  array $array
+ * @param  int   $num
+ * @return array
+ */
+function array_take(array $array, $num)
+{
+   ensure(is_int($num) && $num >= 0, variable_violation_message(__FUNCTION__, 'The second argument', 'non-negative integer', $num));
+   return array_slice($array, 0, $num);
+}
+
+/**
+ * Return the array dropping heads of $array.
  *
  * @param  array $array
  * @param  int   $num
@@ -187,7 +201,6 @@ function array_drop(array $array, $num)
    ensure(is_int($num) && $num >= 0, variable_violation_message(__FUNCTION__, 'The second argument', 'non-negative integer', $num));
    return array_slice($array, $num);
 }
-
 
 /**
  * Return the first element returning $callable($element_of_array) to be true.
