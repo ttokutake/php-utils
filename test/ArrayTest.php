@@ -29,6 +29,12 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $this->assertTrue (array_get_or_else($this->array, 'not_null'     , $default));
    }
 
+   public function testArrayMapWithKey()
+   {
+      $pattern = [['one' => 'one => 1'], ['one' => 1]];
+      $this->assertEquals($pattern[0], array_map_with_key($pattern[1], function ($key, $value) { return "$key => $value"; }));
+   }
+
 
    public function testArrayZip()
    {

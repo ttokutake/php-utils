@@ -37,6 +37,23 @@ function array_get_or_else(array &$array, $key, $default)
    return array_key_exists($key, $array) ? $array[$key] : $default;
 }
 
+/**
+ * Return array_map() which can use keys of $array.
+ * Side effect: Array's internal pointer will point nothing.
+ *
+ * @param  array    $array
+ * @param  callable $callable
+ * @return array
+ */
+function array_map_with_key(array &$array, $callable)
+{
+   $result = array();
+   foreach ($array as $key => $value) {
+      $result[$key] = $callable($key, $value);
+   }
+   return $result;
+}
+
 
 /**
  * Return an array consisting of the pairs of each element for two arrays.
@@ -174,7 +191,6 @@ function array_last(array &$array)
    list(, $last) = array_depeditate($array);
    return $last;
 }
-
 
 /**
  * Return the array taking heads of $array.
