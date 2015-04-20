@@ -31,6 +31,7 @@ function array_get(array &$array, $key)
  *
  * @param  array      $array
  * @param  int|string $key
+ * @param  mixed      $default
  * @return mixed      $array[$key]|$default
  */
 function array_get_or_else(array &$array, $key, $default)
@@ -39,11 +40,26 @@ function array_get_or_else(array &$array, $key, $default)
 }
 
 /**
+ * Return the specified value of an array if it isn't null.
+ * Otherwise, return $default.
+ *
+ * @param  array      $array
+ * @param  int|string $key
+ * @param  mixed      $default
+ * @return mixed      $array[$key]|$default
+ */
+function array_get_non_null(array &$array, $key, $default)
+{
+   return isset($array[$key]) ? $array[$key] : $default;
+}
+
+/**
  * Return the specified value of an array if it isn't empty.
  * Otherwise, return $default.
  *
  * @param  array      $array
  * @param  int|string $key
+ * @param  mixed      $default
  * @return mixed      $array[$key]|$default
  */
 function array_get_non_empty(array &$array, $key, $default = null) {

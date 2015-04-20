@@ -46,6 +46,17 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testPhpNotice
     */
+   public function testArrayGetNonNull()
+   {
+      $default = false;
+      $this->assertFalse(array_get_non_null($this->array, 'undefined key', $default));
+      $this->assertFalse(array_get_non_null($this->array, 'defined key'  , $default));
+      $this->assertTrue (array_get_non_null($this->array, 'not null'     , $default));
+   }
+
+   /**
+    * @depends testPhpNotice
+    */
    public function testArrayGetNonEmpty()
    {
       $default = 1;
