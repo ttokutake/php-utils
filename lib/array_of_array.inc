@@ -73,7 +73,7 @@ function aoa_associate(array &$aoa, $key)
    $associated = array();
    foreach ($filtered as $array) {
       $value = $array[$key];
-      ensure(is_scalar($value) || is_null($value), __FUNCTION__, 'The value of specified key', 'scalar or null', $value);
+      ensure(is_scalar($value) || is_null($value), type_violation_message('The value of specified key', 'scalar or null', $value));
       unset($array[$key]);
       $associated[$value] = $array;
    }
