@@ -76,6 +76,7 @@ function array_get_non_empty(array &$array, $key, $default = null) {
  */
 function array_map_with_key(array &$array, $callable)
 {
+   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    $result = array();
    foreach ($array as $key => $value) {
       $result[$key] = $callable($key, $value);
@@ -288,6 +289,7 @@ function array_drop_right(array $array, $num)
  */
 function array_find(array &$array, $callable)
 {
+   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    foreach ($array as $value) {
       if ($callable($value)) {
          return $value;
@@ -306,6 +308,7 @@ function array_find(array &$array, $callable)
  */
 function array_partition(array &$array, $callable)
 {
+   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    $former = $latter = array();
    foreach ($array as $key => $value) {
       if ($callable($value)) {
