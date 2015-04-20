@@ -39,6 +39,18 @@ function array_get_or_else(array &$array, $key, $default)
 }
 
 /**
+ * Return the specified value of an array if it isn't empty.
+ * Otherwise, return $default.
+ *
+ * @param  array      $array
+ * @param  int|string $key
+ * @return mixed      $array[$key]|$default
+ */
+function array_get_non_empty(array &$array, $key, $default = null) {
+   return empty($array[$key]) ? $default : $array[$key];
+}
+
+/**
  * Return array_map() which can use keys of $array.
  * Side effect: Array's internal pointer will point nothing.
  *

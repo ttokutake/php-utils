@@ -4,7 +4,15 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
-   private $array = ['defined key' => null, 'not null' => true];
+   private $array = [
+      'defined key'  => null ,
+      'not null'     => true ,
+      'empty bool'   => false,
+      'empty int'    => 0    ,
+      'empty float'  => 0.0  ,
+      'empty string' => ''   ,
+      'empty array'  => []   ,
+   ];
 
    /**
     * @expectedException PHPUnit_Framework_Error_Notice
@@ -14,6 +22,9 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       echo $this->array['undefined key'];
    }
 
+   /**
+    * @depends testPhpNotice
+    */
    public function testArrayGet()
    {
       $this->assertNull(array_get($this->array, 'undefined key'));
@@ -21,12 +32,31 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $this->assertTrue(array_get($this->array, 'not null'     ));
    }
 
+   /**
+    * @depends testPhpNotice
+    */
    public function testArrayGetOrElse()
    {
       $default = false;
       $this->assertFalse(array_get_or_else($this->array, 'undefined key', $default));
       $this->assertNull (array_get_or_else($this->array, 'defined key'  , $default));
       $this->assertTrue (array_get_or_else($this->array, 'not null'     , $default));
+   }
+
+   /**
+    * @depends testPhpNotice
+    */
+   public function testArrayGetNonEmpty()
+   {
+      $default = 1;
+      $this->assertEquals($default, array_get_non_empty($this->array, 'undefined key', $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'defined key'  , $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'empty bool'   , $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'empty int'    , $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'empty floaat' , $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'empty string' , $default));
+      $this->assertEquals($default, array_get_non_empty($this->array, 'empty array'  , $default));
+      $this->assertTrue(array_get_or_else($this->array, 'not null', $default));
    }
 
    public function testArrayMapWithKey()
@@ -76,8 +106,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
-   private $empty_array = [];
-   private $arrays      = [
+   private $arrays = [
       [1      ],
       [1, 2   ],
       [1, 2, 3],
@@ -93,7 +122,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayBeheadException()
    {
-      array_behead($this->empty_array);
+      array_behead($this->array['empty array']);
    }
    /**
     * @depends testArrayZip
@@ -119,7 +148,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayDepeditateException()
    {
-      array_depeditate($this->empty_array);
+      array_depeditate($this->array['empty array']);
    }
    /**
     * @depends testArrayZip
