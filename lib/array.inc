@@ -68,13 +68,12 @@ function array_get_non_empty(array &$array, $key, $default = null) {
 
 /**
  * Return array_map() which can use keys of $array.
- * Side effect: Array's internal pointer will point nothing.
  *
  * @param  array    $array
  * @param  callable $callable
  * @return array
  */
-function array_map_with_key(array &$array, $callable)
+function array_map_with_key(array $array, $callable)
 {
    ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    $result = array();
@@ -139,13 +138,12 @@ function array_shoe(array $array, $shoe) {
 
 /**
  * Return the pair of first element and the others of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @param  int   $added_trace_depth
  * @return array [$head,$tail]
  */
-function array_behead(array &$array, $added_trace_depth = 0)
+function array_behead(array $array, $added_trace_depth = 0)
 {
    ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
 
@@ -156,12 +154,11 @@ function array_behead(array &$array, $added_trace_depth = 0)
 
 /**
  * Return the first element of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return mixed
  */
-function array_head(array &$array)
+function array_head(array $array)
 {
    list($head) = array_behead($array, 1);
    return $head;
@@ -169,12 +166,11 @@ function array_head(array &$array)
 
 /**
  * Return the array excluding the first element of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return array
  */
-function array_tail(array &$array)
+function array_tail(array $array)
 {
    list(, $tail) = array_behead($array, 1);
    return $tail;
@@ -183,13 +179,12 @@ function array_tail(array &$array)
 
 /**
  * Return the pair of last element and the others of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @param  int   $added_trace_depth
  * @return array [$init,$last]
  */
-function array_depeditate(array &$array, $added_trace_depth = 0)
+function array_depeditate(array $array, $added_trace_depth = 0)
 {
    ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
 
@@ -201,12 +196,11 @@ function array_depeditate(array &$array, $added_trace_depth = 0)
 
 /**
  * Return the array excluding the last element of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return array
  */
-function array_init(array &$array)
+function array_init(array $array)
 {
    list($init) = array_depeditate($array, 1);
    return $init;
@@ -214,12 +208,11 @@ function array_init(array &$array)
 
 /**
  * Return the last element of an array.
- * Side effect: Array's internal pointer is reset.
  *
  * @param  array $array
  * @return mixed
  */
-function array_last(array &$array)
+function array_last(array $array)
 {
    list(, $last) = array_depeditate($array, 1);
    return $last;
@@ -281,13 +274,12 @@ function array_drop_right(array $array, $num)
 
 /**
  * Return the first element returning $callable($element_of_array) to be true.
- * Side effect: Array's internal pointer will point nothing.
  *
  * @param  $array    $array
  * @param  $callable $callable
  * @return mixed
  */
-function array_find(array &$array, $callable)
+function array_find(array $array, $callable)
 {
    ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    foreach ($array as $value) {
@@ -300,13 +292,12 @@ function array_find(array &$array, $callable)
 
 /**
  * Return the pair of Arrays, which of former is true value and latter is false value.
- * Side effect: Array's internal pointer will point nothing.
  *
  * @param  array    $array
  * @param  callable $callable
  * @return array    [$trues,$falses]
  */
-function array_partition(array &$array, $callable)
+function array_partition(array $array, $callable)
 {
    ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    $former = $latter = array();
