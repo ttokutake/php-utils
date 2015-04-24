@@ -273,6 +273,42 @@ function array_drop_right(array $array, $num)
 
 
 /**
+ * Judge if the element which return true for $callable exists.
+ *
+ * @param  array    $array
+ * @param  callable $callable
+ * @return boolean
+ */
+function array_exists(array $array, $callable)
+{
+   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   foreach ($array as $value) {
+      if ($callable($value)) {
+         return true;
+      }
+   }
+   return false;
+}
+
+/**
+ * Judge if all elements return true for $callable.
+ *
+ * @param  array    $array
+ * @param  callable $callable
+ * @return boolean
+ */
+function array_for_all(array $array, $callable)
+{
+   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   foreach ($array as $value) {
+      if (!$callable($value)) {
+         return false;
+      }
+   }
+   return true;
+}
+
+/**
  * Return the first element returning $callable($element_of_array) to be true.
  *
  * @param  $array    $array

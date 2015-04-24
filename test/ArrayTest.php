@@ -269,20 +269,47 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   /**
+    * @depends testArrayZip
+    */
+   public function testArrayExists()
+   {
+      $odd_expectations = array_fill(0, 6, true);
+      foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_exists($array, 'is_odd'));
+      }
+      $even_expectations = [false, true, true, false, true, true];
+      foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_exists($array, 'is_even'));
+      }
+   }
+
+   /**
+    * @depends testArrayZip
+    */
+   public function testArrayForAll()
+   {
+      $odd_expectations = [true, false, false, true, false, false];
+      foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_for_all($array, 'is_odd'));
+      }
+      $even_expectations = array_fill(0, 6, false);
+      foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_for_all($array, 'is_even'));
+      }
+   }
 
    /**
     * @depends testArrayZip
     */
    public function testArrayFind()
    {
-      $odd_expected = [1, 1, 1];
-      foreach (array_zip($odd_expected, $this->arrays) as list($expected, $array))
-      {
+      $odd_expectations = array_fill(0, 6, 1);
+      foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_find($array, 'is_odd'));
       }
-      $even_expected = [null, 2, 2];
-      foreach (array_zip($even_expected, $this->arrays) as list($expected, $array))
-      {
+      $even_expectations = [null, 2, 2, null, 2, 2];
+      foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_find($array, 'is_even'));
       }
    }
@@ -301,8 +328,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['one' => 1              ], ['two' => 2]],
          [['one' => 1, 'three' => 3], ['two' => 2]],
       ];
-      foreach (array_zip($odd_expectations, $this->arrays) as list($odd_expected, $array)) {
-         $this->assertEquals($odd_expected, array_partition($array, 'is_odd'));
+      foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_partition($array, 'is_odd'));
       }
 
       $even_expectations = [
@@ -314,8 +341,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [['two' => 2], ['one' => 1              ]],
          [['two' => 2], ['one' => 1, 'three' => 3]],
       ];
-      foreach (array_zip($even_expectations, $this->arrays) as list($even_expected, $array)) {
-         $this->assertEquals($even_expected, array_partition($array, 'is_even'));
+      foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_partition($array, 'is_even'));
       }
    }
 }
