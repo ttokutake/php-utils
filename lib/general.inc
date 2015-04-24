@@ -11,7 +11,7 @@
 
 /**
  * Run "require_once" that is equal to "require_once __DIR__ . $path_to_file;".
- * But global variables can't be created.
+ * Notice: global variables can't be created.
  *
  * @param  string|array $path_to_file
  */
@@ -74,6 +74,35 @@ function variable_violation_message($which_one, $expected_type, $value, $added_t
 function type_violation_message($which_one, $expected_type, &$var, $added_trace_depth = 0)
 {
    return variable_violation_message($which_one, $expected_type, gettype($var), 1 + $added_trace_depth);
+}
+
+
+/**
+ * Return $var if $var is not null..
+ * Otherwise, return $default.
+ * Notice: Use array_get_non_null() for an element of 'array'.
+ *
+ * @param  mixed $var
+ * @param  mixed $default
+ * @return mixed $var|$default
+ */
+function get_non_null($var, $default)
+{
+   return isset($var) ? $var : $default;
+}
+
+/**
+ * Return $var if $var is not empty.
+ * Otherwise, return $default.
+ * Notice: Use array_get_non_empty() for an element of 'array'.
+ *
+ * @param  mixed $var
+ * @param  mixed $default
+ * @return mixed $var|$default
+ */
+function get_non_empty($var, $default)
+{
+   return empty($var) ? $default : $var;
 }
 
 

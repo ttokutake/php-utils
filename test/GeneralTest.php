@@ -12,6 +12,24 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       ensure(false, 'Message for LogicException');
    }
 
+   public function testGetNonNull()
+   {
+      $this->assertTrue (get_non_null(null , true));
+      $this->assertFalse(get_non_null(false, true));
+   }
+
+   public function testGetNonEmpty()
+   {
+      $true_patterns = [null, false, 0, 0.0, '', '0', []];
+      foreach ($true_patterns as $var) {
+         $this->assertTrue(get_non_empty($var, true));
+      }
+      $false_patterns = [true, 1, 0.1, '1', [1]];
+      foreach ($false_patterns as $var) {
+         $this->assertEquals($var, get_non_empty($var, false));
+      }
+   }
+
    /**
     * @depends           testEnsure
     * @expectedException LogicException

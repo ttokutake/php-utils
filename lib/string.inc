@@ -30,6 +30,7 @@ function end_with($haystack, $needle, $encoding = 'UTF-8') {
    return $needle === '' || mb_strrpos($haystack, $needle, 0, $encoding) === (mb_strlen($haystack, $encoding) - mb_strlen($needle, $encoding));
 }
 
+
 /**
  * Split the multibyte characters by num of former characters.
  * If $at is negative, it means "num of latter characters" X "-1".

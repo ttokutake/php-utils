@@ -62,7 +62,7 @@ function array_get_non_null(array &$array, $key, $default)
  * @param  mixed      $default
  * @return mixed      $array[$key]|$default
  */
-function array_get_non_empty(array &$array, $key, $default = null) {
+function array_get_non_empty(array &$array, $key, $default) {
    return empty($array[$key]) ? $default : $array[$key];
 }
 
