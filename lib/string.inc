@@ -13,6 +13,24 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
 
 /**
+ * Judge if $haystack starts with $needle.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return boolean
+ */
+function start_with($haystack, $needle) {
+   return $needle === '' || strpos($haystack, $needle) === 0;
+}
+
+/**
+ * Judge if $haystack ends with $needle.
+ */
+function end_with($haystack, $needle, $encoding = 'UTF-8') {
+   return $needle === '' || mb_strrpos($haystack, $needle, 0, $encoding) === (mb_strlen($haystack, $encoding) - mb_strlen($needle, $encoding));
+}
+
+/**
  * Split the multibyte characters by num of former characters.
  * If $at is negative, it means "num of latter characters" X "-1".
  *
