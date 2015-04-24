@@ -279,7 +279,7 @@ function array_drop_right(array $array, $num)
  * @param  callable $callable
  * @return boolean
  */
-function array_exists(array $array, $callable)
+function array_exist(array $array, $callable)
 {
    ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
    foreach ($array as $value) {

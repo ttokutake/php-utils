@@ -272,15 +272,15 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayExists()
+   public function testArrayExist()
    {
       $odd_expectations = array_fill(0, 6, true);
       foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
-         $this->assertEquals($expected, array_exists($array, 'is_odd'));
+         $this->assertEquals($expected, array_exist($array, 'is_odd'));
       }
       $even_expectations = [false, true, true, false, true, true];
       foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
-         $this->assertEquals($expected, array_exists($array, 'is_even'));
+         $this->assertEquals($expected, array_exist($array, 'is_even'));
       }
    }
 
