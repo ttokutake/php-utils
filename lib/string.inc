@@ -13,6 +13,17 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
 
 /**
+ * Set encoding config for system and regex.
+ *
+ * @param string $encoding
+ */
+function set_encoding($encoding = 'UTF-8') {
+   mb_internal_encoding($encoding);
+   mb_regex_encoding($encoding);
+}
+
+
+/**
  * Judge if $haystack starts with $needle.
  *
  * @param  string  $haystack
@@ -29,11 +40,11 @@ function start_with($haystack, $needle)
 /**
  * Judge if $haystack ends with $needle.
  */
-function end_with($haystack, $needle, $encoding = 'UTF-8')
+function end_with($haystack, $needle)
 {
    ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
    ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
-   return $needle === '' || mb_strrpos($haystack, $needle, 0, $encoding) === (mb_strlen($haystack, $encoding) - mb_strlen($needle, $encoding));
+   return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }
 
 
@@ -46,13 +57,13 @@ function end_with($haystack, $needle, $encoding = 'UTF-8')
  * @param  string          $encoding
  * @return [string,string]
  */
-function split_at($string, $at, $encoding = 'UTF-8')
+function split_at($string, $at)
 {
    ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
    ensure(is_int($at)       , type_violation_message('The second argument', 'integer', $at    ));
 
-   $former = mb_substr($string,   0,  $at, $encoding);
-   $latter = mb_substr($string, $at, null, $encoding);
+   $former = mb_substr($string,   0,  $at);
+   $latter = mb_substr($string, $at, null);
    return array($former, $latter);
 }
 

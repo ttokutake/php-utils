@@ -2,6 +2,8 @@
 
 require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
+set_encoding();
+
 class StringTest extends PHPUnit_Framework_TestCase
 {
    private $platitude    = 'hello, world!';
