@@ -73,7 +73,8 @@ function variable_violation_message($which_one, $expected_type, $value, $added_t
  */
 function type_violation_message($which_one, $expected_type, &$var, $added_trace_depth = 0)
 {
-   return variable_violation_message($which_one, $expected_type, gettype($var), 1 + $added_trace_depth);
+   $actual_type = is_object($var) ? get_class($var) : gettype($var);
+   return variable_violation_message($which_one, $expected_type, $actual_type, 1 + $added_trace_depth);
 }
 
 

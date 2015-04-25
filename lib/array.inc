@@ -16,7 +16,7 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  * Return the specified value of an array if it's defined.
  * Otherwise, return "null".
  *
- * @param  array      $array
+ * @param  array      &$array
  * @param  int|string $key
  * @return mixed      $array[$key]|null
  */
@@ -29,7 +29,7 @@ function array_get(array &$array, $key)
  * Return the specified value of an array if it's defined.
  * Otherwise, return $default.
  *
- * @param  array      $array
+ * @param  array      &$array
  * @param  int|string $key
  * @param  mixed      $default
  * @return mixed      $array[$key]|$default
@@ -43,7 +43,7 @@ function array_get_or_else(array &$array, $key, $default)
  * Return the specified value of an array if it isn't null.
  * Otherwise, return $default.
  *
- * @param  array      $array
+ * @param  array      &$array
  * @param  int|string $key
  * @param  mixed      $default
  * @return mixed      $array[$key]|$default
@@ -57,7 +57,7 @@ function array_get_non_null(array &$array, $key, $default)
  * Return the specified value of an array if it isn't empty.
  * Otherwise, return $default.
  *
- * @param  array      $array
+ * @param  array      &$array
  * @param  int|string $key
  * @param  mixed      $default
  * @return mixed      $array[$key]|$default
