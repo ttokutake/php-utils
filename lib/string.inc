@@ -34,6 +34,7 @@ function start_with($haystack, $needle)
 {
    ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
    ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
+
    return $needle === '' || strpos($haystack, $needle) === 0;
 }
 
@@ -44,6 +45,7 @@ function end_with($haystack, $needle)
 {
    ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
    ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
+
    return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }
 
@@ -79,4 +81,17 @@ function is_blank($string)
    ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
 
    return preg_match('/^\s*$/u', $string) === 1 ? true : false;
+}
+
+/**
+ * Return $string whose both ends are trimmed.
+ *
+ * @param  string $string
+ * @return string
+ */
+function mb_trim($string)
+{
+   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
+
+   return preg_replace('/(^\s+|\s+$)/u', '', $string);
 }

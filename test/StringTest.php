@@ -76,21 +76,22 @@ class StringTest extends PHPUnit_Framework_TestCase
    }
 
 
+   private $blanks = [
+      ''    ,
+      ' '   ,
+      "\t"  ,
+      //"\v"  ,
+      "\r"  ,
+      "\n"  ,
+      "\r\n",
+      "\f"  ,
+      '　'  ,
+   ];
+
    public function testIsBlank()
    {
-      $true_patterns = [
-         ''    ,
-         ' '   ,
-         "\t"  ,
-         //"\v"  ,
-         "\r"  ,
-         "\n"  ,
-         "\r\n",
-         "\f"  ,
-         '　'  ,
-      ];
-      foreach ($true_patterns as $string) {
-         $this->assertTrue(is_blank($string));
+      foreach ($this->blanks as $blank) {
+         $this->assertTrue(is_blank($blank));
       }
       $false_patterns = [
          '1' ,
@@ -100,6 +101,14 @@ class StringTest extends PHPUnit_Framework_TestCase
       ];
       foreach ($false_patterns as $string) {
          $this->assertFalse(is_blank($string));
+      }
+   }
+
+   public function testMbTrim()
+   {
+      $expected = 'remain';
+      foreach ($this->blanks as $blank) {
+         $this->assertEquals($expected, mb_trim("{$blank}{$expected}{$blank}"));
       }
    }
 }
