@@ -19,7 +19,7 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  * @param  array $matrix
  * @return array
  */
-function aoa_transpose(array &$matrix)
+function aoa_transpose(array $matrix)
 {
    $transposed = array();
    foreach ($matrix as $r_key => $row) {
@@ -35,10 +35,11 @@ function aoa_transpose(array &$matrix)
 /**
  * Return the array of elements for specified key.
  *
- * @param  array $aoa
+ * @param  array      $aoa
+ * @param  int|string $key
  * @return array
  */
-function aoa_values(array &$aoa, $key)
+function aoa_values(array $aoa, $key)
 {
    ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
@@ -48,10 +49,11 @@ function aoa_values(array &$aoa, $key)
 /**
  * Return the sum of elements for specified key.
  *
- * @param  array   $aoa
+ * @param  array      $aoa
+ * @param  int|string $key
  * @return numeric
  */
-function aoa_sum(array &$aoa, $key)
+function aoa_sum(array $aoa, $key)
 {
    ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
@@ -59,12 +61,28 @@ function aoa_sum(array &$aoa, $key)
 }
 
 /**
- * Return the AoA which each key is an array value of specified key.
+ * Return the AoA which sorted by an array value of specified key.
  *
- * @param  array $aoa
+ * @param  array      $aoa
+ * @param  int|string $key
  * @return array
  */
-function aoa_associate(array &$aoa, $key)
+function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
+{
+   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
+
+   array_multisort(aoa_values($aoa, $key), $order, $option, $aoa);
+   return $aoa;
+}
+
+/**
+ * Return the AoA which each key is an array value of specified key.
+ *
+ * @param  array      $aoa
+ * @param  int|string $key
+ * @return array
+ */
+function aoa_associate(array $aoa, $key)
 {
    ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
 
