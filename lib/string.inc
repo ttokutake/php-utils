@@ -100,7 +100,7 @@ function is_blank($string)
 {
    ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
 
-   return preg_match('/^\s*$/u', $string) === 1 ? true : false;
+   return preg_match('/^\s*$/u', preg_quote($string, '/')) === 1 ? true : false;
 }
 
 /**
@@ -113,5 +113,5 @@ function mb_trim($string)
 {
    ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
 
-   return preg_replace('/(^\s+|\s+$)/u', '', $string);
+   return preg_replace('/(^\s+|\s+$)/u', '', preg_quote($string, '/'));
 }
