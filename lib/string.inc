@@ -69,6 +69,26 @@ function split_at($string, $at)
    return array($former, $latter);
 }
 
+/**
+ * Return the array of strings which arg split with $witdh.
+ *
+ * @param  string $string
+ * @param  int    $width
+ * @return array
+ */
+function mb_str_split($string, $width)
+{
+   ensure(is_string($string), type_violation_message('The first argument', 'string', $string));
+   ensure(is_int($width) && $width > 0, variable_violation_message('The second argument', 'positive integer', $width));
+
+   $split  = array();
+   $length = mb_strlen($string);
+   for ($from = 0; $from < $length; $from += $width) {
+      $split[] = mb_substr($string, $from, $width);
+   }
+   return $split;
+}
+
 
 /**
  * Judge if $string is blank.
@@ -84,7 +104,7 @@ function is_blank($string)
 }
 
 /**
- * Return $string whose both ends are trimmed.
+ * Return the string whose both ends are trimmed.
  *
  * @param  string $string
  * @return string

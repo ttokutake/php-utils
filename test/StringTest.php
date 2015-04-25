@@ -75,6 +75,42 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   public function testMbStrSplit()
+   {
+      $patterns = [
+         [['h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!'],  1],
+         [['he', 'll', 'o,', ' w', 'or', 'ld', '!']                        ,  2],
+         [['hel', 'lo,', ' wo', 'rld', '!']                                ,  3],
+         [['hell', 'o, w', 'orld', '!']                                    ,  4],
+         [['hello', ', wor', 'ld!']                                        ,  5],
+         [['hello,', ' world', '!']                                        ,  6],
+         [['hello, ', 'world!']                                            ,  7],
+         [['hello, w', 'orld!']                                            ,  8],
+         [['hello, wo', 'rld!']                                            ,  9],
+         [['hello, wor', 'ld!']                                            , 10],
+         [['hello, worl', 'd!']                                            , 11],
+         [['hello, world', '!']                                            , 12],
+         [['hello, world!']                                                , 13],
+      ];
+      foreach ($patterns as list($expected, $width)) {
+         $this->assertEquals($expected, mb_str_split($this->platitude, $width));
+      }
+      $mb_patterns = [
+         [['こ', 'ん', 'に', 'ち', 'は', '、', '世', '界', '！'], 1],
+         [['こん', 'にち', 'は、', '世界', '！']                , 2],
+         [['こんに', 'ちは、', '世界！']                        , 3],
+         [['こんにち', 'は、世界', '！']                        , 4],
+         [['こんにちは', '、世界！']                            , 5],
+         [['こんにちは、', '世界！']                            , 6],
+         [['こんにちは、世', '界！']                            , 7],
+         [['こんにちは、世界', '！']                            , 8],
+         [['こんにちは、世界！']                                , 9],
+      ];
+      foreach ($mb_patterns as list($expected, $width)) {
+         $this->assertEquals($expected, mb_str_split($this->mb_platitude, $width));
+      }
+   }
+
 
    private $blanks = [
       ''    ,
