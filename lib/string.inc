@@ -41,17 +41,31 @@ function end_with($haystack, $needle, $encoding = 'UTF-8')
  * Split the multibyte characters by num of former characters.
  * If $at is negative, it means "num of latter characters" X "-1".
  *
- * @param  string          $str
+ * @param  string          $string
  * @param  int             $at
  * @param  string          $encoding
  * @return [string,string]
  */
-function split_at($str, $at, $encoding = 'UTF-8')
+function split_at($string, $at, $encoding = 'UTF-8')
 {
-   ensure(is_string($str), type_violation_message('The first argument' ,  'string', $str));
-   ensure(is_int($at)    , type_violation_message('The second argument', 'integer', $at ));
+   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
+   ensure(is_int($at)       , type_violation_message('The second argument', 'integer', $at    ));
 
-   $former = mb_substr($str,   0,  $at, $encoding);
-   $latter = mb_substr($str, $at, null, $encoding);
+   $former = mb_substr($string,   0,  $at, $encoding);
+   $latter = mb_substr($string, $at, null, $encoding);
    return array($former, $latter);
+}
+
+
+/**
+ * Judge if $string is blank.
+ *
+ * @param  $string
+ * @return boolean
+ */
+function is_blank($string)
+{
+   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
+
+   return preg_match('/^\s*$/', $string) === 1 ? true : false;
 }
