@@ -78,6 +78,17 @@ function type_violation_message($which_one, $expected_type, &$var, $added_trace_
 
 
 /**
+ * Throw RuntimeException.
+ *
+ * @param string $message
+ */
+function plague($message)
+{
+   throw new RuntimeException($message);
+}
+
+
+/**
  * Return $var if $var is not null..
  * Otherwise, return $default.
  * Notice: Use array_get_non_null() for an element of 'array'.

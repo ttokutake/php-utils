@@ -19,7 +19,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  * @param  string  $needle
  * @return boolean
  */
-function start_with($haystack, $needle) {
+function start_with($haystack, $needle)
+{
    ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
    ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
    return $needle === '' || strpos($haystack, $needle) === 0;
@@ -28,7 +29,8 @@ function start_with($haystack, $needle) {
 /**
  * Judge if $haystack ends with $needle.
  */
-function end_with($haystack, $needle, $encoding = 'UTF-8') {
+function end_with($haystack, $needle, $encoding = 'UTF-8')
+{
    ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
    ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
    return $needle === '' || mb_strrpos($haystack, $needle, 0, $encoding) === (mb_strlen($haystack, $encoding) - mb_strlen($needle, $encoding));

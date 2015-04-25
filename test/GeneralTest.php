@@ -12,6 +12,14 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       ensure(false, 'Message for LogicException');
    }
 
+   /**
+    * @expectedException RuntimeException
+    */
+   public function testPlague()
+   {
+      $success = false or plague('Message for RuntimeException');
+   }
+
    public function testGetNonNull()
    {
       $this->assertTrue (get_non_null(null , true));
