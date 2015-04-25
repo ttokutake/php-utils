@@ -78,5 +78,5 @@ function is_blank($string)
 {
    ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
 
-   return preg_match('/^\s*$/', $string) === 1 ? true : false;
+   return preg_match('/^\s*$/u', $string) === 1 ? true : false;
 }

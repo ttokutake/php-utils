@@ -87,7 +87,7 @@ class StringTest extends PHPUnit_Framework_TestCase
          "\n"  ,
          "\r\n",
          "\f"  ,
-         //"　"  ,
+         '　'  ,
       ];
       foreach ($true_patterns as $string) {
          $this->assertTrue(is_blank($string));
