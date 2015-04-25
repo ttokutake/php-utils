@@ -41,6 +41,27 @@ function ensure($boolean, $error_message) {
 }
 
 /**
+ * Return the message for an error.
+ *
+ * @param  string $message
+ * @param  int    $added_trace_depth
+ * @return string
+ */
+function error_message($message, $added_trace_depth = 0)
+{
+   $backtrace = debug_backtrace();
+   $depth     = 1 + $added_trace_depth;
+   $call      = isset($backtrace[0     ]) ? $backtrace[0     ] : array();
+   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $call  ;
+   $class     = isset($call['class'   ]) ? $call['class'   ] : '';
+   $type      = isset($call['type'    ]) ? $call['type'    ] : '';
+   $function  = isset($call['function']) ? $call['function'] : '';
+   $file      = isset($call['file'    ]) ? $call['file'    ] : '';
+   $line      = isset($call['line'    ]) ? $call['line'    ] : '';
+   return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
+}
+
+/**
  * Return the message for variable's violation.
  *
  * @param  string $which_one
@@ -51,15 +72,7 @@ function ensure($boolean, $error_message) {
  */
 function variable_violation_message($which_one, $expected_type, $value, $added_trace_depth = 0)
 {
-   $backtrace = debug_backtrace();
-   $depth     = 1 + $added_trace_depth;
-   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : array();
-   $class     = isset($call['class'   ]) ? $call['class'   ] : '';
-   $type      = isset($call['type'    ]) ? $call['type'    ] : '';
-   $function  = isset($call['function']) ? $call['function'] : '';
-   $file      = isset($call['file'    ]) ? $call['file'    ] : '';
-   $line      = isset($call['line'    ]) ? $call['line'    ] : '';
-   return "{$class}{$type}$function(): $which_one must be $expected_type, actually '$value' [FILE: $file, LINE: $line]";
+   return error_message("$which_one must be $expected_type, actually '$value'", 1 + $added_trace_depth);
 }
 
 /**
