@@ -13,6 +13,18 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
 
 /**
+ * Return the string wrapped by $wrapper.
+ *
+ * @param  string $string
+ * @param  string $wrapper
+ * @return string
+ */
+function wrap($string, $wrapper)
+{
+   return "$wrapper$string$wrapper";
+}
+
+/**
  * Return the string which is joined from $pieces with $glue.
  *
  * @param  string $glue

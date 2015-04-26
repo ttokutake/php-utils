@@ -10,6 +10,12 @@ class StringTest extends PHPUnit_Framework_TestCase
    private $mb_platitude = 'こんにちは、世界！';
 
 
+   public function testWrap()
+   {
+      $wrapper = '/';
+      $this->assertEquals("$wrapper{$this->platitude}$wrapper", wrap($this->platitude, $wrapper));
+   }
+
    public function testFollowJoin()
    {
       $eol = PHP_EOL;
