@@ -21,7 +21,28 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  */
 function wrap($string, $wrapper)
 {
+   ensure(is_string($string ), type_violation_message('The first argument' , 'string', $string ));
+   ensure(is_string($wrapper), type_violation_message('The second argument', 'string', $wrapper));
+
    return "$wrapper$string$wrapper";
+}
+
+/**
+ * Return the string wrapped with html tags.
+ *
+ * @param  string      $string
+ * @param  string      $tag
+ * @param  string|null $class
+ * @return string
+ */
+function wrap_with_tag($string, $tag, $class = '')
+{
+   ensure(is_string($string), type_violation_message('The first argument' , 'string', $string));
+   ensure(is_string($tag   ), type_violation_message('The second argument', 'string', $tag   ));
+   ensure(is_string($class ), type_violation_message('The third argument', 'string' , $class ));
+
+   $attr = empty($class) ? $class : " class=\"$class\"";
+   return "<$tag$attr>$string</$tag>";
 }
 
 /**
