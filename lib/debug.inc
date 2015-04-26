@@ -9,14 +9,96 @@
  */
 
 
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
+
+
 /**
- * echo with System's line break.
+ * Return the string with system's line break.
+ *
+ * @param  mixed  $var;
+ * @return string
+ */
+function withln($var)
+{
+   return strval($var) . PHP_EOL;
+}
+
+/**
+ * Echo with system's line break.
  *
  * @param mixed $var
  */
 function echoln($var)
 {
-   echo $var, PHP_EOL;
+   echo withln($var);
+}
+
+/**
+ * Return the pretty string of the variable.
+ *
+ * @param  mixed $var
+ * @return string
+ */
+function pretty($var, $row_prefix = '')
+{
+   $indent      = '   ';
+   $next_indent = $row_prefix . $indent;
+
+   $calls         = debug_backtrace();
+   $internal_call = isset($calls[1]) && $calls[1]['function'] === 'pretty';
+
+   $pretty = $internal_call ? '' : $row_prefix;
+   switch (gettype($var)) {
+      case 'array':
+         $pretty .= withln('[');
+         foreach ($var as $key => $elem) {
+            if (is_string($key)) {
+               $key = wrap($key, "'");
+            }
+            $pretty .= "$next_indent($key) => " . pretty($elem, "$next_indent");
+         }
+         $pretty .= withln("$row_prefix]");
+         break;
+      case 'object':
+         if (is_callable($var)) {
+            $pretty .= withln('function');
+         } else {
+            $name              = get_class($var);
+            $object_properties = get_object_vars($var);
+            $static_properties = array_diff_assoc(get_class_vars($name), $object_properties);
+            $methods           = get_class_methods($name);
+
+            $pretty .= withln("class $name {");
+            $pretty .= "{$next_indent}object properties => " . pretty($object_properties, $next_indent);
+            $pretty .= "{$next_indent}static properties => " . pretty($static_properties, $next_indent);
+            $pretty .= "{$next_indent}methods => "           . pretty($methods          , $next_indent);
+            $pretty .= withln("$row_prefix}");
+         }
+         break;
+      case 'NULL':
+         $pretty .= withln('null');
+         break;
+      case 'boolean':
+         $pretty .= withln($var ? 'true' : 'false');
+         break;
+      case 'integer':
+         $pretty .= withln(number_format($var));
+         break;
+      case 'double':
+         $float = number_format($var, 16);
+         $pretty .= withln(preg_replace('/^(\d+\.\d)0+$/', '$1', $float));
+         break;
+      case 'string':
+         $pretty .= withln(wrap($var, "'"));
+         break;
+      case 'resource':
+         $pretty .= withln('resource');
+         break;
+      default:
+         $pretty .= withln('unknown');
+   }
+
+   return $pretty;
 }
 
 /**
