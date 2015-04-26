@@ -13,6 +13,21 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
 
 
 /**
+ * Return the string which is joined from $pieces with $glue.
+ *
+ * @param  string $glue
+ * @param  array  $pieces
+ * @return string
+ */
+function follow_join($glue, array $pieces)
+{
+   ensure(is_string($glue), type_violation_message('The first argument', 'string', $glue));
+
+   return array_reduce($pieces, function ($carry, $piece) use($glue) { return "$carry$piece$glue"; }, '');
+}
+
+
+/**
  * Set encoding config for system and regex.
  *
  * @param string $encoding
@@ -32,8 +47,8 @@ function set_encoding($encoding = 'UTF-8') {
  */
 function start_with($haystack, $needle)
 {
-   ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
-   ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
+   ensure(is_string($haystack), type_violation_message('The first argument' , 'string', $haystack));
+   ensure(is_string($needle  ), type_violation_message('The second argument', 'string', $needle  ));
 
    return $needle === '' || strpos($haystack, $needle) === 0;
 }
@@ -43,8 +58,8 @@ function start_with($haystack, $needle)
  */
 function end_with($haystack, $needle)
 {
-   ensure(is_string($haystack), type_violation_message('The file argument', 'string', $haystack));
-   ensure(is_string($needle  ), type_violation_message('The file argument', 'string', $needle  ));
+   ensure(is_string($haystack), type_violation_message('The first argument' , 'string', $haystack));
+   ensure(is_string($needle  ), type_violation_message('The second argument', 'string', $needle  ));
 
    return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }

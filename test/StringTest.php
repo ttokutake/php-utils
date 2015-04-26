@@ -10,6 +10,13 @@ class StringTest extends PHPUnit_Framework_TestCase
    private $mb_platitude = 'こんにちは、世界！';
 
 
+   public function testFollowJoin()
+   {
+      $eol = PHP_EOL;
+      $this->assertEquals("{$this->platitude}$eol{$this->mb_platitude}$eol", follow_join($eol, [$this->platitude, $this->mb_platitude]));
+   }
+
+
    public function testStartWith()
    {
       $patterns = [

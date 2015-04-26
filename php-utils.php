@@ -17,7 +17,7 @@
  */
 function create_path(array $dirs)
 {
-   return array_reduce($dirs, function ($path, $dir) { return $path . $dir . DIRECTORY_SEPARATOR; }, '');
+   return array_reduce($dirs, function ($path, $dir) { return "$path$dir" . DIRECTORY_SEPARATOR; }, '');
 }
 
 define('PATH_TO_LIB_FOR_PHP_UTILS', create_path(array(__DIR__, 'lib')));
