@@ -25,8 +25,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
          ['array'                             , []      ],
          ['instance of ' . get_class($closure), $closure],
       ];
-      $patterns = array_merge($this->patterns, $added_patterns);
-      foreach ($patterns as list($expected, $var)) {
+      foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
          $this->assertEquals($expected, to_string($var));
       }
 
@@ -76,8 +75,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
          ["'a'"            , 'a'],
          [withln('[') . ']', [] ],
       ];
-      $patterns = array_merge($this->patterns, $added_patterns);
-      foreach ($patterns as list($expected, $var)) {
+      foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
          $this->assertEquals(withln($expected), pretty($var));
       }
 
