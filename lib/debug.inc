@@ -39,6 +39,8 @@ function to_string($var)
          $string = $var;
          break;
       case 'resource':
+         $string = 'resource <' . get_resource_type($var) . '> #' . intval($var);
+         break;
       case 'array':
          $string = $type;
          break;
@@ -79,6 +81,7 @@ function echoln($var)
 
 /**
  * Return the pretty string of the variable.
+ * Notice: For class, cannot read private scope and distinguish static methods.
  *
  * @param  mixed  $var
  * @param  string $row_prefix
@@ -122,9 +125,6 @@ function pretty($var, $row_prefix = '')
          break;
       case 'string':
          $pretty .= withln(wrap($var, "'"));
-         break;
-      case 'resource':
-         $pretty .= withln('resource');
          break;
       default:
          $pretty .= withln($var);

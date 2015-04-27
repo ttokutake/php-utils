@@ -43,7 +43,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
       $this->assertEquals('class Closure', to_string($closure));
 
       $resource = fopen('testToString', 'w');
-      $this->assertEquals('resource', to_string($resource));
+      $this->assertEquals('resource <' . get_resource_type($resource) . '> #' . intval($resource), to_string($resource));
       unlink('testToString');
 
       // class test?
