@@ -89,7 +89,7 @@ function array_map_with_key(array $array, $callable)
  * @param  array $array
  * @return array
  */
-function array_flatten(array $array)
+function array_flat(array $array)
 {
    return array_reduce($array, function ($carry, $item) { return array_merge($carry, is_array($item) ? $item : array($item));  }, array());
 }

@@ -88,7 +88,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          [[1, 2, 3], [[1], [2], [3]]],
       ];
       foreach ($patterns as list($expected, $array)) {
-         $this->assertEquals($expected, array_flatten($array));
+         $this->assertEquals($expected, array_flat($array));
       }
    }
 
