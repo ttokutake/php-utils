@@ -125,9 +125,9 @@ function pretty($var, $row_prefix = '')
             $methods           = get_class_methods($name);
 
             $pretty .= withln("instance of $name {");
-            $pretty .= "{$next_indent}object properties => " . pretty($object_properties, $next_indent);
-            $pretty .= "{$next_indent}static properties => " . pretty($static_properties, $next_indent);
-            $pretty .= "{$next_indent}methods => "           . pretty($methods          , $next_indent);
+            $pretty .= "{$next_indent}instance properties => " . pretty($object_properties, $next_indent);
+            $pretty .= "{$next_indent}static properties => "   . pretty($static_properties, $next_indent);
+            $pretty .= "{$next_indent}methods => "             . pretty($methods          , $next_indent);
             $pretty .= withln("$row_prefix}");
          }
          break;
