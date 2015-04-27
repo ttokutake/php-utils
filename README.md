@@ -19,5 +19,5 @@ $array = incremental_range(1, 10);
 list($head, $tail) = array_behead($array);
 
 echoln($head);
-print_r_html($tail);
+echo pretty($tail);
 ```
