@@ -83,6 +83,17 @@ function array_map_with_key(array $array, $callable)
    return $result;
 }
 
+/**
+ * Return the flatten array.
+ *
+ * @param  array $array
+ * @return array
+ */
+function array_flatten(array $array)
+{
+   return array_reduce($array, function ($carry, $item) { return array_merge($carry, is_array($item) ? $item : array($item));  }, array());
+}
+
 
 /**
  * Return an array consisting of the pairs of each element for two arrays.

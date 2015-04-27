@@ -76,6 +76,22 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($pattern[0], array_map_with_key($pattern[1], function ($key, $value) { return "$key => $value"; }));
    }
 
+   public function testArrayFlatten()
+   {
+      $patterns = [
+         [[       ], [             ]],
+         [[1, 2, 3], [1  , 2  , 3  ]],
+         [[1, 2, 3], [[1], 2  , 3  ]],
+         [[1, 2, 3], [[1 , 2] , 3  ]],
+         [[1, 2, 3], [[1], 2  , [3]]],
+         [[1, 2, 3], [[1 , 2] , [3]]],
+         [[1, 2, 3], [[1], [2], [3]]],
+      ];
+      foreach ($patterns as list($expected, $array)) {
+         $this->assertEquals($expected, array_flatten($array));
+      }
+   }
+
 
    public function testArrayZip()
    {
