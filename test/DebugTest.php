@@ -4,43 +4,31 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class DebugTest extends PHPUnit_Framework_TestCase
 {
-   private $vars = [
-      null ,
-      false,
-      true ,
-      0    ,
-      1    ,
-      0.0  ,
-      0.1  ,
-      1.0  ,
-      ''   ,
-      '0'  ,
-      'a'  ,
-      []   ,
+   private $patterns = [
+      ['null' , null ],
+      ['false', false],
+      ['true' , true ],
+      ['0'    , 0    ],
+      ['1'    , 1    ],
+      ['0.0'  , 0.0  ],
+      ['0.04' , 0.04 ],
+      ['1.0'  , 1.00 ],
    ];
 
    public function testToString()
    {
-      $expectations = [
-         'null' ,
-         'false',
-         'true' ,
-         '0'    ,
-         '1'    ,
-         '0.0'  ,
-         '0.1'  ,
-         '1.0'  ,
-         ''     ,
-         '0'    ,
-         'a'    ,
-         'array',
+      $closure = function () { return 'closure'; };
+      $added_patterns = [
+         [''                                  , ''      ],
+         ['0'                                 , '0'     ],
+         ['a'                                 , 'a'     ],
+         ['array'                             , []      ],
+         ['instance of ' . get_class($closure), $closure],
       ];
-      foreach (array_zip($expectations, $this->vars) as list($expected, $var)) {
+      $patterns = array_merge($this->patterns, $added_patterns);
+      foreach ($patterns as list($expected, $var)) {
          $this->assertEquals($expected, to_string($var));
       }
-
-      $closure = function () { return 'closure'; };
-      $this->assertEquals('class Closure', to_string($closure));
 
       $resource = fopen('testToString', 'w');
       $this->assertEquals('resource <' . get_resource_type($resource) . '> #' . intval($resource), to_string($resource));
@@ -73,9 +61,8 @@ class DebugTest extends PHPUnit_Framework_TestCase
     */
    public function testHtmlFriendly()
    {
-      $eol = PHP_EOL;
-      $this->assertEquals("<!--<pre>$eol" . $this->platitude . "</pre>-->$eol", html_friendly($this->platitude       ));
-      $this->assertEquals("<pre>$eol"     . $this->platitude . "</pre>$eol"   , html_friendly($this->platitude, false));
+      $this->assertEquals(withln('<!--<pre>') . $this->platitude . withln('</pre>-->'), html_friendly($this->platitude       ));
+      $this->assertEquals(withln(    '<pre>') . $this->platitude . withln('</pre>'   ), html_friendly($this->platitude, false));
    }
 
    /**
@@ -83,6 +70,37 @@ class DebugTest extends PHPUnit_Framework_TestCase
     */
    public function testPretty()
    {
-      $this->assertTrue(true);
+      $added_patterns = [
+         ["''"             , '' ],
+         ["'0'"            , '0'],
+         ["'a'"            , 'a'],
+         [withln('[') . ']', [] ],
+      ];
+      $patterns = array_merge($this->patterns, $added_patterns);
+      foreach ($patterns as list($expected, $var)) {
+         $this->assertEquals(withln($expected), pretty($var));
+      }
+
+      $expected = array_reduce([
+            '!! ['                          ,
+            "!!    ('windows') => '10'"     ,
+            "!!    ('osx') => '10.10'"      ,
+            "!!    ('linux') => ["          ,
+            "!!       ('ubuntu') => '15.04'",
+            "!!       ('rhel') => '7'"      ,
+            "!!    ]"                       ,
+            "!! ]"                          ,
+         ], function ($text, $row) { return $text . withln($row); }, '');
+      $array = [
+         'windows' => '10'   ,
+         'osx'     => '10.10',
+         'linux'   => [
+            'ubuntu' => '15.04',
+            'rhel'   => '7'    ,
+         ]
+      ];
+      $this->assertEquals($expected, pretty($array, '!! '));
+
+      // class test?
    }
 }

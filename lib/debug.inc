@@ -13,6 +13,18 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
 
 
 /**
+ * Judge if the class has "__toString" method.
+ *
+ * @param  string  $instance
+ * @return boolean
+ */
+function has_toString($instance)
+{
+   return method_exists($instance, '__toString');
+}
+
+
+/**
  * Return the string transformed from $var.
  *
  * @param  mixed  $var
@@ -32,8 +44,8 @@ function to_string($var)
          $string = number_format($var);
          break;
       case 'double':
-         $float  = number_format($var, 16);
-         $string = preg_replace('/^(\d+\.\d)0+$/', '$1', $float);
+         $float  = number_format($var, 8);
+         $string = preg_replace('/^(\d+\.\d[1-9]*)0+$/', '$1', $float);
          break;
       case 'string':
          $string = $var;
@@ -45,11 +57,7 @@ function to_string($var)
          $string = $type;
          break;
       case 'object':
-         if (is_callable($var)) {
-            $string = 'class Closure';
-         } else {
-            $string = method_exists($var, '__toString') ? strval($var) : 'class ' . get_class($var);
-         }
+         $string = has_toString($var) ? strval($var) : 'instance of ' . get_class($var);
          break;
       default:
          $string = 'unknown';
@@ -108,15 +116,15 @@ function pretty($var, $row_prefix = '')
          $pretty .= withln("$row_prefix]");
          break;
       case 'object':
-         if (is_callable($var)) {
-            $pretty .= withln('function');
+         if (has_toString($var)) {
+            $pretty .= withln(strval($var));
          } else {
             $name              = get_class($var);
             $object_properties = get_object_vars($var);
             $static_properties = array_diff_assoc(get_class_vars($name), $object_properties);
             $methods           = get_class_methods($name);
 
-            $pretty .= withln("class $name {");
+            $pretty .= withln("instance of $name {");
             $pretty .= "{$next_indent}object properties => " . pretty($object_properties, $next_indent);
             $pretty .= "{$next_indent}static properties => " . pretty($static_properties, $next_indent);
             $pretty .= "{$next_indent}methods => "           . pretty($methods          , $next_indent);
