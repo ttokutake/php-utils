@@ -13,6 +13,49 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
 
 
 /**
+ * Return the string transformed from $var.
+ *
+ * @param  mixed  $var
+ * @return string
+ */
+function to_string($var)
+{
+   $type = gettype($var);
+   switch ($type) {
+      case 'NULL':
+         $string = strtolower($type);
+         break;
+      case 'boolean':
+         $string = $var ? 'true' : 'false';
+         break;
+      case 'integer':
+         $string = number_format($var);
+         break;
+      case 'double':
+         $float  = number_format($var, 16);
+         $string = preg_replace('/^(\d+\.\d)0+$/', '$1', $float);
+         break;
+      case 'string':
+         $string = $var;
+         break;
+      case 'resource':
+      case 'array':
+         $string = $type;
+         break;
+      case 'object':
+         if (is_callable($var)) {
+            $string = 'class Closure';
+         } else {
+            $string = method_exists($var, '__toString') ? strval($var) : 'class ' . get_class($var);
+         }
+         break;
+      default:
+         $string = 'unknown';
+   }
+   return $string;
+}
+
+/**
  * Return the string with system's line break.
  *
  * @param  mixed  $var;
@@ -20,11 +63,11 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
  */
 function withln($var)
 {
-   return strval($var) . PHP_EOL;
+   return to_string($var) . PHP_EOL;
 }
 
 /**
- * Echo with system's line break.
+ * echo with a line break.
  *
  * @param mixed $var
  */
@@ -33,10 +76,12 @@ function echoln($var)
    echo withln($var);
 }
 
+
 /**
  * Return the pretty string of the variable.
  *
- * @param  mixed $var
+ * @param  mixed  $var
+ * @param  string $row_prefix
  * @return string
  */
 function pretty($var, $row_prefix = '')
@@ -75,19 +120,6 @@ function pretty($var, $row_prefix = '')
             $pretty .= withln("$row_prefix}");
          }
          break;
-      case 'NULL':
-         $pretty .= withln('null');
-         break;
-      case 'boolean':
-         $pretty .= withln($var ? 'true' : 'false');
-         break;
-      case 'integer':
-         $pretty .= withln(number_format($var));
-         break;
-      case 'double':
-         $float = number_format($var, 16);
-         $pretty .= withln(preg_replace('/^(\d+\.\d)0+$/', '$1', $float));
-         break;
       case 'string':
          $pretty .= withln(wrap($var, "'"));
          break;
@@ -95,65 +127,86 @@ function pretty($var, $row_prefix = '')
          $pretty .= withln('resource');
          break;
       default:
-         $pretty .= withln('unknown');
+         $pretty .= withln($var);
    }
 
    return $pretty;
 }
 
 /**
- * Output a variable with <pre></pre> (and "<!--""-->").
- * This function assume debug using browser.
+ * Return var_export($var, true).
  *
- * @param mixed    $var
- * @param callable $echo
- * @param boolean  $comment_out
+ * @param  mixed  $var
+ * @return string
  */
-function debug_assuming_html($var, $echo, $comment_out = true)
+function var_detail($var)
 {
-   echoln(($comment_out ? '<!--' : '') . '<pre>');
-   $echo($var);
-   echoln('</pre>' . ($comment_out ? '-->' : ''));
+   return var_export($var, true);
 }
 
 /**
- * debug_assuming_html() by var_dump().
+ * Return print_r($var, true).
+ *
+ * @param  mixed  $var
+ * @return string
+ */
+function print_detail($var)
+{
+   return print_r($var, true);
+}
+
+
+/**
+ * Return the string enclosed by <pre> tags (and "<!--""-->").
+ *
+ * @param  string  $string
+ * @param  boolean $comment_out
+ * @return string
+ */
+function html_friendly($string, $comment_out = true)
+{
+   return withln(($comment_out ? '<!--' : '') . '<pre>') . $string . withln('</pre>' . ($comment_out ? '-->' : ''));
+}
+/**
+ * Output html-friendly string with a line break.
  *
  * @param mixed   $var
  * @param boolean $comment_out
  */
-function var_dump_html($var, $comment_out = true)
+function hf_echoln($var, $comment_out = true)
 {
-   debug_assuming_html($var, 'var_dump', $comment_out);
+   echo html_friendly(withln($var), $comment_out);
 }
 
 /**
- * debug_assuming_html() by print_r().
+ * Output html-friendly pretty().
  *
  * @param mixed   $var
  * @param boolean $comment_out
  */
-function print_r_html($var, $comment_out = true)
+function hf_pretty($var, $comment_out = true)
 {
-   debug_assuming_html($var, 'print_r', $comment_out);
+   echo html_friendly(pretty($var), $comment_out);
 }
 
 /**
- * var_export() to the log file.
+ * Output html-friendly var_export().
  *
- * @param mixed $var
+ * @param mixed   $var
+ * @param boolean $comment_out
  */
-function var_export_log($var)
+function hf_var_export($var, $comment_out = true)
 {
-   error_log(var_export($var, true));
+   echo html_friendly(var_detail($var), $comment_out);
 }
 
 /**
- * print_r() to the log file.
+ * Output html-friendly print_r().
  *
- * @param mixed $var
+ * @param mixed   $var
+ * @param boolean $comment_out
  */
-function print_r_log($var)
+function hf_print_r($var, $comment_out = true)
 {
-   error_log(print_r($var, true));
+   echo html_friendly(print_detail($var), $comment_out);
 }
