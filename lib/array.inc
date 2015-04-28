@@ -306,6 +306,26 @@ function array_drop_right(array $array, $num)
    return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
 
+/**
+ * Return the array split in $offset position.
+ */
+function array_split(array $array, $offset)
+{
+   ensure(is_int($offset), variable_violation_message('The second argument', 'integer', $offset));
+
+   $former = $latter = array();
+   $count  = 0;
+   foreach ($array as $key => $value) {
+      if ($count < $offset) {
+         $former[$key] = $value;
+      } else {
+         $latter[$key] = $value;
+      }
+      $count++;
+   }
+   return array($former, $latter);
+}
+
 
 /**
  * Judge if the element which return true for $callable exists.

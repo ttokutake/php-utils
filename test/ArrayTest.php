@@ -292,6 +292,21 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   public function testArraySplit()
+   {
+      $array    = [1, 2, 3];
+      $patterns = [
+         [[[       ], [1,      2,      3]], 0],
+         [[[1      ], [   1 => 2, 2 => 3]], 1],
+         [[[1, 2   ], [           2 => 3]], 2],
+         [[[1, 2, 3], [                 ]], 3],
+      ];
+      foreach ($patterns as list($expected, $offset)) {
+         $this->assertEquals($expected, array_split($array, $offset));
+      }
+   }
+
+
    /**
     * @depends testArrayZip
     */
