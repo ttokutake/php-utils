@@ -21,8 +21,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  */
 function wrap($string, $wrapper)
 {
-   ensure(is_string($string ), type_violation_message('The first argument' , 'string', $string ));
-   ensure(is_string($wrapper), type_violation_message('The second argument', 'string', $wrapper));
+   ensure_string($string , 'The first argument' );
+   ensure_string($wrapper, 'The second argument');
 
    return "$wrapper$string$wrapper";
 }
@@ -30,16 +30,16 @@ function wrap($string, $wrapper)
 /**
  * Return the string wrapped with html tags.
  *
- * @param  string      $string
- * @param  string      $tag
- * @param  string|null $class
+ * @param  string $string
+ * @param  string $tag
+ * @param  string $class
  * @return string
  */
-function wrap_with_tag($string, $tag, $class = '')
+function wrap_by_tag($string, $tag, $class = '')
 {
-   ensure(is_string($string), type_violation_message('The first argument' , 'string', $string));
-   ensure(is_string($tag   ), type_violation_message('The second argument', 'string', $tag   ));
-   ensure(is_string($class ), type_violation_message('The third argument', 'string' , $class ));
+   ensure_string($string, 'The first argument' );
+   ensure_string($tag   , 'The second argument');
+   ensure_string($class , 'The third argument' );
 
    $attr = empty($class) ? $class : " class=\"$class\"";
    return "<$tag$attr>$string</$tag>";
@@ -54,7 +54,7 @@ function wrap_with_tag($string, $tag, $class = '')
  */
 function follow_join($glue, array $pieces)
 {
-   ensure(is_string($glue), type_violation_message('The first argument', 'string', $glue));
+   ensure_string($glue, 'The first argument');
 
    return array_reduce($pieces, function ($carry, $piece) use($glue) { return "$carry$piece$glue"; }, '');
 }
@@ -65,7 +65,11 @@ function follow_join($glue, array $pieces)
  *
  * @param string $encoding
  */
-function set_encoding($encoding = 'UTF-8') {
+function set_encoding($encoding = 'UTF-8')
+{
+   $enable_encodings = array('ISO-8859-1', 'ASCII', 'JIS', 'UTF-8', 'EUC-JP', 'SJIS');
+   ensure_in_array($encoding, $enable_encodings, 'The first argument');
+
    mb_internal_encoding($encoding);
    mb_regex_encoding($encoding);
 }
@@ -80,19 +84,23 @@ function set_encoding($encoding = 'UTF-8') {
  */
 function start_with($haystack, $needle)
 {
-   ensure(is_string($haystack), type_violation_message('The first argument' , 'string', $haystack));
-   ensure(is_string($needle  ), type_violation_message('The second argument', 'string', $needle  ));
+   ensure_string($haystack, 'The first argument' );
+   ensure_string($needle  , 'The second argument');
 
    return $needle === '' || strpos($haystack, $needle) === 0;
 }
 
 /**
  * Judge if $haystack ends with $needle.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return boolean
  */
 function end_with($haystack, $needle)
 {
-   ensure(is_string($haystack), type_violation_message('The first argument' , 'string', $haystack));
-   ensure(is_string($needle  ), type_violation_message('The second argument', 'string', $needle  ));
+   ensure_string($haystack, 'The first argument' );
+   ensure_string($needle  , 'The second argument');
 
    return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }
@@ -104,13 +112,12 @@ function end_with($haystack, $needle)
  *
  * @param  string          $string
  * @param  int             $at
- * @param  string          $encoding
  * @return [string,string]
  */
 function split_at($string, $at)
 {
-   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
-   ensure(is_int($at)       , type_violation_message('The second argument', 'integer', $at    ));
+   ensure_string($string, 'The first argument' );
+   ensure_int   ($at    , 'The second argument');
 
    $former = mb_substr($string,   0,  $at);
    $latter = mb_substr($string, $at, null);
@@ -126,8 +133,8 @@ function split_at($string, $at)
  */
 function mb_str_split($string, $width)
 {
-   ensure(is_string($string), type_violation_message('The first argument', 'string', $string));
-   ensure(is_int($width) && $width > 0, variable_violation_message('The second argument', 'positive integer', $width));
+   ensure_string      ($string, 'The first argument' );
+   ensure_positive_int($width , 'The second argument');
 
    $split  = array();
    $length = mb_strlen($string);
@@ -146,7 +153,7 @@ function mb_str_split($string, $width)
  */
 function is_blank($string)
 {
-   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
+   ensure_string($string, 'The first argument');
 
    return preg_match('/^\s*$/u', preg_quote($string, '/')) === 1 ? true : false;
 }
@@ -159,7 +166,7 @@ function is_blank($string)
  */
 function mb_trim($string)
 {
-   ensure(is_string($string), type_violation_message('The first argument' ,  'string', $string));
+   ensure_string($string, 'The first argument');
 
    return preg_replace('/(^\s+|\s+$)/u', '', preg_quote($string, '/'));
 }
