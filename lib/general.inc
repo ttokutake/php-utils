@@ -90,6 +90,127 @@ function type_violation_message($which_one, $expected_type, &$var, $added_trace_
    return variable_violation_message($which_one, $expected_type, $actual_type, 1 + $added_trace_depth);
 }
 
+/**
+ * Throw the LogicException if $var is null.
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_non_null(&$var, $which_one)
+{
+   ensure(!is_null($var), type_violation_message($which_one, '"non-null"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "boolean".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_bool(&$var, $which_one)
+{
+   ensure(is_bool($var), type_violation_message($which_one, '"boolean"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "integer".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_int(&$var, $which_one)
+{
+   ensure(is_int($var), type_violation_message($which_one, '"integer"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "float".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_float(&$var, $which_one)
+{
+   ensure(is_float($var), type_violation_message($which_one, '"float"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "numeric".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_numeric(&$var, $which_one)
+{
+   ensure(is_numeric($var), type_violation_message($which_one, '"numeric"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "string".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_string(&$var, $which_one)
+{
+   ensure(is_string($var), type_violation_message($which_one, '"string"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "scalar".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_scalar(&$var, $which_one)
+{
+   ensure(is_scalar($var), type_violation_message($which_one, '"scalar"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "resource".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_resource(&$var, $which_one)
+{
+   ensure(is_resource($var), type_violation_message($which_one, '"resource"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "array".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_array(&$var, $which_one)
+{
+   ensure(is_array($var), type_violation_message($which_one, '"array"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "callable".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_callable(&$var, $which_one)
+{
+   ensure(is_callable($var), type_violation_message($which_one, '"callable"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not "object".
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_object(&$var, $which_one)
+{
+   ensure(is_object($var), type_violation_message($which_one, '"object"', $var, 1));
+}
+
 
 /**
  * Throw RuntimeException.

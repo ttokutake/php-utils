@@ -13,12 +13,114 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureNonNull()
+   {
+      $null = null;
+      ensure_non_null($null, 'this');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureBool()
+   {
+      $not_bool = 0;
+      ensure_bool($not_bool, 'argument');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureInt()
+   {
+      $not_int = 0.0;
+      ensure_int($not_int, 'must');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureFloat()
+   {
+      $not_float = '0.0';
+      ensure_float($not_float, 'be');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureNumeric()
+   {
+      $not_numeric = 'hellow, world!';
+      ensure_numeric($not_numeric, 'the');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureString()
+   {
+      $not_string = null;
+      ensure_string($not_string, 'subject');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureScalar()
+   {
+      $not_scalar = fopen('testEnsureString', 'w');
+      ensure_scalar($not_scalar, 'of');
+      unlink($not_scalar);
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureResource()
+   {
+      $not_resource = [1, 2, 3];
+      ensure_resource($not_resource, 'the');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureArray()
+   {
+      $not_array = function () { return 'callable'; };
+      ensure_array($not_array, 'error');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureCallable()
+   {
+      $not_callable = new Exception('object');
+      ensure_callable($not_callable, 'message');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureObject()
+   {
+      $not_object = null;
+      ensure_object($not_object, ':p');
+   }
+
+   /**
     * @expectedException RuntimeException
     */
    public function testPlague()
    {
       $success = false or plague('Message for RuntimeException');
    }
+
 
    public function testGetNonNull()
    {
@@ -37,6 +139,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
          $this->assertEquals($var, get_non_empty($var, false));
       }
    }
+
 
    /**
     * @depends           testEnsure
@@ -119,6 +222,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertTrue (between($iso8601, '1987-04-01 00:00:00', '1987-04-30 00:00:00'));
       $this->assertFalse(between($iso8601, '1987-05-01 00:00:00', '1987-05-31 00:00:00'));
    }
+
 
    /**
     * @depends testEnsure
