@@ -9,7 +9,7 @@
  */
 
 
-require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
 
 
 /**
@@ -76,18 +76,14 @@ function array_get_non_empty(array &$array, $key, $default)
  */
 function array_filter_not(array $array, $callable = null)
 {
-   ensure(is_callable($callable) || is_null($callable), type_violation_message('The second argument', 'callable or null', $callable));
-   if (is_null($callable)) {
-      $callable = function ($value) { return $value; };
+   if (is_callable($callable)) {
+      $callable_not = function ($value) use($callable) { return !$callable($value); };
+   } else if (is_null($callable)) {
+      $callable_not = function ($value) { return !$value; };
+   } else {
+      throw new LogicException(variable_violation_text('The second argument', 'callable or null', to_type($callable)));
    }
-
-   $result = array();
-   foreach ($array as $key => $value) {
-      if ($callable($value)) {
-         $result[$key] = $value;
-      }
-   }
-   return $result;
+   return array_filter($array, $callable_not);
 }
 
 /**

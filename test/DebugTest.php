@@ -70,9 +70,9 @@ class DebugTest extends PHPUnit_Framework_TestCase
    public function testPretty()
    {
       $added_patterns = [
-         ["''"             , '' ],
-         ["'0'"            , '0'],
-         ["'a'"            , 'a'],
+         ['""'             , '' ],
+         ['"0"'            , '0'],
+         ['"a"'            , 'a'],
          [withln('[') . ']', [] ],
       ];
       foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
@@ -81,13 +81,13 @@ class DebugTest extends PHPUnit_Framework_TestCase
 
       $expected = array_reduce([
             '!! ['                          ,
-            "!!    ('windows') => '10'"     ,
-            "!!    ('osx') => '10.10'"      ,
-            "!!    ('linux') => ["          ,
-            "!!       ('ubuntu') => '15.04'",
-            "!!       ('rhel') => '7'"      ,
-            "!!    ]"                       ,
-            "!! ]"                          ,
+            '!!    ("windows") => "10"'     ,
+            '!!    ("osx") => "10.10"'      ,
+            '!!    ("linux") => ['          ,
+            '!!       ("ubuntu") => "15.04"',
+            '!!       ("rhel") => "7"'      ,
+            '!!    ]'                       ,
+            '!! ]'                          ,
          ], function ($text, $row) { return $text . withln($row); }, '');
       $array = [
          'windows' => '10'   ,

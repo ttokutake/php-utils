@@ -9,61 +9,8 @@
  */
 
 
-require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc' ));
 
-
-/**
- * Judge if the class has "__toString" method.
- *
- * @param  string  $instance
- * @return boolean
- */
-function has_toString($instance)
-{
-   return method_exists($instance, '__toString');
-}
-
-
-/**
- * Return the string transformed from $var.
- *
- * @param  mixed  $var
- * @return string
- */
-function to_string($var)
-{
-   $type = gettype($var);
-   switch ($type) {
-      case 'NULL':
-         $string = strtolower($type);
-         break;
-      case 'boolean':
-         $string = $var ? 'true' : 'false';
-         break;
-      case 'integer':
-         $string = number_format($var);
-         break;
-      case 'double':
-         $float  = number_format($var, 8);
-         $string = preg_replace('/^(\d+\.\d[1-9]*)0+$/', '$1', $float);
-         break;
-      case 'string':
-         $string = $var;
-         break;
-      case 'resource':
-         $string = 'resource <' . get_resource_type($var) . '> #' . intval($var);
-         break;
-      case 'array':
-         $string = $type;
-         break;
-      case 'object':
-         $string = has_toString($var) ? strval($var) : 'instance of ' . get_class($var);
-         break;
-      default:
-         $string = 'unknown';
-   }
-   return $string;
-}
 
 /**
  * Return the string with system's line break.
@@ -108,15 +55,13 @@ function pretty($var, $row_prefix = '')
       case 'array':
          $pretty .= withln('[');
          foreach ($var as $key => $elem) {
-            if (is_string($key)) {
-               $key = wrap($key, "'");
-            }
+            $key = wrap_if_string($key);
             $pretty .= "$next_indent($key) => " . pretty($elem, "$next_indent");
          }
          $pretty .= withln("$row_prefix]");
          break;
       case 'object':
-         if (has_toString($var)) {
+         if (method_exists($var, '__toString')) {
             $pretty .= withln(strval($var));
          } else {
             $name              = get_class($var);
@@ -126,16 +71,13 @@ function pretty($var, $row_prefix = '')
 
             $pretty .= withln("instance of $name {");
             $pretty .= "{$next_indent}instance properties => " . pretty($object_properties, $next_indent);
-            $pretty .= "{$next_indent}static properties => "   . pretty($static_properties, $next_indent);
-            $pretty .= "{$next_indent}methods => "             . pretty($methods          , $next_indent);
+            $pretty .= "{$next_indent}static properties   => " . pretty($static_properties, $next_indent);
+            $pretty .= "{$next_indent}methods             => " . pretty($methods          , $next_indent);
             $pretty .= withln("$row_prefix}");
          }
          break;
-      case 'string':
-         $pretty .= withln(wrap($var, "'"));
-         break;
       default:
-         $pretty .= withln($var);
+         $pretty .= withln(wrap_if_string($var));
    }
 
    return $pretty;

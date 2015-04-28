@@ -9,7 +9,7 @@
  */
 
 
-require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
 
 
 /**
