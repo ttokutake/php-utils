@@ -101,7 +101,7 @@ function wrap_if_string($var)
  * @param  int    $depth
  * @return string
  */
-function error_text($message, $depth)
+function error_text($message, $depth = 1)
 {
    $backtrace = debug_backtrace();
    $depth     = (is_int($depth) && $depth >= 0) ? $depth : 1;
@@ -123,7 +123,7 @@ function error_text($message, $depth)
  * @param  int    $depth
  * @return string
  */
-function variable_violation_text($which_one, $expected, $actual, $depth)
+function variable_violation_text($which_one, $expected, $actual, $depth = 2)
 {
    return error_text("$which_one must be $expected, actually $actual", (is_int($depth) && $depth >= 0) ? $depth : 2);
 }
