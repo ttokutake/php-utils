@@ -62,8 +62,32 @@ function array_get_non_null(array &$array, $key, $default)
  * @param  mixed      $default
  * @return mixed      $array[$key]|$default
  */
-function array_get_non_empty(array &$array, $key, $default) {
+function array_get_non_empty(array &$array, $key, $default)
+{
    return empty($array[$key]) ? $default : $array[$key];
+}
+
+/**
+ * Return the array which orthogonal to array_filter().
+ *
+ * @param  array    $array
+ * @param  callable $callable
+ * @return array
+ */
+function array_filter_not(array $array, $callable = null)
+{
+   ensure(is_callable($callable) || is_null($callable), type_violation_message('The second argument', 'callable or null', $callable));
+   if (is_null($callable)) {
+      $callable = function ($value) { return $value; };
+   }
+
+   $result = array();
+   foreach ($array as $key => $value) {
+      if ($callable($value)) {
+         $result[$key] = $value;
+      }
+   }
+   return $result;
 }
 
 /**

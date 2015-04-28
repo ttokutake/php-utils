@@ -70,6 +70,13 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $this->assertTrue(array_get_or_else($this->array, 'not null', $default));
    }
 
+   public function testArrayFilterNot()
+   {
+      $array = [0, 1, 2];
+      $this->assertEquals([1 => 1, 2 => 2], array_filter_not($array           ));
+      $this->assertEquals([0 => 0, 2 => 2], array_filter_not($array, 'is_even'));
+   }
+
    public function testArrayMapWithKey()
    {
       $pattern = [['one' => 'one => 1'], ['one' => 1]];
