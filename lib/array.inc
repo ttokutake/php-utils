@@ -99,7 +99,8 @@ function array_filter_not(array $array, $callable = null)
  */
 function array_map_with_key(array $array, $callable)
 {
-   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   ensure_callable($callable, 'The second argument');
+
    $result = array();
    foreach ($array as $key => $value) {
       $result[$key] = $callable($key, $value);
@@ -129,7 +130,7 @@ function array_zip()
 {
    $arrays = func_get_args();
    foreach ($arrays as $array) {
-      ensure(is_array($array), type_violation_message('Each argument', 'array', $array));
+      ensure_array($array, 'Each argument');
    }
 
    $formatted_arrays = array_map('array_values', $arrays);
@@ -175,12 +176,11 @@ function array_shoe(array $array, $shoe) {
  * Return the pair of first element and the others of an array.
  *
  * @param  array $array
- * @param  int   $added_trace_depth
  * @return array [$head,$tail]
  */
-function array_behead(array $array, $added_trace_depth = 0)
+function array_behead(array $array)
 {
-   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
+   ensure_non_empty($array, 'The first argument');
 
    $head = reset($array);
    $tail = array_slice($array, 1);
@@ -195,6 +195,8 @@ function array_behead(array $array, $added_trace_depth = 0)
  */
 function array_head(array $array)
 {
+   ensure_non_empty($array, 'The first argument');
+
    list($head) = array_behead($array, 1);
    return $head;
 }
@@ -207,6 +209,8 @@ function array_head(array $array)
  */
 function array_tail(array $array)
 {
+   ensure_non_empty($array, 'The first argument');
+
    list(, $tail) = array_behead($array, 1);
    return $tail;
 }
@@ -216,12 +220,11 @@ function array_tail(array $array)
  * Return the pair of last element and the others of an array.
  *
  * @param  array $array
- * @param  int   $added_trace_depth
  * @return array [$init,$last]
  */
-function array_depeditate(array $array, $added_trace_depth = 0)
+function array_depeditate(array $array)
 {
-   ensure(!empty($array), variable_violation_message('The first argument', 'non-empty', '[]', $added_trace_depth));
+   ensure_non_empty($array, 'The first argument');
 
    $init = array_slice($array, 0, count($array) - 1);
    $last = end($array);
@@ -237,6 +240,8 @@ function array_depeditate(array $array, $added_trace_depth = 0)
  */
 function array_init(array $array)
 {
+   ensure_non_empty($array, 'The first argument');
+
    list($init) = array_depeditate($array, 1);
    return $init;
 }
@@ -249,6 +254,8 @@ function array_init(array $array)
  */
 function array_last(array $array)
 {
+   ensure_non_empty($array, 'The first argument');
+
    list(, $last) = array_depeditate($array, 1);
    return $last;
 }
@@ -259,12 +266,12 @@ function array_last(array $array)
  *
  * @param  array $array
  * @param  int   $num
- * @param  int   $added_trace_depth
  * @return array
  */
-function array_take(array $array, $num, $added_trace_depth = 0)
+function array_take(array $array, $num)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num, $added_trace_depth));
+   ensure_non_positive_int($num, 'The second argument');
+
    return array_slice($array, 0, $num);
 }
 
@@ -277,6 +284,8 @@ function array_take(array $array, $num, $added_trace_depth = 0)
  */
 function array_take_right(array $array, $num)
 {
+   ensure_non_positive_int($num, 'The second argument');
+
    return array_reverse(array_take(array_reverse($array), $num, 1));
 }
 
@@ -285,12 +294,12 @@ function array_take_right(array $array, $num)
  *
  * @param  array $array
  * @param  int   $num
- * @param  int   $added_trace_depth
  * @return array
  */
-function array_drop(array $array, $num, $added_trace_depth = 0)
+function array_drop(array $array, $num)
 {
-   ensure(is_int($num) && $num >= 0, variable_violation_message('The second argument', 'non-negative integer', $num, $added_trace_depth));
+   ensure_non_positive_int($num, 'The second argument');
+
    return array_slice($array, $num);
 }
 
@@ -303,6 +312,8 @@ function array_drop(array $array, $num, $added_trace_depth = 0)
  */
 function array_drop_right(array $array, $num)
 {
+   ensure_non_positive_int($num, 'The second argument');
+
    return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
 
@@ -311,7 +322,7 @@ function array_drop_right(array $array, $num)
  */
 function array_split(array $array, $offset)
 {
-   ensure(is_int($offset), variable_violation_message('The second argument', 'integer', $offset));
+   ensure_int($offset, 'The second argument');
 
    $former = $latter = array();
    $count  = 0;
@@ -336,7 +347,8 @@ function array_split(array $array, $offset)
  */
 function array_exist(array $array, $callable)
 {
-   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   ensure_callable($callable, 'The second argument');
+
    foreach ($array as $value) {
       if ($callable($value)) {
          return true;
@@ -354,13 +366,10 @@ function array_exist(array $array, $callable)
  */
 function array_for_all(array $array, $callable)
 {
-   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
-   foreach ($array as $value) {
-      if (!$callable($value)) {
-         return false;
-      }
-   }
-   return true;
+   ensure_callable($callable, 'The second argument');
+
+   $callable_not = function ($value) use($callable) { return !$callable($value); };
+   return !array_exist($array, $callable_not);
 }
 
 /**
@@ -372,7 +381,8 @@ function array_for_all(array $array, $callable)
  */
 function array_find(array $array, $callable)
 {
-   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   ensure_callable($callable, 'The second argument');
+
    foreach ($array as $value) {
       if ($callable($value)) {
          return $value;
@@ -390,7 +400,8 @@ function array_find(array $array, $callable)
  */
 function array_partition(array $array, $callable)
 {
-   ensure(is_callable($callable), type_violation_message('The second argument', 'callable', $callable));
+   ensure_callable($callable, 'The second argument');
+
    $former = $latter = array();
    foreach ($array as $key => $value) {
       if ($callable($value)) {

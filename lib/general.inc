@@ -28,6 +28,7 @@ function require_relative($file)
 
 /**
  * Throw the LogicException class if $boolean is false.
+ * ToDo?: lazy creation of $error_message
  *
  * @param boolean $boolean
  * @param string  $error_message
@@ -208,6 +209,18 @@ function ensure_object(&$var, $which_one)
    ensure(is_object($var), type_violation_message($which_one, '"object"', $var, 1));
 }
 
+
+/**
+ * Throw the LogicException if $var is "empty".
+ * ToDo: Check type of $var.
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_non_empty(&$var, $which_one)
+{
+   ensure(!empty($var), variable_violation_message($which_one, '"non-empty"', 'empty', 1));
+}
 
 /**
  * Throw the LogicException if $var is not "positive integer".

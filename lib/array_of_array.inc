@@ -23,7 +23,7 @@ function aoa_transpose(array $matrix)
 {
    $transposed = array();
    foreach ($matrix as $r_key => $row) {
-      ensure(is_array($row), type_violation_message('Each argument', 'array', $row));
+      ensure_array($row, 'Each argument');
       foreach ($row as $c_key => $entry) {
          $transposed[$c_key][$r_key] = $entry;
       }
@@ -41,7 +41,7 @@ function aoa_transpose(array $matrix)
  */
 function aoa_values(array $aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
+   ensure_scalar($key, 'The second argument');
 
    return array_map(function ($array) use($key) { return array_get($array, $key); }, $aoa);
 }
@@ -55,7 +55,7 @@ function aoa_values(array $aoa, $key)
  */
 function aoa_sum(array $aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
+   ensure_scalar($key, 'The second argument');
 
    return array_reduce($aoa, function ($sum, $array) use($key) { return $sum + array_get_or_else($array, $key, 0); }, 0);
 }
@@ -69,7 +69,7 @@ function aoa_sum(array $aoa, $key)
  */
 function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
 {
-   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
+   ensure_scalar($key, 'The second argument');
 
    array_multisort(aoa_values($aoa, $key), $order, $option, $aoa);
    return $aoa;
@@ -84,14 +84,14 @@ function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
  */
 function aoa_associate(array $aoa, $key)
 {
-   ensure(is_scalar($key), type_violation_message('The second argument', 'scalar', $key));
+   ensure_scalar($key, 'The second argument');
 
    $filtered = array_filter($aoa, function ($array) use($key) { return array_key_exists($key, $array); });
 
    $associated = array();
    foreach ($filtered as $array) {
       $value = $array[$key];
-      ensure(is_scalar($value) || is_null($value), type_violation_message('The value of specified key', 'scalar or null', $value));
+      ensure_scalar($value, 'The value of specified key');
       unset($array[$key]);
       $associated[$value] = $array;
    }

@@ -323,7 +323,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends testArrayZip
+    * @depends testArrayExist
     */
    public function testArrayForAll()
    {

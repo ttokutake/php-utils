@@ -63,7 +63,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
     */
    public function testEnsureString()
    {
-      $not_string = null;
+      $not_string = true;
       ensure_string($not_string, 'subject');
    }
    /**
@@ -118,10 +118,20 @@ class GeneralTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsure
     * @expectedException LogicException
     */
+   public function testEnsureNonEmpty()
+   {
+      $vacant = false;
+      ensure_non_empty($vacant, 'can');
+   }
+
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
    public function testEnsurePositiveInt()
    {
       $non_positive = 0;
-      ensure_positive_int($non_positive, 'do');
+      ensure_positive_int($non_positive, 'you');
    }
    /**
     * @depends           testEnsure
@@ -130,7 +140,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    public function testEnsureNonPositiveInt()
    {
       $negative = -1;
-      ensure_positive_int($negative, 'you');
+      ensure_positive_int($negative, 'understand');
    }
 
 
@@ -142,7 +152,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    public function testEnsureInArray()
    {
       $not_in_array = 'ie';
-      ensure_in_array($not_in_array, $this->blowser, 'know');
+      ensure_in_array($not_in_array, $this->blowser, '?');
    }
    /**
     * @depends           testEnsure
