@@ -72,9 +72,10 @@ class GeneralTest extends PHPUnit_Framework_TestCase
     */
    public function testEnsureScalar()
    {
-      $not_scalar = fopen('testEnsureString', 'w');
+      $temporary_file = 'testEnsureScalar';
+      $not_scalar     = fopen($temporary_file, 'w');
+      unlink($temporary_file);
       ensure_scalar($not_scalar, 'of');
-      unlink($not_scalar);
    }
    /**
     * @depends           testEnsure

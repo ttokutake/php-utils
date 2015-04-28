@@ -10,21 +10,19 @@
 
 
 /**
- * Run "require_once" that is equal to "require_once __DIR__ . $path_to_file;".
- * Notice: global variables can't be created.
+ * Run "require_once" that is equal to "require_once __DIR__ . DIRECTORY_SEPARATOR . $file;".
+ * Notice: Global variables can't be created.
  *
- * @param  string|array $path_to_file
+ * @param string $file
  */
-function require_relative($path_to_file)
+function require_relative($file)
 {
+   ensure_string($file, 'The first argument');
+
    list($first) = debug_backtrace();
-   $base        = dirname($first['file']);
+   $base_dir    = dirname($first['file']);
 
-   if (is_array($path_to_file)) {
-      $path_to_file = implode(DIRECTORY_SEPARATOR, $path_to_file);
-   }
-
-   require_once $base . DIRECTORY_SEPARATOR . $path_to_file;
+   require_once $base_dir . DIRECTORY_SEPARATOR . $file;
 }
 
 
@@ -50,14 +48,13 @@ function ensure($boolean, $error_message) {
 function error_message($message, $added_trace_depth = 0)
 {
    $backtrace = debug_backtrace();
-   $depth     = 1 + $added_trace_depth;
-   $call      = isset($backtrace[0     ]) ? $backtrace[0     ] : array();
-   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $call  ;
-   $class     = isset($call['class'   ]) ? $call['class'   ] : '';
-   $type      = isset($call['type'    ]) ? $call['type'    ] : '';
-   $function  = isset($call['function']) ? $call['function'] : '';
-   $file      = isset($call['file'    ]) ? $call['file'    ] : '';
-   $line      = isset($call['line'    ]) ? $call['line'    ] : '';
+   $depth     = 1 + ((is_int($added_trace_depth) && $added_trace_depth > 0) ? $added_trace_depth : 0);
+   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
+   $class     = isset($call['class']) ? $call['class'] : ''       ;
+   $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
+   $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
+   $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
+   $function  = $call['function'];
    return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
 }
 
@@ -70,9 +67,9 @@ function error_message($message, $added_trace_depth = 0)
  * @param  int    $added_trace_depth
  * @return string
  */
-function variable_violation_message($which_one, $expected_type, $value, $added_trace_depth = 0)
+function variable_violation_message($which_one, $expected, $value, $added_trace_depth = 0)
 {
-   return error_message("$which_one must be $expected_type, actually '$value'", 1 + $added_trace_depth);
+   return error_message("$which_one must be $expected, actually \"$value\"", 1 + $added_trace_depth);
 }
 
 /**
@@ -256,13 +253,12 @@ function get_non_empty($var, $default)
  * Judge if $num is in integer numbers.
  *
  * @param  mixed   $num
- * @param  int     $added_trace_depth
  * @return boolean
  */
-function in_z($num, $added_trace_depth = 0)
+function in_z($num)
 {
-   // Actually, type_violation_message() should be lazy.
-   ensure(is_numeric($num), type_violation_message('The first argument', 'numeric', $num, $added_trace_depth));
+   ensure_numeric($num, 'The first argument');
+
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
 
@@ -274,7 +270,9 @@ function in_z($num, $added_trace_depth = 0)
  */
 function is_odd($num)
 {
-   return in_z($num, 1) ? ($num % 2 == 1) : false;
+   ensure_numeric($num, 'The first argument');
+
+   return in_z($num) ? ($num % 2 == 1) : false;
 }
 
 /**
@@ -285,7 +283,9 @@ function is_odd($num)
  */
 function is_even($num)
 {
-   return in_z($num, 1) ? ($num % 2 == 0) : false;
+   ensure_numeric($num, 'The first argument');
+
+   return in_z($num) ? ($num % 2 == 0) : false;
 }
 
 /**
@@ -307,19 +307,14 @@ function between($var, $min, $max)
  *
  * @param  int   $first
  * @param  int   $last
- * @param  int   $added_trace_depth
  * @return array
  */
-function incremental_range($first, $last, $added_trace_depth = 0)
+function incremental_range($first, $last)
 {
-   ensure(is_integer($first), type_violation_message('The first argument' , 'integer', $first, $added_trace_depth));
-   ensure(is_integer($last ), type_violation_message('The second argument', 'integer', $last , $added_trace_depth));
+   ensure_int($first, 'The first argument' );
+   ensure_int($last , 'The second argument');
 
-   $array = array();
-   for ($i = $first; $i <= $last; $i++) {
-      $array[] = $i;
-   }
-   return $array;
+   return $first <= $last ? range($first, $last) : array();
 }
 
 /**
@@ -331,5 +326,8 @@ function incremental_range($first, $last, $added_trace_depth = 0)
  */
 function decremental_range($first, $last)
 {
-   return array_reverse(incremental_range($last, $first, 1));
+   ensure_int($first, 'The first argument' );
+   ensure_int($last , 'The second argument');
+
+   return array_reverse(incremental_range($last, $first));
 }
