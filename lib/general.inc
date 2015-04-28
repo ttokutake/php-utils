@@ -210,6 +210,59 @@ function ensure_object(&$var, $which_one)
 
 
 /**
+ * Throw the LogicException if $var is not "positive integer".
+ * ToDo: Check type of $var.
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_positive_int(&$var, $which_one)
+{
+   ensure(is_int($var) && $var > 0, variable_violation_message($which_one, '"positive integer"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is "negative integer".
+ * ToDo: Check type of $var.
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_non_positive_int(&$var, $which_one)
+{
+   ensure(is_int($var) && $var >= 0, variable_violation_message($which_one, '"non-positive integer"', $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is not in elements of the array.
+ * ToDo: Check types of $var and all elements of $whitelist.
+ *
+ * @param mixed  &$var
+ * @param array   $white_list
+ * @param string  $which_one
+ */
+function ensure_in_array(&$var, array $white_list, $which_one)
+{
+   $list = implode(' ,', $white_list);
+   ensure(in_array($var, $white_list), type_violation_message($which_one, "in [$list]", $var, 1));
+}
+
+/**
+ * Throw the LogicException if $var is in elements of the array.
+ * ToDo: Check types of $var and all elements of $whitelist.
+ *
+ * @param mixed  &$var
+ * @param array   $black_list
+ * @param string  $which_one
+ */
+function ensure_not_in_array(&$var, array $black_list, $which_one)
+{
+   $list = implode(' ,', $black_list);
+   ensure(!in_array($var, $black_list), type_violation_message($which_one, "out of [$list]", $var, 1));
+}
+
+
+/**
  * Throw RuntimeException.
  *
  * @param string $message

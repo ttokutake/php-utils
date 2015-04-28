@@ -115,6 +115,46 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsurePositiveInt()
+   {
+      $non_positive = 0;
+      ensure_positive_int($non_positive, 'do');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureNonPositiveInt()
+   {
+      $negative = -1;
+      ensure_positive_int($negative, 'you');
+   }
+
+
+    private $blowser = ['chrome', 'firefox', 'safari'];
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureInArray()
+   {
+      $not_in_array = 'ie';
+      ensure_in_array($not_in_array, $this->blowser, 'know');
+   }
+   /**
+    * @depends           testEnsure
+    * @expectedException LogicException
+    */
+   public function testEnsureNotInArray()
+   {
+      $in_array = 'chrome';
+      ensure_not_in_array($in_array, $this->blowser, '?');
+   }
+
+   /**
     * @expectedException RuntimeException
     */
    public function testPlague()
