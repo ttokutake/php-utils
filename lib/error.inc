@@ -37,7 +37,22 @@ function plague($error_message)
  */
 function to_type($var)
 {
-   return is_object($var) ? get_class($var) : gettype($var);
+   $type = gettype($var);
+   switch ($type) {
+      case 'NULL':
+         $type = strtolower($type);
+         break;
+      case 'double':
+         $type = 'float';
+         break;
+      case 'object':
+         $type = get_class($var);
+         break;
+      case 'unknown type';
+         $type = 'unknown';
+         break;
+   }
+   return $type;
 }
 
 /**
@@ -50,9 +65,6 @@ function to_string($var)
 {
    $type = gettype($var);
    switch ($type) {
-      case 'NULL':
-         $string = strtolower($type);
-         break;
       case 'boolean':
          $string = $var ? 'true' : 'false';
          break;
@@ -69,14 +81,11 @@ function to_string($var)
       case 'resource':
          $string = 'resource <' . get_resource_type($var) . '> #' . intval($var);
          break;
-      case 'array':
-         $string = $type;
-         break;
       case 'object':
          $string = 'instance of ' . get_class($var);
          break;
       default:
-         $string = 'unknown';
+         $string = to_type($var);
    }
    return $string;
 }
