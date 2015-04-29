@@ -244,7 +244,7 @@ function ensure_array(&$var, $which_one)
  */
 function ensure_callable(&$var, $which_one)
 {
-   ensure(is_callable($var), variable_violation_text($which_one, 'callable', to_type($var), 3));
+   ensure(is_callable($var), variable_violation_text($which_one, 'Closure', to_type($var), 3));
 }
 
 /**

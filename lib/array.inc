@@ -17,8 +17,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
  * Otherwise, return "null".
  *
  * @param  array      &$array
- * @param  int|string $key
- * @return mixed      $array[$key]|null
+ * @param  int|string  $key
+ * @return mixed
  */
 function array_get(array &$array, $key)
 {
@@ -30,9 +30,9 @@ function array_get(array &$array, $key)
  * Otherwise, return $default.
  *
  * @param  array      &$array
- * @param  int|string $key
- * @param  mixed      $default
- * @return mixed      $array[$key]|$default
+ * @param  int|string  $key
+ * @param  mixed       $default
+ * @return mixed
  */
 function array_get_or_else(array &$array, $key, $default)
 {
@@ -44,9 +44,9 @@ function array_get_or_else(array &$array, $key, $default)
  * Otherwise, return $default.
  *
  * @param  array      &$array
- * @param  int|string $key
- * @param  mixed      $default
- * @return mixed      $array[$key]|$default
+ * @param  int|string  $key
+ * @param  mixed       $default
+ * @return mixed
  */
 function array_get_non_null(array &$array, $key, $default)
 {
@@ -58,9 +58,9 @@ function array_get_non_null(array &$array, $key, $default)
  * Otherwise, return $default.
  *
  * @param  array      &$array
- * @param  int|string $key
- * @param  mixed      $default
- * @return mixed      $array[$key]|$default
+ * @param  int|string  $key
+ * @param  mixed       $default
+ * @return mixed
  */
 function array_get_non_empty(array &$array, $key, $default)
 {
@@ -70,36 +70,36 @@ function array_get_non_empty(array &$array, $key, $default)
 /**
  * Return the array which orthogonal to array_filter().
  *
- * @param  array    $array
- * @param  callable $callable
+ * @param  array   $array
+ * @param  Closure $closure
  * @return array
  */
-function array_filter_not(array $array, $callable = null)
+function array_filter_not(array $array, $closure = null)
 {
-   if (is_callable($callable)) {
-      $callable_not = function ($value) use($callable) { return !$callable($value); };
-   } else if (is_null($callable)) {
-      $callable_not = function ($value) { return !$value; };
+   if (is_callable($closure)) {
+      $closure_not = function ($value) use($closure) { return !$closure($value); };
+   } else if (is_null($closure)) {
+      $closure_not = function ($value) { return !$value; };
    } else {
-      throw new LogicException(variable_violation_text('The second argument', 'callable or null', to_type($callable)));
+      throw new LogicException(variable_violation_text('The second argument', 'callable or null', to_type($closure)));
    }
-   return array_filter($array, $callable_not);
+   return array_filter($array, $closure_not);
 }
 
 /**
  * Return array_map() which can use keys of $array.
  *
- * @param  array    $array
- * @param  callable $callable
+ * @param  array   $array
+ * @param  Closure $closure
  * @return array
  */
-function array_map_with_key(array $array, $callable)
+function array_map_with_key(array $array, $closure)
 {
-   ensure_callable($callable, 'The second argument');
+   ensure_callable($closure, 'The second argument');
 
    $result = array();
    foreach ($array as $key => $value) {
-      $result[$key] = $callable($key, $value);
+      $result[$key] = $closure($key, $value);
    }
    return $result;
 }
@@ -120,7 +120,7 @@ function array_flat(array $array)
  * Return an array consisting of the pairs of each element for two arrays.
  *
  * @param  array $array1,$array2,...
- * @return array [[$element1_1,$element2_1,...],...]
+ * @return array
  */
 function array_zip()
 {
@@ -172,7 +172,7 @@ function array_shoe(array $array, $shoe) {
  * Return the pair of first element and the others of an array.
  *
  * @param  array $array
- * @return array [$head,$tail]
+ * @return array
  */
 function array_behead(array $array)
 {
@@ -216,7 +216,7 @@ function array_tail(array $array)
  * Return the pair of last element and the others of an array.
  *
  * @param  array $array
- * @return array [$init,$last]
+ * @return array
  */
 function array_depeditate(array $array)
 {
@@ -315,6 +315,10 @@ function array_drop_right(array $array, $num)
 
 /**
  * Return the array split in $offset position.
+ *
+ * @param  array $array
+ * @param  int   $offset
+ * @return array
  */
 function array_split(array $array, $offset)
 {
@@ -335,18 +339,18 @@ function array_split(array $array, $offset)
 
 
 /**
- * Judge if the element which return true for $callable exists.
+ * Judge if the element which return true for $closure exists.
  *
- * @param  array    $array
- * @param  callable $callable
+ * @param  array   $array
+ * @param  Closure $closure
  * @return boolean
  */
-function array_exist(array $array, $callable)
+function array_exist(array $array, $closure)
 {
-   ensure_callable($callable, 'The second argument');
+   ensure_callable($closure, 'The second argument');
 
    foreach ($array as $value) {
-      if ($callable($value)) {
+      if ($closure($value)) {
          return true;
       }
    }
@@ -354,33 +358,33 @@ function array_exist(array $array, $callable)
 }
 
 /**
- * Judge if all elements return true for $callable.
+ * Judge if all elements return true for $closure.
  *
- * @param  array    $array
- * @param  callable $callable
+ * @param  array   $array
+ * @param  Closure $closure
  * @return boolean
  */
-function array_for_all(array $array, $callable)
+function array_for_all(array $array, $closure)
 {
-   ensure_callable($callable, 'The second argument');
+   ensure_callable($closure, 'The second argument');
 
-   $callable_not = function ($value) use($callable) { return !$callable($value); };
-   return !array_exist($array, $callable_not);
+   $closure_not = function ($value) use($closure) { return !$closure($value); };
+   return !array_exist($array, $closure_not);
 }
 
 /**
- * Return the first element returning $callable($element_of_array) to be true.
+ * Return the first element returning $closure($element_of_array) to be true.
  *
- * @param  $array    $array
- * @param  $callable $callable
+ * @param  array   $array
+ * @param  Closure $closure
  * @return mixed
  */
-function array_find(array $array, $callable)
+function array_find(array $array, $closure)
 {
-   ensure_callable($callable, 'The second argument');
+   ensure_callable($closure, 'The second argument');
 
    foreach ($array as $value) {
-      if ($callable($value)) {
+      if ($closure($value)) {
          return $value;
       }
    }
@@ -390,17 +394,17 @@ function array_find(array $array, $callable)
 /**
  * Return the pair of Arrays, which of former is true value and latter is false value.
  *
- * @param  array    $array
- * @param  callable $callable
- * @return array    [$trues,$falses]
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return array
  */
-function array_partition(array $array, $callable)
+function array_partition(array $array, $closure)
 {
-   ensure_callable($callable, 'The second argument');
+   ensure_callable($closure, 'The second argument');
 
    $former = $latter = array();
    foreach ($array as $key => $value) {
-      if ($callable($value)) {
+      if ($closure($value)) {
          $former[$key] = $value;
       } else {
          $latter[$key] = $value;
