@@ -4,6 +4,30 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
+   public function testIsSeq()
+   {
+      $true_expectations = [
+         [       ],
+         [1      ],
+         [1, 2   ],
+         [1, 2, 3],
+
+         [ 0  => 1,  1  => 2,  2  => 3],
+         ['0' => 1, '1' => 2, '2' => 3],
+      ];
+      foreach ($true_expectations as $array) {
+         $this->assertTrue(is_seq($array));
+      }
+      $false_expectations = [
+         [ 1  => 1,  2  => 2,  3  => 3],
+         ['a' => 1, 'b' => 2, 'c' => 3],
+      ];
+      foreach ($false_expectations as $array) {
+         $this->assertFalse(is_seq($array));
+      }
+   }
+
+
    public function testArraySet()
    {
       $array    = [0 => null];

@@ -10,6 +10,28 @@
 
 
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
+
+
+/**
+ * Judge if the array is pure sequencal array.
+ *
+ * @param  array   $array
+ * @return boolean
+ */
+function is_seq(array $array) {
+   return array_keys($array) === incremental_range(0, count($array) - 1);
+}
+
+/**
+ * Return array_values().
+ *
+ * @param  array $array
+ * @return array
+ */
+function to_seq(array $array) {
+   return array_values($array);
+}
 
 
 /**
