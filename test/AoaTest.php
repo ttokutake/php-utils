@@ -84,8 +84,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
       $key      = 'point';
       $square   = function ($num) { return pow($num, 2); };
       $expected = array_map(function ($array) use($key, $square) {
-            $array[$key] = $square($array[$key]);
-            return $array;
+            return array_set($array, $key, $square($array[$key]));
          }, $this->aoa);
       $this->assertEquals($expected, aoa_map($this->aoa, $key, $square));
    }
@@ -121,12 +120,9 @@ class AoaTest extends PHPUnit_Framework_TestCase
     */
    public function testAoaAssociate()
    {
-      $target_key = 'email';
-      $keys       = aoa_values($this->aoa, $target_key);
-      $unset_aoa  = array_map(function ($array) use($target_key) {
-            unset($array[$target_key]);
-            return $array;
-         }, $this->aoa);
-      $this->assertEquals(array_combine($keys, $unset_aoa), aoa_associate($this->aoa, $target_key));
+      $target    = 'email';
+      $keys      = aoa_values($this->aoa, $target);
+      $unset_aoa = array_map(function ($array) use($target) { return array_unset($array, $target); }, $this->aoa);
+      $this->assertEquals(array_combine($keys, $unset_aoa), aoa_associate($this->aoa, $target));
    }
 }
