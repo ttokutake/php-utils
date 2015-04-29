@@ -107,7 +107,7 @@ function wrap_if_string($var)
 
 
 /**
- * Return the message for an error.
+ * Return the error message caller object.
  *
  * @param  string  $message
  * @return Closure
@@ -126,9 +126,20 @@ function error_message_caller($message)
       return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
    };
 }
+/**
+ * Return the error message.
+ *
+ * @param  string $message
+ * @return string
+ */
+function error_message($message)
+{
+   $caller = error_message_caller($message);
+   return $caller(1);
+}
 
 /**
- * Return the message for variable's violation.
+ * Return the variable's violation message caller.
  *
  * @param  string  $which_one
  * @param  string  $expected
@@ -138,6 +149,19 @@ function error_message_caller($message)
 function variable_violation_message_caller($which_one, $expected, $actual)
 {
    return error_message_caller("$which_one must be $expected, actually $actual");
+}
+/**
+ * Return the variable's violation message.
+ *
+ * @param  string $which_one
+ * @param  string $expected
+ * @param  string $actual
+ * @return string
+ */
+function variable_violation_message($which_one, $expected, $actual)
+{
+   $caller = variable_violation_message_caller($which_one, $expected, $actual);
+   return $caller(1);
 }
 
 /**

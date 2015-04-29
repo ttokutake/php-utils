@@ -135,8 +135,7 @@ function array_filter_not(array $array, $closure = null)
    } else if (is_null($closure)) {
       $closure_not = function ($value) { return !$value; };
    } else {
-      $message_caller = variable_violation_message_caller('The second argument', 'callable or null', to_type($closure));
-      throw new LogicException($message_caller());
+      throw new LogicException(variable_violation_message('The second argument', 'callable or null', to_type($closure)));
    }
    return array_filter($array, $closure_not);
 }
