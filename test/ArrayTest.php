@@ -4,6 +4,56 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
+   public function testArraySet()
+   {
+      $array    = [0 => null];
+      $patterns = [
+         [[0     => true                ], 0    , true ],
+         [[0     => null, 'key' => false], 'key', false],
+      ];
+      foreach ($patterns as list($expected, $key, $value)) {
+         $this->assertEquals($expected, array_set($array, $key, $value));
+      }
+   }
+
+   public function testArrayUnset()
+   {
+      $array = [
+         0     => true ,
+         'key' => false,
+      ];
+      $patterns = [
+         [['key' => false], 0       ],
+         [[0     => true ], 'key'   ],
+         [$array          , 'no_key'],
+      ];
+      foreach ($patterns as list($expected, $key)) {
+         $this->assertEquals($expected, array_unset($array, $key));
+      }
+   }
+
+   public function testArrayHat()
+   {
+      $patterns = [
+         [[0   ], [ ], 0],
+         [[1, 0], [0], 1],
+      ];
+      foreach ($patterns as list($expected, $array, $value)) {
+         $this->assertEquals($expected, array_hat($array, $value));
+      }
+   }
+
+   public function testArrayShoe()
+   {
+      $patterns = [
+         [[0   ], [ ], 0],
+         [[0, 1], [0], 1],
+      ];
+      foreach ($patterns as list($expected, $array, $value)) {
+         $this->assertEquals($expected, array_shoe($array, $value));
+      }
+   }
+
    private $array = [
       'defined key'  => null ,
       'not null'     => true ,
@@ -100,6 +150,9 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
+   /**
+    * @depends testArrayShoe
+    */
    public function testArrayZip()
    {
       $patterns = [
@@ -113,29 +166,6 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ];
       foreach ($patterns as list($expected, $array1, $array2)) {
          $this->assertEquals($expected, array_zip($array1, $array2));
-      }
-   }
-
-
-   public function testArrayHat()
-   {
-      $patterns = [
-         [[0   ], [ ], 0],
-         [[1, 0], [0], 1],
-      ];
-      foreach ($patterns as list($expected, $array, $value)) {
-         $this->assertEquals($expected, array_hat($array, $value));
-      }
-   }
-
-   public function testArrayShoe()
-   {
-      $patterns = [
-         [[0   ], [ ], 0],
-         [[0, 1], [0], 1],
-      ];
-      foreach ($patterns as list($expected, $array, $value)) {
-         $this->assertEquals($expected, array_shoe($array, $value));
       }
    }
 

@@ -13,6 +13,60 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
 
 
 /**
+ * Return the array set the value.
+ *
+ * @param  array  $array
+ * @param  scalar $key
+ * @param  mixed  $value
+ * @return array
+ */
+function array_set(array $array, $key, $value)
+{
+   ensure_scalar($key, 'The second argument');
+
+   $array[$key] = $value;
+   return $array;
+}
+
+/**
+ * Return the array unset the value.
+ *
+ * @param  array  $array
+ * @param  scalar $key
+ * @return array
+ */
+function array_unset(array $array, $key)
+{
+   ensure_scalar($key, 'The second argument');
+
+   unset($array[$key]);
+   return $array;
+}
+
+/**
+ * Return the array added $hat as first element.
+ *
+ * @param  array $array
+ * @param  mixed $hat
+ * @return array
+ */
+function array_hat(array $array, $hat) {
+   return array_merge(array($hat), $array);;
+}
+
+/**
+ * Return the array added $shoe as last element.
+ *
+ * @param  array $array
+ * @param  mixed $shoe
+ * @return array
+ */
+function array_shoe(array $array, $shoe) {
+   return array_merge($array, array($shoe));
+}
+
+
+/**
  * Return the specified value of an array if it's defined.
  * Otherwise, return "null".
  *
@@ -112,14 +166,16 @@ function array_map_with_key(array $array, $closure)
  */
 function array_flat(array $array)
 {
-   return array_reduce($array, function ($carry, $item) { return array_merge($carry, is_array($item) ? $item : array($item));  }, array());
+   return array_reduce($array, function ($carry, $item) {
+         return array_merge($carry, is_array($item) ? $item : array($item));
+      }, array());
 }
 
 
 /**
  * Return an array consisting of the pairs of each element for two arrays.
  *
- * @param  array $array1,$array2,...
+ * @param  array ...
  * @return array
  */
 function array_zip()
@@ -135,36 +191,11 @@ function array_zip()
    $zipped_array = array();
    for ($i = 0; $i < $min_length; $i++) {
       $zipped_array[] = array_reduce($formatted_arrays, function ($carry, $array) use($i) {
-            $carry[] = $array[$i];
-            return $carry;
-         }, array()
-      );
+            return array_shoe($carry, $array[$i]);
+         }, array());
    }
 
    return $zipped_array;
-}
-
-
-/**
- * Return the array added $hat as first element.
- *
- * @param  array $array
- * @param  mixed $hat
- * @return array
- */
-function array_hat(array $array, $hat) {
-   return array_merge(array($hat), $array);;
-}
-
-/**
- * Return the array added $shoe as last element.
- *
- * @param  array $array
- * @param  mixed $shoe
- * @return array
- */
-function array_shoe(array $array, $shoe) {
-   return array_merge($array, array($shoe));
 }
 
 
