@@ -4,6 +4,34 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class AoaTest extends PHPUnit_Framework_TestCase
 {
+   public function testAoaSet()
+   {
+      $aoa      = [0 => ['key' => 100]];
+      $value    = 200;
+      $patterns = [
+         [[0 => ['key' => $value                 ]    ], [0, 'key']],
+         [[0 => ['key' => 100   , 'new' => $value]    ], [0, 'new']],
+         [[0 => ['key' => 100], 1 => ['new' => $value]], [1, 'new']],
+      ];
+      foreach ($patterns as list($expected, $keys)) {
+         $this->assertEquals($expected, aoa_set($aoa, $keys, $value));
+      }
+   }
+
+   public function testAoaUnset()
+   {
+      $aoa      = [0 => ['key' => 100]];
+      $patterns = [
+         [[0 => []], [0, 'key']],
+         [$aoa     , [0, 'new']],
+         [$aoa     , [1, 'key']],
+      ];
+      foreach ($patterns as list($expected, $keys)) {
+         $this->assertEquals($expected, aoa_unset($aoa, $keys));
+      }
+   }
+
+
    public function testAoaTranspose()
    {
       $inputs = [

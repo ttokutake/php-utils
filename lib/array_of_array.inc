@@ -14,6 +14,56 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'array.inc'));
 
 
 /**
+ * Return the array set the value.
+ *
+ * @param  array $aoa
+ * @param  array $keys
+ * @param  mixed $value
+ * @return array
+ */
+function aoa_set(array $aoa, array $keys, $value)
+{
+   ensure_non_empty($keys, 'The second argument');
+
+   $pointer = &$aoa;
+   foreach ($keys as $key) {
+      ensure_scalar($key, 'Each element of the second argument');
+      if (!(is_array($pointer) || is_null($pointer))) {
+         break;
+      }
+      $pointer = &$pointer[$key];
+   }
+   $pointer = $value;
+   return $aoa;
+}
+
+/**
+ * Return the array unset the value.
+ *
+ * @param  array $aoa
+ * @param  array $keys
+ * @return array
+ */
+function aoa_unset(array $aoa, array $keys)
+{
+   ensure_non_empty($keys, 'The second argument');
+
+   $pointer = &$aoa;
+   list($init, $last) = array_depeditate($keys);
+   ensure_scalar($last, 'Each element of the second argument');
+   foreach ($init as $key) {
+      ensure_scalar($key, 'Each element of the second argument');
+      if (!(is_array($pointer) && array_key_exists($key, $pointer))) {
+         break;
+      }
+      $pointer = &$pointer[$key];
+   }
+   unset($pointer[$last]);
+   return $aoa;
+}
+
+
+/**
  * Return the transposed matrix
  *
  * @param  array $matrix
