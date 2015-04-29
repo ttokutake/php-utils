@@ -168,4 +168,10 @@ class StringTest extends PHPUnit_Framework_TestCase
          $this->assertEquals($expected, mb_trim("{$blank}{$expected}{$blank}"));
       }
    }
+
+   public function testIncludeMb()
+   {
+      $this->assertFalse(include_mb($this->platitude   ));
+      $this->assertTrue (include_mb($this->mb_platitude));
+   }
 }

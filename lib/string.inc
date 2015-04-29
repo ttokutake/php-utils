@@ -170,3 +170,16 @@ function mb_trim($string)
 
    return preg_replace('/(^\s+|\s+$)/u', '', preg_quote($string, '/'));
 }
+
+/**
+ * Judge if $string include multibyte charactors.
+ *
+ * @param  string  $string
+ * @return boolean
+ */
+function include_mb($string)
+{
+   ensure_string($string, 'The first argument');
+
+   return strlen($string) != mb_strlen($string);
+}
