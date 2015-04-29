@@ -74,7 +74,37 @@ class AoaTest extends PHPUnit_Framework_TestCase
     */
    public function testAoaSum()
    {
-      $this->assertEquals(array_sum(aoa_values($this->aoa, 'point')), aoa_sum($this->aoa, 'point'));
+      $key      = 'point';
+      $expected = array_sum(aoa_values($this->aoa, $key));
+      $this->assertEquals($expected, aoa_sum($this->aoa, $key));
+   }
+
+   public function testAoaMap()
+   {
+      $key      = 'point';
+      $square   = function ($num) { return pow($num, 2); };
+      $expected = array_map(function ($array) use($key, $square) {
+            $array[$key] = $square($array[$key]);
+            return $array;
+         }, $this->aoa);
+      $this->assertEquals($expected, aoa_map($this->aoa, $key, $square));
+   }
+
+   /**
+    * @depends testAoaValues
+    */
+   public function testAoaReduce()
+   {
+      $connect  = function ($carry, $str) { return "$carry/$str"; };
+      $expected = '/hoge/fuga/piyo';
+      $this->assertEquals($expected, aoa_reduce($this->aoa, 'name', $connect, ''));
+   }
+
+   public function testAoaFilter()
+   {
+      $key      = 'id';
+      $expected = array_filter($this->aoa, function ($array) use($key) { return is_odd($array[$key]); });
+      $this->assertEquals($expected, aoa_filter($this->aoa, $key, 'is_odd'));
    }
 
    /**
@@ -86,28 +116,17 @@ class AoaTest extends PHPUnit_Framework_TestCase
       $this->assertEquals([3, 2, 1], aoa_values(aoa_sort($this->aoa, 'id'  , SORT_DESC), 'id'));
    }
 
+   /**
+    * @depends testAoaValues
+    */
    public function testAoaAssociate()
    {
-      $expected = [
-         'hoge@localhost' =>
-            [
-               'id'    => 1     ,
-               'name'  => 'hoge',
-               'point' => 22    ,
-            ],
-         'fuga@localhost' =>
-            [
-               'id'    => 2     ,
-               'name'  => 'fuga',
-               'point' => 80    ,
-            ],
-         'piyo@localhost' =>
-            [
-               'id'    => 3     ,
-               'name'  => 'piyo',
-               'point' => 443   ,
-            ],
-      ];
-      $this->assertEquals($expected, aoa_associate($this->aoa, 'email'));
+      $target_key = 'email';
+      $keys       = aoa_values($this->aoa, $target_key);
+      $unset_aoa  = array_map(function ($array) use($target_key) {
+            unset($array[$target_key]);
+            return $array;
+         }, $this->aoa);
+      $this->assertEquals(array_combine($keys, $unset_aoa), aoa_associate($this->aoa, $target_key));
    }
 }

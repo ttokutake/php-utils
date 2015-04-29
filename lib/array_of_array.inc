@@ -23,7 +23,7 @@ function aoa_transpose(array $matrix)
 {
    $transposed = array();
    foreach ($matrix as $r_key => $row) {
-      ensure_array($row, 'Each argument');
+      ensure_array($row, 'Each element of the first argument');
       foreach ($row as $c_key => $entry) {
          $transposed[$c_key][$r_key] = $entry;
       }
@@ -61,6 +61,70 @@ function aoa_sum(array $aoa, $key)
 }
 
 /**
+ * Return the AoA mapped by specified key.
+ *
+ * @param  array   $aoa
+ * @param  scalar  $key
+ * @param  Closure $closure
+ * @return array
+ */
+function aoa_map(array $aoa, $key, $closure)
+{
+   ensure_scalar  ($key    , 'The second argument');
+   ensure_callable($closure, 'The third argument' );
+
+   $result = array();
+   foreach ($aoa as $k => $array) {
+      ensure_array($array, 'Each element of the first argument');
+      if (array_key_exists($key, $array)) {
+         $array[$key] = $closure($array[$key]);
+      }
+      $result[$k] = $array;
+   }
+   return $result;
+}
+
+/**
+ * Return the AoA reduced by specified key.
+ *
+ * @param  array   $aoa
+ * @param  scalar  $key
+ * @param  Closure $closure
+ * @param  mixed   $initial
+ * @return mixed
+ */
+function aoa_reduce(array $aoa, $key, $closure, $initial)
+{
+   ensure_scalar  ($key    , 'The second argument');
+   ensure_callable($closure, 'The third argument' );
+
+   return array_reduce(aoa_values($aoa, $key), $closure, $initial);
+}
+
+/**
+ * Return the AoA filtered by specified key.
+ *
+ * @param  array   $aoa
+ * @param  scalr   $key
+ * @param  Closure $closure
+ * @return array
+ */
+function aoa_filter(array $aoa, $key, $closure)
+{
+   ensure_scalar  ($key    , 'The second argument');
+   ensure_callable($closure, 'The third argument' );
+
+   $result = array();
+   foreach ($aoa as $k => $array) {
+      ensure_array($array, 'Each element of the first argument');
+      if (array_key_exists($key, $array) && $closure($array[$key])) {
+         $result[$k] = $array;
+      }
+   }
+   return $result;
+}
+
+/**
  * Return the AoA which sorted by an array value of specified key.
  *
  * @param  array  $aoa
@@ -90,8 +154,9 @@ function aoa_associate(array $aoa, $key)
 
    $associated = array();
    foreach ($filtered as $array) {
-      $value = $array[$key];
-      ensure_scalar($value, 'The value of specified key');
+      ensure_array($array, 'Each element of the first argument');
+      $value = array_get($array, $key);
+      ensure_scalar($value, 'Each element of specified key');
       unset($array[$key]);
       $associated[$value] = $array;
    }
