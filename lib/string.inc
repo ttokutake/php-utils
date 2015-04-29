@@ -131,7 +131,7 @@ function split_at($string, $at)
  * @param  int    $width
  * @return array
  */
-function mb_str_split($string, $width)
+function mb_str_split($string, $width = 1)
 {
    ensure_string      ($string, 'The first argument' );
    ensure_positive_int($width , 'The second argument');
