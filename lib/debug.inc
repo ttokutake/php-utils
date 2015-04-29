@@ -10,6 +10,7 @@
 
 
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc' ));
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
 
 
 /**
@@ -53,10 +54,20 @@ function pretty($var, $row_prefix = '')
    $pretty = $internal_call ? '' : $row_prefix;
    switch (gettype($var)) {
       case 'array':
+         $pretties = array();
+         foreach (array_keys($var) as $key) {
+            $pretties[$key] = wrap_if_string($key);
+         }
+         $lengths    = array_map(function ($pre) {
+               return array_reduce(mb_str_split($pre), function ($len, $char) { return $len + (include_mb($char) ? 2 : 1); }, 0);
+            }, $pretties);
+         $max        = empty($lengths) ? 0 : max($lengths);
+         $space_nums = array_map(function ($len) use($max) { return $max - $len; }, $lengths);
+         $spaces     = array_map(function ($num) { return str_repeat(' ', $num); }, $space_nums);
+
          $pretty .= withln('[');
          foreach ($var as $key => $elem) {
-            $key = wrap_if_string($key);
-            $pretty .= "$next_indent($key) => " . pretty($elem, "$next_indent");
+            $pretty .= "$next_indent{$pretties[$key]}{$spaces[$key]} => " . pretty($elem, "$next_indent");
          }
          $pretty .= withln("$row_prefix]");
          break;

@@ -80,14 +80,14 @@ class DebugTest extends PHPUnit_Framework_TestCase
       }
 
       $expected = array_reduce([
-            '!! ['                          ,
-            '!!    ("windows") => "10"'     ,
-            '!!    ("osx") => "10.10"'      ,
-            '!!    ("linux") => ['          ,
-            '!!       ("ubuntu") => "15.04"',
-            '!!       ("rhel") => "7"'      ,
-            '!!    ]'                       ,
-            '!! ]'                          ,
+            '!! ['                        ,
+            '!!    "windows" => "10"'     ,
+            '!!    "osx"     => "10.10"'  ,
+            '!!    "linux"   => ['        ,
+            '!!       "ubuntu" => "15.04"',
+            '!!       "rhel"   => "7"'    ,
+            '!!    ]'                     ,
+            '!! ]'                        ,
          ], function ($text, $row) { return $text . withln($row); }, '');
       $array = [
          'windows' => '10'   ,
