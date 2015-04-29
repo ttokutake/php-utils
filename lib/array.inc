@@ -141,7 +141,7 @@ function array_filter_not(array $array, $closure = null)
 }
 
 /**
- * Return array_map() which can use keys of $array.
+ * Return array_map() which can use keys of the array.
  *
  * @param  array   $array
  * @param  Closure $closure
@@ -154,6 +154,44 @@ function array_map_with_key(array $array, $closure)
    $result = array();
    foreach ($array as $key => $value) {
       $result[$key] = $closure($key, $value);
+   }
+   return $result;
+}
+
+/**
+ * Return array_reduce() which can use keys of the array.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @param  mixed   $initial
+ * @return mixed
+ */
+function array_reduce_with_key(array $array, $closure, $initial)
+{
+   ensure_callable($closure, 'The second argument');
+
+   foreach ($array as $key => $value) {
+      $initial = $closure($initial, $key, $value);
+   }
+   return $initial;
+}
+
+/**
+ * Return array_filter() which can use keys of the array.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return array
+ */
+function array_filter_with_key(array $array, $closure)
+{
+   ensure_callable($closure, 'The second argument');
+
+   $result = array();
+   foreach ($array as $key => $value) {
+      if ($closure($key, $value)) {
+         $result[$key] = $value;
+      }
    }
    return $result;
 }
