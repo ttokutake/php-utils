@@ -14,9 +14,13 @@
  *
  * @param boolean $boolean
  * @param string  $error_message
+ * @param int     $added_depth
  */
-function ensure($boolean, $error_message) {
+function ensure($boolean, $error_message, $added_depth = 0) {
    if (!$boolean) {
+      if (is_callable($error_message)) {
+         $error_message = $error_message(1 + ((is_int($added_depth) && $added_depth > 0) ? $added_depth : 0));
+      }
       throw new LogicException($error_message);
    }
 }
@@ -28,7 +32,7 @@ function ensure($boolean, $error_message) {
  */
 function plague($error_message)
 {
-   throw new RuntimeException($error_message);
+   throw new RuntimeException(is_callable($error_message) ? $error_message() : $error_message);
 }
 
 
@@ -104,37 +108,36 @@ function wrap_if_string($var)
 
 /**
  * Return the message for an error.
- * ToDo: Need lazy creation of the error message? Return the callable?
  *
- * @param  string $message
- * @param  int    $depth
- * @return string
+ * @param  string  $message
+ * @return Closure
  */
-function error_text($message, $depth = 1)
+function error_message_caller($message)
 {
-   $backtrace = debug_backtrace();
-   $depth     = (is_int($depth) && $depth >= 0) ? $depth : 1;
-   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
-   $class     = isset($call['class']) ? $call['class'] : ''       ;
-   $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
-   $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
-   $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
-   $function  = $call['function'];
-   return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
+   return function ($added_depth = 0) use($message) {
+      $backtrace = debug_backtrace();
+      $depth     = 1 + ((is_int($added_depth) && $added_depth > 0) ? $added_depth : 0);
+      $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
+      $class     = isset($call['class']) ? $call['class'] : ''       ;
+      $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
+      $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
+      $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
+      $function  = $call['function'];
+      return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
+   };
 }
 
 /**
  * Return the message for variable's violation.
  *
- * @param  string $which_one
- * @param  string $expected
- * @param  string $actual
- * @param  int    $depth
- * @return string
+ * @param  string  $which_one
+ * @param  string  $expected
+ * @param  string  $actual
+ * @return Closure
  */
-function variable_violation_text($which_one, $expected, $actual, $depth = 2)
+function variable_violation_message_caller($which_one, $expected, $actual)
 {
-   return error_text("$which_one must be $expected, actually $actual", (is_int($depth) && $depth >= 0) ? $depth : 2);
+   return error_message_caller("$which_one must be $expected, actually $actual");
 }
 
 /**
@@ -145,7 +148,7 @@ function variable_violation_text($which_one, $expected, $actual, $depth = 2)
  */
 function ensure_non_null(&$var, $which_one)
 {
-   ensure(!is_null($var), variable_violation_text($which_one, 'non-null', to_type($var), 3));
+   ensure(!is_null($var), variable_violation_message_caller($which_one, 'non-null', to_type($var)), 1);
 }
 
 /**
@@ -156,7 +159,7 @@ function ensure_non_null(&$var, $which_one)
  */
 function ensure_bool(&$var, $which_one)
 {
-   ensure(is_bool($var), variable_violation_text($which_one, 'boolean', to_type($var), 3));
+   ensure(is_bool($var), variable_violation_message_caller($which_one, 'boolean', to_type($var)), 1);
 }
 
 /**
@@ -167,7 +170,7 @@ function ensure_bool(&$var, $which_one)
  */
 function ensure_int(&$var, $which_one)
 {
-   ensure(is_int($var), variable_violation_text($which_one, 'integer', to_type($var), 3));
+   ensure(is_int($var), variable_violation_message_caller($which_one, 'integer', to_type($var)), 1);
 }
 
 /**
@@ -178,7 +181,7 @@ function ensure_int(&$var, $which_one)
  */
 function ensure_float(&$var, $which_one)
 {
-   ensure(is_float($var), variable_violation_text($which_one, 'float', to_type($var), 3));
+   ensure(is_float($var), variable_violation_message_caller($which_one, 'float', to_type($var)), 1);
 }
 
 /**
@@ -189,7 +192,7 @@ function ensure_float(&$var, $which_one)
  */
 function ensure_numeric(&$var, $which_one)
 {
-   ensure(is_numeric($var), variable_violation_text($which_one, 'numeric', to_type($var), 3));
+   ensure(is_numeric($var), variable_violation_message_caller($which_one, 'numeric', to_type($var)), 1);
 }
 
 /**
@@ -200,7 +203,7 @@ function ensure_numeric(&$var, $which_one)
  */
 function ensure_string(&$var, $which_one)
 {
-   ensure(is_string($var), variable_violation_text($which_one, 'string', to_type($var), 3));
+   ensure(is_string($var), variable_violation_message_caller($which_one, 'string', to_type($var)), 1);
 }
 
 /**
@@ -211,7 +214,7 @@ function ensure_string(&$var, $which_one)
  */
 function ensure_scalar(&$var, $which_one)
 {
-   ensure(is_scalar($var), variable_violation_text($which_one, 'scalar', to_type($var), 3));
+   ensure(is_scalar($var), variable_violation_message_caller($which_one, 'scalar', to_type($var)), 1);
 }
 
 /**
@@ -222,7 +225,7 @@ function ensure_scalar(&$var, $which_one)
  */
 function ensure_resource(&$var, $which_one)
 {
-   ensure(is_resource($var), variable_violation_text($which_one, 'resource', to_type($var), 3));
+   ensure(is_resource($var), variable_violation_message_caller($which_one, 'resource', to_type($var)), 1);
 }
 
 /**
@@ -233,7 +236,7 @@ function ensure_resource(&$var, $which_one)
  */
 function ensure_array(&$var, $which_one)
 {
-   ensure(is_array($var), variable_violation_text($which_one, 'array', to_type($var), 3));
+   ensure(is_array($var), variable_violation_message_caller($which_one, 'array', to_type($var)), 1);
 }
 
 /**
@@ -244,7 +247,7 @@ function ensure_array(&$var, $which_one)
  */
 function ensure_callable(&$var, $which_one)
 {
-   ensure(is_callable($var), variable_violation_text($which_one, 'Closure', to_type($var), 3));
+   ensure(is_callable($var), variable_violation_message_caller($which_one, 'Closure', to_type($var)), 1);
 }
 
 /**
@@ -255,7 +258,7 @@ function ensure_callable(&$var, $which_one)
  */
 function ensure_object(&$var, $which_one)
 {
-   ensure(is_object($var), variable_violation_text($which_one, 'object', to_type($var), 3));
+   ensure(is_object($var), variable_violation_message_caller($which_one, 'object', to_type($var)), 1);
 }
 
 
@@ -267,7 +270,7 @@ function ensure_object(&$var, $which_one)
  */
 function ensure_non_empty(&$var, $which_one)
 {
-   ensure(!empty($var), variable_violation_text($which_one, 'non-empty', to_string(wrap_if_string($var)), 3));
+   ensure(!empty($var), variable_violation_message_caller($which_one, 'non-empty', to_string(wrap_if_string($var))), 1);
 }
 
 /**
@@ -278,7 +281,7 @@ function ensure_non_empty(&$var, $which_one)
  */
 function ensure_positive_int(&$var, $which_one)
 {
-   ensure(is_int($var) && $var > 0, variable_violation_text($which_one, 'positive integer', to_string(wrap_if_string($var)), 3));
+   ensure(is_int($var) && $var > 0, variable_violation_message_caller($which_one, 'positive integer', to_string(wrap_if_string($var))), 1);
 }
 
 /**
@@ -289,7 +292,7 @@ function ensure_positive_int(&$var, $which_one)
  */
 function ensure_non_positive_int(&$var, $which_one)
 {
-   ensure(is_int($var) && $var >= 0, variable_violation_text($which_one, 'non-positive integer', to_string(wrap_if_string($var)), 3));
+   ensure(is_int($var) && $var >= 0, variable_violation_message_caller($which_one, 'non-positive integer', to_string(wrap_if_string($var))), 1);
 }
 
 /**
@@ -302,7 +305,7 @@ function ensure_non_positive_int(&$var, $which_one)
 function ensure_in_array(&$var, array $white_list, $which_one)
 {
    $white = implode(', ', $white_list);
-   ensure(in_array($var, $white_list), variable_violation_text($which_one, "in [$white]", to_string(wrap_if_string($var)), 3));
+   ensure(in_array($var, $white_list), variable_violation_message_caller($which_one, "in [$white]", to_string(wrap_if_string($var))), 1);
 }
 
 /**
@@ -315,5 +318,5 @@ function ensure_in_array(&$var, array $white_list, $which_one)
 function ensure_not_in_array(&$var, array $black_list, $which_one)
 {
    $black = implode(' ,', $black_list);
-   ensure(!in_array($var, $black_list), variable_violation_text($which_one, "out of [$black]", to_string(wrap_if_string($var)), 3));
+   ensure(!in_array($var, $black_list), variable_violation_message_caller($which_one, "out of [$black]", to_string(wrap_if_string($var))), 1);
 }
