@@ -16,8 +16,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
  * Return the specified value of an array if it's defined.
  * Otherwise, return "null".
  *
- * @param  array      &$array
- * @param  int|string  $key
+ * @param  array  &$array
+ * @param  scalar  $key
  * @return mixed
  */
 function array_get(array &$array, $key)
@@ -29,9 +29,9 @@ function array_get(array &$array, $key)
  * Return the specified value of an array if it's defined.
  * Otherwise, return $default.
  *
- * @param  array      &$array
- * @param  int|string  $key
- * @param  mixed       $default
+ * @param  array  &$array
+ * @param  scalar  $key
+ * @param  mixed   $default
  * @return mixed
  */
 function array_get_or_else(array &$array, $key, $default)
@@ -43,9 +43,9 @@ function array_get_or_else(array &$array, $key, $default)
  * Return the specified value of an array if it isn't null.
  * Otherwise, return $default.
  *
- * @param  array      &$array
- * @param  int|string  $key
- * @param  mixed       $default
+ * @param  array  &$array
+ * @param  scalar  $key
+ * @param  mixed   $default
  * @return mixed
  */
 function array_get_non_null(array &$array, $key, $default)
@@ -57,9 +57,9 @@ function array_get_non_null(array &$array, $key, $default)
  * Return the specified value of an array if it isn't empty.
  * Otherwise, return $default.
  *
- * @param  array      &$array
- * @param  int|string  $key
- * @param  mixed       $default
+ * @param  array  &$array
+ * @param  scalar  $key
+ * @param  mixed   $default
  * @return mixed
  */
 function array_get_non_empty(array &$array, $key, $default)

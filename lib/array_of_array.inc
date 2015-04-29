@@ -35,8 +35,8 @@ function aoa_transpose(array $matrix)
 /**
  * Return the array of elements for specified key.
  *
- * @param  array      $aoa
- * @param  int|string $key
+ * @param  array  $aoa
+ * @param  scalar $key
  * @return array
  */
 function aoa_values(array $aoa, $key)
@@ -49,8 +49,8 @@ function aoa_values(array $aoa, $key)
 /**
  * Return the sum of elements for specified key.
  *
- * @param  array      $aoa
- * @param  int|string $key
+ * @param  array  $aoa
+ * @param  scalar $key
  * @return numeric
  */
 function aoa_sum(array $aoa, $key)
@@ -63,8 +63,8 @@ function aoa_sum(array $aoa, $key)
 /**
  * Return the AoA which sorted by an array value of specified key.
  *
- * @param  array      $aoa
- * @param  int|string $key
+ * @param  array  $aoa
+ * @param  scalar $key
  * @return array
  */
 function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
@@ -78,8 +78,8 @@ function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
 /**
  * Return the AoA which each key is an array value of specified key.
  *
- * @param  array      $aoa
- * @param  int|string $key
+ * @param  array  $aoa
+ * @param  scalar $key
  * @return array
  */
 function aoa_associate(array $aoa, $key)
