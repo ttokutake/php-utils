@@ -200,10 +200,8 @@ function aoa_associate(array $aoa, $key)
 {
    ensure_scalar($key, 'The second argument');
 
-   $filtered = array_filter($aoa, function ($array) use($key) { return array_key_exists($key, $array); });
-
    $associated = array();
-   foreach ($filtered as $array) {
+   foreach ($aoa as $array) {
       ensure_array($array, 'Each element of the first argument');
       $value = array_get($array, $key);
       ensure_scalar($value, 'Each element of specified key');
