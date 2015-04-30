@@ -1,4 +1,4 @@
-# php-utils [![Build Status](https://travis-ci.org/ttokutake/php-utils.svg?branch=master)](https://travis-ci.org/ttokutake/php-utils.php)
+# php-utils [![Build Status](https://travis-ci.org/ttokutake/php-utils.svg?branch=master)](https://travis-ci.org/ttokutake/php-utils)
 
 "php-utils" is the function group which extends PHP standard functions.
 
