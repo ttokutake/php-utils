@@ -56,10 +56,10 @@ function pretty($var, $row_prefix = '')
       case 'array':
          $pretties = array();
          foreach (array_keys($var) as $key) {
-            $pretties[$key] = wrap_if_string($key);
+            $pretties[$key] = strval(wrap_if_string($key));
          }
          $lengths    = array_map(function($pre) {
-               return array_reduce(mb_str_split(strval($pre)), function($len, $char) { return $len + (include_mb($char) ? 2 : 1); }, 0);
+               return array_reduce(mb_str_split($pre), function($len, $char) { return $len + (include_mb($char) ? 2 : 1); }, 0);
             }, $pretties);
          $max        = empty($lengths) ? 0 : max($lengths);
          $space_nums = array_map(function($len) use($max) { return $max - $len; }, $lengths);
