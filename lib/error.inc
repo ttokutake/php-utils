@@ -86,7 +86,7 @@ function to_string($var)
          $string = 'resource <' . get_resource_type($var) . '> #' . intval($var);
          break;
       case 'object':
-         $string = 'instance of ' . get_class($var);
+         $string = 'object of ' . get_class($var);
          break;
       default:
          $string = to_type($var);
