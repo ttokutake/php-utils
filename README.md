@@ -58,8 +58,8 @@ $ php example.php
       1 => 2
       2 => 3
    ]
-   "closure" => instance of Closure {
-      instance properties => [
+   "closure" => object of Closure {
+      object properties => [
       ]
       static properties   => [
       ]

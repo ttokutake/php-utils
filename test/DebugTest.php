@@ -19,11 +19,11 @@ class DebugTest extends PHPUnit_Framework_TestCase
    {
       $closure = function() { return 'closure'; };
       $added_patterns = [
-         [''                                  , ''      ],
-         ['0'                                 , '0'     ],
-         ['a'                                 , 'a'     ],
-         ['array'                             , []      ],
-         ['instance of ' . get_class($closure), $closure],
+         [''                                , ''      ],
+         ['0'                               , '0'     ],
+         ['a'                               , 'a'     ],
+         ['array'                           , []      ],
+         ['object of ' . get_class($closure), $closure],
       ];
       foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
          $this->assertEquals($expected, to_string($var));
