@@ -56,7 +56,7 @@ function follow_join($glue, array $pieces)
 {
    ensure_string($glue, 'The first argument');
 
-   return array_reduce($pieces, function ($carry, $piece) use($glue) { return "$carry$piece$glue"; }, '');
+   return array_reduce($pieces, function($carry, $piece) use($glue) { return "$carry$piece$glue"; }, '');
 }
 
 

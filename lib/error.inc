@@ -114,7 +114,7 @@ function wrap_if_string($var)
  */
 function error_message_caller($message)
 {
-   return function ($added_depth = 0) use($message) {
+   return function($added_depth = 0) use($message) {
       $backtrace = debug_backtrace();
       $depth     = 1 + ((is_int($added_depth) && $added_depth > 0) ? $added_depth : 0);
       $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];

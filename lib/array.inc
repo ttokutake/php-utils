@@ -152,14 +152,12 @@ function array_get_non_empty(array &$array, $key, $default)
  */
 function array_filter_not(array $array, $closure = null)
 {
-   if (is_callable($closure)) {
-      $closure_not = function ($value) use($closure) { return !$closure($value); };
-   } else if (is_null($closure)) {
-      $closure_not = function ($value) { return !$value; };
-   } else {
-      throw new LogicException(variable_violation_message('The second argument', 'callable or null', to_type($closure)));
+   if (is_null($closure)) {
+      $closure = function($value) { return $value; };
    }
-   return array_filter($array, $closure_not);
+   ensure_callable($closure, 'The second argument');
+
+   return array_filter($array, reverse_closure($closure));
 }
 
 /**
@@ -226,7 +224,7 @@ function array_filter_with_key(array $array, $closure)
  */
 function array_flat(array $array)
 {
-   return array_reduce($array, function ($carry, $item) {
+   return array_reduce($array, function($carry, $item) {
          return array_merge($carry, is_array($item) ? $item : array($item));
       }, array());
 }
@@ -245,12 +243,12 @@ function array_zip()
       ensure_array($array, 'Each argument');
    }
 
-   $formatted_arrays = array_map('array_values', $arrays);
+   $formatted_arrays = array_map('to_seq', $arrays);
    $min_length       = min(array_map('count', $formatted_arrays));
 
    $zipped_array = array();
    for ($i = 0; $i < $min_length; $i++) {
-      $zipped_array[] = array_reduce($formatted_arrays, function ($carry, $array) use($i) {
+      $zipped_array[] = array_reduce($formatted_arrays, function($carry, $array) use($i) {
             return array_shoe($carry, $array[$i]);
          }, array());
    }
@@ -459,7 +457,7 @@ function array_for_all(array $array, $closure)
 {
    ensure_callable($closure, 'The second argument');
 
-   $closure_not = function ($value) use($closure) { return !$closure($value); };
+   $closure_not = function($value) use($closure) { return !$closure($value); };
    return !array_exist($array, $closure_not);
 }
 

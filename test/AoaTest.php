@@ -110,8 +110,8 @@ class AoaTest extends PHPUnit_Framework_TestCase
    public function testAoaMap()
    {
       $key      = 'point';
-      $square   = function ($num) { return pow($num, 2); };
-      $expected = array_map(function ($array) use($key, $square) {
+      $square   = function($num) { return pow($num, 2); };
+      $expected = array_map(function($array) use($key, $square) {
             return array_set($array, $key, $square($array[$key]));
          }, $this->aoa);
       $this->assertEquals($expected, aoa_map($this->aoa, $key, $square));
@@ -122,7 +122,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
     */
    public function testAoaReduce()
    {
-      $connect  = function ($carry, $str) { return "$carry/$str"; };
+      $connect  = function($carry, $str) { return "$carry/$str"; };
       $expected = '/hoge/fuga/piyo';
       $this->assertEquals($expected, aoa_reduce($this->aoa, 'name', $connect, ''));
    }
@@ -130,7 +130,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
    public function testAoaFilter()
    {
       $key      = 'id';
-      $expected = array_filter($this->aoa, function ($array) use($key) { return is_odd($array[$key]); });
+      $expected = array_filter($this->aoa, function($array) use($key) { return is_odd($array[$key]); });
       $this->assertEquals($expected, aoa_filter($this->aoa, $key, 'is_odd'));
    }
 
@@ -150,7 +150,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
    {
       $target    = 'email';
       $keys      = aoa_values($this->aoa, $target);
-      $unset_aoa = array_map(function ($array) use($target) { return array_unset($array, $target); }, $this->aoa);
+      $unset_aoa = array_map(function($array) use($target) { return array_unset($array, $target); }, $this->aoa);
       $this->assertEquals(array_combine($keys, $unset_aoa), aoa_associate($this->aoa, $target));
    }
 }

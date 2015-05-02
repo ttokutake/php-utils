@@ -17,7 +17,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
 
    public function testToString()
    {
-      $closure = function () { return 'closure'; };
+      $closure = function() { return 'closure'; };
       $added_patterns = [
          [''                                  , ''      ],
          ['0'                                 , '0'     ],
@@ -88,7 +88,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
             '!!       "rhel"   => "7"'    ,
             '!!    ]'                     ,
             '!! ]'                        ,
-         ], function ($text, $row) { return $text . withln($row); }, '');
+         ], function($text, $row) { return $text . withln($row); }, '');
       $array = [
          'windows' => '10'   ,
          'osx'     => '10.10',

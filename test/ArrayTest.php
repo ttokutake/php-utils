@@ -154,7 +154,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    public function testArrayMapWithKey()
    {
       $patterns = [
-         [['one' => 'one => 1'], ['one' => 1], function ($key, $value) { return "$key => $value"; }],
+         [['one' => 'one => 1'], ['one' => 1], function($key, $value) { return "$key => $value"; }],
       ];
       foreach ($patterns as list($expected, $array, $closure)) {
          $this->assertEquals($expected, array_map_with_key($array, $closure));
@@ -164,7 +164,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    public function testArrayReduceWithKey()
    {
       $patterns = [
-         ['- key => value', ['key' => 'value'], function ($carry, $key, $value) { return "$carry$key => $value"; }],
+         ['- key => value', ['key' => 'value'], function($carry, $key, $value) { return "$carry$key => $value"; }],
       ];
       foreach ($patterns as list($expected, $array, $closure)) {
          $this->assertEquals($expected, array_reduce_with_key($array, $closure, '- '));
@@ -174,8 +174,8 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    public function testArrayFilterWithKey()
    {
       $patterns = [
-         [[1 => 1], [1 => 1], function ($key, $value) { return is_even($key + $value); }],
-         [[      ], [1 => 1], function ($key, $value) { return is_odd ($key + $value); }],
+         [[1 => 1], [1 => 1], function($key, $value) { return is_even($key + $value); }],
+         [[      ], [1 => 1], function($key, $value) { return is_odd ($key + $value); }],
       ];
       foreach ($patterns as list($expected, $array, $closure)) {
          $this->assertEquals($expected, array_filter_with_key($array, $closure));

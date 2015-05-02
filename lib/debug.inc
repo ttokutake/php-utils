@@ -58,12 +58,12 @@ function pretty($var, $row_prefix = '')
          foreach (array_keys($var) as $key) {
             $pretties[$key] = wrap_if_string($key);
          }
-         $lengths    = array_map(function ($pre) {
-               return array_reduce(mb_str_split(strval($pre)), function ($len, $char) { return $len + (include_mb($char) ? 2 : 1); }, 0);
+         $lengths    = array_map(function($pre) {
+               return array_reduce(mb_str_split(strval($pre)), function($len, $char) { return $len + (include_mb($char) ? 2 : 1); }, 0);
             }, $pretties);
          $max        = empty($lengths) ? 0 : max($lengths);
-         $space_nums = array_map(function ($len) use($max) { return $max - $len; }, $lengths);
-         $spaces     = array_map(function ($num) { return str_repeat(' ', $num); }, $space_nums);
+         $space_nums = array_map(function($len) use($max) { return $max - $len; }, $lengths);
+         $spaces     = array_map(function($num) { return str_repeat(' ', $num); }, $space_nums);
 
          $pretty .= withln('[');
          foreach ($var as $key => $elem) {

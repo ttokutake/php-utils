@@ -93,7 +93,7 @@ function aoa_values(array $aoa, $key)
 {
    ensure_scalar($key, 'The second argument');
 
-   return array_map(function ($array) use($key) { return array_get($array, $key); }, $aoa);
+   return array_map(function($array) use($key) { return array_get($array, $key); }, $aoa);
 }
 
 /**
@@ -107,7 +107,7 @@ function aoa_sum(array $aoa, $key)
 {
    ensure_scalar($key, 'The second argument');
 
-   return array_reduce($aoa, function ($sum, $array) use($key) { return $sum + array_get_or_else($array, $key, 0); }, 0);
+   return array_reduce($aoa, function($sum, $array) use($key) { return $sum + array_get_or_else($array, $key, 0); }, 0);
 }
 
 /**

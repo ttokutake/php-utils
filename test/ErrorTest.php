@@ -101,7 +101,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     */
    public function testEnsureArray()
    {
-      $not_array = function () { return 'callable'; };
+      $not_array = function() { return 'callable'; };
       ensure_array($not_array, 'error');
    }
    /**
