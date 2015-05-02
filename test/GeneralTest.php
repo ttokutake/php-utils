@@ -103,4 +103,11 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertEquals([0        ], decremental_range(0,  0));
       $this->assertEquals([         ], decremental_range(0,  1));
    }
+
+
+   public function testReverseClosure()
+   {
+      $not_int = reverse_closure('is_int');
+      $this->assertTrue($not_int(1.1));
+   }
 }

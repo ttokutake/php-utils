@@ -110,3 +110,17 @@ function decremental_range($first, $last)
 
    return array_reverse(incremental_range($last, $first));
 }
+
+
+/**
+ * Return the Closure object which is equal to reversed $closure.
+ *
+ * @param Closure $closure
+ * @param Closure
+ */
+function reverse_closure($closure)
+{
+   ensure_callable($closure, 'The first argument');
+
+   return function($var) use($closure) { return !$closure($var); };
+}
