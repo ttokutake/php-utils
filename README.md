@@ -61,9 +61,9 @@ $ php example.php
    "closure" => object of Closure {
       object properties => [
       ]
-      static properties   => [
+      static properties => [
       ]
-      methods             => [
+      methods           => [
          0 => "bind"
          1 => "bindTo"
       ]
