@@ -462,4 +462,35 @@ class ArrayTest extends PHPUnit_Framework_TestCase
          $this->assertEquals($expected, array_partition($array, 'is_even'));
       }
    }
+
+   /**
+    * @depends testArrayZip
+    */
+   public function testArraySlide()
+   {
+      $expectations = [
+         [[1]          ],
+         [[1], [2]     ],
+         [[1], [2], [3]],
+
+         [['one' => 1]                              ],
+         [['one' => 1], ['two' => 2]                ],
+         [['one' => 1], ['two' => 2], ['three' => 3]],
+      ];
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_slide($array, 1));
+      }
+      $expectations = [
+         [[1   ]             ],
+         [[1, 2], [2   ]     ],
+         [[1, 2], [2, 3], [3]],
+
+         [['one' => 1            ]                                            ],
+         [['one' => 1, 'two' => 2], ['two' => 2              ]                ],
+         [['one' => 1, 'two' => 2], ['two' => 2, 'three' => 3], ['three' => 3]],
+      ];
+      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+         $this->assertEquals($expected, array_slide($array, 2));
+      }
+   }
 }

@@ -27,7 +27,8 @@ function string_or_default($var, $default)
  * @param boolean $boolean
  * @param string  $error_message
  */
-function ensure($boolean, $error_message) {
+function ensure($boolean, $error_message)
+{
    if (!(is_bool($boolean) && $boolean)) {
       throw new LogicException(string_or_default($error_message, 'no message'));
    }
@@ -120,7 +121,8 @@ function wrap_if_string($var)
  * @param  mixed $var
  * @return int
  */
-function force_non_negative($var) {
+function force_non_negative($var)
+{
    return (is_int($var) && $var >= 0) ? $var : 0;
 }
 

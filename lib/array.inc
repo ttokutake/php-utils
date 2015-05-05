@@ -481,7 +481,7 @@ function array_find(array $array, $closure)
 }
 
 /**
- * Return the pair of Arrays, which of former is true value and latter is false value.
+ * Return the pair of Arrays, which of former is true values and latter is false values.
  *
  * @param  array   $array
  * @param  Closure $closure
@@ -500,4 +500,26 @@ function array_partition(array $array, $closure)
       }
    }
    return array($former, $latter);
+}
+
+
+/**
+ * Return the cluster of slided array.
+ *
+ * @param  array $array
+ * @param  int   $size
+ * @param  int   $step
+ * @return array
+ */
+function array_slide(array $array, $size, $step = 1)
+{
+   ensure_non_negative_int($size, 'The second argument');
+   ensure_non_negative_int($step, 'The third argument' );
+
+   $length = count($array);
+   $slided = array();
+   for ($offset = 0; $offset < $length; $offset += $step) {
+      $slided[] = array_slice($array, $offset, $size);
+   }
+   return $slided;
 }
