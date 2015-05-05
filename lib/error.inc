@@ -142,6 +142,7 @@ function error_message($message, $added_depth = 0)
    $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
    $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
    $function  = $call['function'];
+   $message   = string_or_default($message, 'no message');
    return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
 }
 /**
