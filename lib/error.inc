@@ -16,11 +16,8 @@
  * @param string  $error_message
  * @param int     $added_depth
  */
-function ensure($boolean, $error_message, $added_depth = 0) {
+function ensure($boolean, $error_message) {
    if (!$boolean) {
-      if (is_callable($error_message)) {
-         $error_message = $error_message(1 + ((is_int($added_depth) && $added_depth > 0) ? $added_depth : 0));
-      }
       throw new LogicException($error_message);
    }
 }
@@ -32,7 +29,7 @@ function ensure($boolean, $error_message, $added_depth = 0) {
  */
 function plague($error_message)
 {
-   throw new RuntimeException(is_callable($error_message) ? $error_message() : $error_message);
+   throw new RuntimeException($error_message);
 }
 
 
@@ -107,48 +104,33 @@ function wrap_if_string($var)
 
 
 /**
- * Return the error message caller object.
+ * Return non-negative integer.
  *
- * @param  string  $message
- * @return Closure
+ * @param  mixed $var
+ * @return int
  */
-function error_message_caller($message)
-{
-   return function($added_depth = 0) use($message) {
-      $backtrace = debug_backtrace();
-      $depth     = 1 + ((is_int($added_depth) && $added_depth > 0) ? $added_depth : 0);
-      $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
-      $class     = isset($call['class']) ? $call['class'] : ''       ;
-      $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
-      $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
-      $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
-      $function  = $call['function'];
-      return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
-   };
+function force_non_negative($var) {
+   return (is_int($var) && $var >= 0) ? $var : 0;
 }
+
 /**
  * Return the error message.
  *
  * @param  string $message
+ * @param  int    $added_depth
  * @return string
  */
-function error_message($message)
+function error_message($message, $added_depth = 0)
 {
-   $caller = error_message_caller($message);
-   return $caller(1);
-}
-
-/**
- * Return the variable's violation message caller.
- *
- * @param  string  $which_one
- * @param  string  $expected
- * @param  string  $actual
- * @return Closure
- */
-function variable_violation_message_caller($which_one, $expected, $actual)
-{
-   return error_message_caller("$which_one must be $expected, actually $actual");
+   $backtrace = debug_backtrace();
+   $depth     = 1 + force_non_negative($added_depth);
+   $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
+   $class     = isset($call['class']) ? $call['class'] : ''       ;
+   $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
+   $file      = isset($call['file' ]) ? $call['file' ] : 'unknown';
+   $line      = isset($call['line' ]) ? $call['line' ] : 'unknown';
+   $function  = $call['function'];
+   return "{$class}{$type}$function(): $message [FILE: $file, LINE: $line]";
 }
 /**
  * Return the variable's violation message.
@@ -156,12 +138,12 @@ function variable_violation_message_caller($which_one, $expected, $actual)
  * @param  string $which_one
  * @param  string $expected
  * @param  string $actual
+ * @param  int    $added_depth
  * @return string
  */
-function variable_violation_message($which_one, $expected, $actual)
+function variable_violation_message($which_one, $expected, $actual, $added_depth = 0)
 {
-   $caller = variable_violation_message_caller($which_one, $expected, $actual);
-   return $caller(1);
+   return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative($added_depth));
 }
 
 /**
@@ -172,7 +154,9 @@ function variable_violation_message($which_one, $expected, $actual)
  */
 function ensure_non_null(&$var, $which_one)
 {
-   ensure(!is_null($var), variable_violation_message_caller($which_one, 'non-null', to_type($var)), 1);
+   if (is_null($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'non-null', to_type($var)));
+   }
 }
 
 /**
@@ -183,7 +167,9 @@ function ensure_non_null(&$var, $which_one)
  */
 function ensure_bool(&$var, $which_one)
 {
-   ensure(is_bool($var), variable_violation_message_caller($which_one, 'boolean', to_type($var)), 1);
+   if (!is_bool($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'boolean', to_type($var)));
+   }
 }
 
 /**
@@ -194,7 +180,9 @@ function ensure_bool(&$var, $which_one)
  */
 function ensure_int(&$var, $which_one)
 {
-   ensure(is_int($var), variable_violation_message_caller($which_one, 'integer', to_type($var)), 1);
+   if (!is_int($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'integer', to_type($var)));
+   }
 }
 
 /**
@@ -205,7 +193,9 @@ function ensure_int(&$var, $which_one)
  */
 function ensure_float(&$var, $which_one)
 {
-   ensure(is_float($var), variable_violation_message_caller($which_one, 'float', to_type($var)), 1);
+   if (!is_float($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'float', to_type($var)));
+   }
 }
 
 /**
@@ -216,7 +206,9 @@ function ensure_float(&$var, $which_one)
  */
 function ensure_numeric(&$var, $which_one)
 {
-   ensure(is_numeric($var), variable_violation_message_caller($which_one, 'numeric', to_type($var)), 1);
+   if (!is_numeric($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'numeric', to_type($var)));
+   }
 }
 
 /**
@@ -227,7 +219,9 @@ function ensure_numeric(&$var, $which_one)
  */
 function ensure_string(&$var, $which_one)
 {
-   ensure(is_string($var), variable_violation_message_caller($which_one, 'string', to_type($var)), 1);
+   if (!is_string($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'string', to_type($var)));
+   }
 }
 
 /**
@@ -238,7 +232,9 @@ function ensure_string(&$var, $which_one)
  */
 function ensure_scalar(&$var, $which_one)
 {
-   ensure(is_scalar($var), variable_violation_message_caller($which_one, 'scalar', to_type($var)), 1);
+   if (!is_scalar($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'scalar', to_type($var)));
+   }
 }
 
 /**
@@ -249,7 +245,9 @@ function ensure_scalar(&$var, $which_one)
  */
 function ensure_resource(&$var, $which_one)
 {
-   ensure(is_resource($var), variable_violation_message_caller($which_one, 'resource', to_type($var)), 1);
+   if (!is_resource($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'resource', to_type($var)));
+   }
 }
 
 /**
@@ -260,7 +258,9 @@ function ensure_resource(&$var, $which_one)
  */
 function ensure_array(&$var, $which_one)
 {
-   ensure(is_array($var), variable_violation_message_caller($which_one, 'array', to_type($var)), 1);
+   if (!is_array($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'array', to_type($var)));
+   }
 }
 
 /**
@@ -271,7 +271,9 @@ function ensure_array(&$var, $which_one)
  */
 function ensure_callable(&$var, $which_one)
 {
-   ensure(is_callable($var), variable_violation_message_caller($which_one, 'Closure', to_type($var)), 1);
+   if (!is_callable($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'Closure', to_type($var)));
+   }
 }
 
 /**
@@ -282,7 +284,9 @@ function ensure_callable(&$var, $which_one)
  */
 function ensure_object(&$var, $which_one)
 {
-   ensure(is_object($var), variable_violation_message_caller($which_one, 'object', to_type($var)), 1);
+   if (!is_object($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'object', to_type($var)));
+   }
 }
 
 
@@ -294,7 +298,9 @@ function ensure_object(&$var, $which_one)
  */
 function ensure_non_empty(&$var, $which_one)
 {
-   ensure(!empty($var), variable_violation_message_caller($which_one, 'non-empty', to_string(wrap_if_string($var))), 1);
+   if (empty($var)) {
+      throw new LogicException(variable_violation_message($which_one, 'non-empty', to_string(wrap_if_string($var))));
+   }
 }
 
 /**
@@ -305,7 +311,9 @@ function ensure_non_empty(&$var, $which_one)
  */
 function ensure_positive_int(&$var, $which_one)
 {
-   ensure(is_int($var) && $var > 0, variable_violation_message_caller($which_one, 'positive integer', to_string(wrap_if_string($var))), 1);
+   if (!(is_int($var) && $var > 0)) {
+      throw new LogicException(variable_violation_message($which_one, 'positive integer', to_string(wrap_if_string($var))));
+   }
 }
 
 /**
@@ -314,9 +322,11 @@ function ensure_positive_int(&$var, $which_one)
  * @param mixed  &$var
  * @param string  $which_one
  */
-function ensure_non_positive_int(&$var, $which_one)
+function ensure_non_negative_int(&$var, $which_one)
 {
-   ensure(is_int($var) && $var >= 0, variable_violation_message_caller($which_one, 'non-positive integer', to_string(wrap_if_string($var))), 1);
+   if (!(is_int($var) && $var >= 0)) {
+      throw new LogicException(variable_violation_message($which_one, 'non-negative integer', to_string(wrap_if_string($var))));
+   }
 }
 
 /**
@@ -328,8 +338,10 @@ function ensure_non_positive_int(&$var, $which_one)
  */
 function ensure_in_array(&$var, array $white_list, $which_one)
 {
-   $white = implode(', ', $white_list);
-   ensure(in_array($var, $white_list), variable_violation_message_caller($which_one, "in [$white]", to_string(wrap_if_string($var))), 1);
+   if (!in_array($var, $white_list)) {
+      $white = implode(', ', $white_list);
+      throw new LogicException(variable_violation_message($which_one, "in [$white]", to_string(wrap_if_string($var))));
+   }
 }
 
 /**
@@ -341,6 +353,8 @@ function ensure_in_array(&$var, array $white_list, $which_one)
  */
 function ensure_not_in_array(&$var, array $black_list, $which_one)
 {
-   $black = implode(' ,', $black_list);
-   ensure(!in_array($var, $black_list), variable_violation_message_caller($which_one, "out of [$black]", to_string(wrap_if_string($var))), 1);
+   if (in_array($var, $black_list)) {
+      $black = implode(' ,', $black_list);
+      throw new LogicException(variable_violation_message($which_one, "out of [$black]", to_string(wrap_if_string($var))));
+   }
 }

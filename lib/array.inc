@@ -355,7 +355,7 @@ function array_last(array $array)
  */
 function array_take(array $array, $num)
 {
-   ensure_non_positive_int($num, 'The second argument');
+   ensure_non_negative_int($num, 'The second argument');
 
    return array_slice($array, 0, $num);
 }
@@ -369,7 +369,7 @@ function array_take(array $array, $num)
  */
 function array_take_right(array $array, $num)
 {
-   ensure_non_positive_int($num, 'The second argument');
+   ensure_non_negative_int($num, 'The second argument');
 
    return array_reverse(array_take(array_reverse($array), $num, 1));
 }
@@ -383,7 +383,7 @@ function array_take_right(array $array, $num)
  */
 function array_drop(array $array, $num)
 {
-   ensure_non_positive_int($num, 'The second argument');
+   ensure_non_negative_int($num, 'The second argument');
 
    return array_slice($array, $num);
 }
@@ -397,7 +397,7 @@ function array_drop(array $array, $num)
  */
 function array_drop_right(array $array, $num)
 {
-   ensure_non_positive_int($num, 'The second argument');
+   ensure_non_negative_int($num, 'The second argument');
 
    return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
