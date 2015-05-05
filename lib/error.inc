@@ -17,8 +17,8 @@
  * @param int     $added_depth
  */
 function ensure($boolean, $error_message) {
-   if (!$boolean) {
-      throw new LogicException($error_message);
+   if (!(is_bool($boolean) && $boolean)) {
+      throw new LogicException(is_string($error_message) ? $error_message : 'no message');
    }
 }
 
@@ -29,7 +29,7 @@ function ensure($boolean, $error_message) {
  */
 function plague($error_message)
 {
-   throw new RuntimeException($error_message);
+   throw new RuntimeException(is_string($error_message) ? $error_message : 'no message');
 }
 
 
