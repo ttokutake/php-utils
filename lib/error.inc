@@ -26,7 +26,6 @@ function string_or_default($var, $default)
  *
  * @param boolean $boolean
  * @param string  $error_message
- * @param int     $added_depth
  */
 function ensure($boolean, $error_message) {
    if (!(is_bool($boolean) && $boolean)) {
@@ -161,6 +160,7 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
    $actual    = string_or_default($actual   , 'unexpected one');
    return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative($added_depth));
 }
+
 
 /**
  * Throw the LogicException if $var is null.
