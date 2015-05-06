@@ -264,9 +264,7 @@ function array_behead(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   $head = reset($array);
-   $tail = array_slice($array, 1);
-   return array($head, $tail);
+   return array(array_head($array), array_tail($array));
 }
 
 /**
@@ -279,8 +277,7 @@ function array_head(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   list($head) = array_behead($array, 1);
-   return $head;
+   return reset($array);
 }
 
 /**
@@ -293,8 +290,7 @@ function array_tail(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   list(, $tail) = array_behead($array, 1);
-   return $tail;
+   return array_slice($array, 1);
 }
 
 
@@ -308,10 +304,7 @@ function array_depeditate(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   $init = array_slice($array, 0, count($array) - 1);
-   $last = end($array);
-   reset($array);
-   return array($init, $last);
+   return array(array_init($array), array_last($array));
 }
 
 /**
@@ -324,8 +317,7 @@ function array_init(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   list($init) = array_depeditate($array, 1);
-   return $init;
+   return array_slice($array, 0, count($array) - 1);
 }
 
 /**
@@ -338,8 +330,7 @@ function array_last(array $array)
 {
    ensure_non_empty($array, 'The first argument');
 
-   list(, $last) = array_depeditate($array, 1);
-   return $last;
+   return end($array);
 }
 
 
@@ -410,16 +401,7 @@ function array_split(array $array, $offset)
 {
    ensure_int($offset, 'The second argument');
 
-   $former = $latter = array();
-   $count  = 0;
-   foreach ($array as $key => $value) {
-      if ($count++ < $offset) {
-         $former[$key] = $value;
-      } else {
-         $latter[$key] = $value;
-      }
-   }
-   return array($former, $latter);
+   return array(array_slice($array, 0, $offset), array_slice($array, $offset));
 }
 
 
@@ -494,9 +476,23 @@ function array_partition(array $array, $closure)
          $latter[$key] = $value;
       }
    }
-   return array($former, $latter);
+   return is_seq($array) ? array_map('to_seq', array($former, $latter)) : array($former, $latter);
 }
 
+
+/**
+ * Return array_chunk().
+ *
+ * @param  array $array
+ * @param  int   $size
+ * @return array
+ */
+function array_group(array $array, $size)
+{
+   ensure_positive_int($size, 'The second argument');
+
+   return array_chunk($array, $size);
+}
 
 /**
  * Return the cluster of slided array.

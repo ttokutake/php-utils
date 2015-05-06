@@ -372,14 +372,30 @@ class ArrayTest extends PHPUnit_Framework_TestCase
 
    public function testArraySplit()
    {
-      $array    = [1, 2, 3];
+      $seq   = [1, 2, 3];
+      $assoc = ['one' => 1, 'two' => 2, 'three' => 3];
       $patterns = [
-         [[[       ], [1,      2,      3]], 0],
-         [[[1      ], [   1 => 2, 2 => 3]], 1],
-         [[[1, 2   ], [           2 => 3]], 2],
-         [[[1, 2, 3], [                 ]], 3],
+         [[[       ], [1, 2, 3]], $seq, -4],
+         [[[       ], [1, 2, 3]], $seq, -3],
+         [[[1      ], [   2, 3]], $seq, -2],
+         [[[1, 2   ], [      3]], $seq, -1],
+         [[[       ], [1, 2, 3]], $seq,  0],
+         [[[1      ], [   2, 3]], $seq,  1],
+         [[[1, 2   ], [      3]], $seq,  2],
+         [[[1, 2, 3], [       ]], $seq,  3],
+         [[[1, 2, 3], [       ]], $seq,  4],
+
+         [[[                                    ], ['one' => 1, 'two' => 2, 'three' => 3]], $assoc, -4],
+         [[[                                    ], ['one' => 1, 'two' => 2, 'three' => 3]], $assoc, -3],
+         [[['one' => 1                          ], [            'two' => 2, 'three' => 3]], $assoc, -2],
+         [[['one' => 1, 'two' => 2              ], [                        'three' => 3]], $assoc, -1],
+         [[[                                    ], ['one' => 1, 'two' => 2, 'three' => 3]], $assoc,  0],
+         [[['one' => 1                          ], [            'two' => 2, 'three' => 3]], $assoc,  1],
+         [[['one' => 1, 'two' => 2              ], [                        'three' => 3]], $assoc,  2],
+         [[['one' => 1, 'two' => 2, 'three' => 3], [                                    ]], $assoc,  3],
+         [[['one' => 1, 'two' => 2, 'three' => 3], [                                    ]], $assoc,  4],
       ];
-      foreach ($patterns as list($expected, $offset)) {
+      foreach ($patterns as list($expected, $array, $offset)) {
          $this->assertEquals($expected, array_split($array, $offset));
       }
    }
@@ -436,9 +452,9 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    public function testArrayPartition()
    {
       $odd_expectations = [
-         [[0 => 1        ], [      ]],
-         [[0 => 1        ], [1 => 2]],
-         [[0 => 1, 2 => 3], [1 => 2]],
+         [[1   ], [ ]],
+         [[1   ], [2]],
+         [[1, 3], [2]],
 
          [['one' => 1              ], [          ]],
          [['one' => 1              ], ['two' => 2]],
@@ -449,9 +465,9 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
 
       $even_expectations = [
-         [[      ], [0 => 1        ]],
-         [[1 => 2], [0 => 1        ]],
-         [[1 => 2], [0 => 1, 2 => 3]],
+         [[ ], [1   ]],
+         [[2], [1   ]],
+         [[2], [1, 3]],
 
          [[          ], ['one' => 1              ]],
          [['two' => 2], ['one' => 1              ]],
