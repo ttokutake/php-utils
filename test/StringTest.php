@@ -35,8 +35,9 @@ class StringTest extends PHPUnit_Framework_TestCase
    public function testStartWith()
    {
       $patterns = [
-         [true , $this->platitude   , 'hello'     ],
-         [false, $this->platitude   , 'ello,'     ],
+         [true , $this->platitude, 'hello'],
+         [false, $this->platitude, 'ello,'],
+
          [true , $this->mb_platitude, 'こんにちは'],
          [false, $this->mb_platitude, 'んにちは、'],
       ];
@@ -48,8 +49,9 @@ class StringTest extends PHPUnit_Framework_TestCase
    public function testEndWith()
    {
       $patterns = [
-         [true , $this->platitude   , 'world!'],
-         [false, $this->platitude   , ' world'],
+         [true , $this->platitude, 'world!'],
+         [false, $this->platitude, ' world'],
+
          [true , $this->mb_platitude, '世界！'],
          [false, $this->mb_platitude, '、世界'],
       ];
@@ -62,68 +64,60 @@ class StringTest extends PHPUnit_Framework_TestCase
    public function testSplitAt()
    {
       $patterns = [
-         [['', 'hello, world!'], -14],
-         [['', 'hello, world!'], -13],
-         [['h', 'ello, world!'], -12],
-         [['hello, world', '!'], - 1],
-         [['', 'hello, world!'],   0],
-         [['h', 'ello, world!'],   1],
-         [['hello, world', '!'],  12],
-         [['hello, world!', ''],  13],
-         [['hello, world!', ''],  14],
+         [['', 'hello, world!'], $this->platitude, -14],
+         [['', 'hello, world!'], $this->platitude, -13],
+         [['h', 'ello, world!'], $this->platitude, -12],
+         [['hello, world', '!'], $this->platitude, - 1],
+         [['', 'hello, world!'], $this->platitude,   0],
+         [['h', 'ello, world!'], $this->platitude,   1],
+         [['hello, world', '!'], $this->platitude,  12],
+         [['hello, world!', ''], $this->platitude,  13],
+         [['hello, world!', ''], $this->platitude,  14],
+
+         [['', 'こんにちは、世界！'], $this->mb_platitude, -10],
+         [['', 'こんにちは、世界！'], $this->mb_platitude, - 9],
+         [['こ', 'んにちは、世界！'], $this->mb_platitude, - 8],
+         [['こんにちは、世界', '！'], $this->mb_platitude, - 1],
+         [['', 'こんにちは、世界！'], $this->mb_platitude,   0],
+         [['こ', 'んにちは、世界！'], $this->mb_platitude,   1],
+         [['こんにちは、世界', '！'], $this->mb_platitude,   8],
+         [['こんにちは、世界！', ''], $this->mb_platitude,   9],
+         [['こんにちは、世界！', ''], $this->mb_platitude,  10],
       ];
-      foreach ($patterns as list($expected, $at)) {
-         $this->assertEquals($expected, split_at($this->platitude, $at));
-      }
-      $mb_patterns = [
-         [['', 'こんにちは、世界！'], -10],
-         [['', 'こんにちは、世界！'], - 9],
-         [['こ', 'んにちは、世界！'], - 8],
-         [['こんにちは、世界', '！'], - 1],
-         [['', 'こんにちは、世界！'],   0],
-         [['こ', 'んにちは、世界！'],   1],
-         [['こんにちは、世界', '！'],   8],
-         [['こんにちは、世界！', ''],   9],
-         [['こんにちは、世界！', ''],  10],
-      ];
-      foreach ($mb_patterns as list($expected, $at)) {
-         $this->assertEquals($expected, split_at($this->mb_platitude, $at));
+      foreach ($patterns as list($expected, $string, $at)) {
+         $this->assertEquals($expected, split_at($string, $at));
       }
    }
 
    public function testMbStrSplit()
    {
       $patterns = [
-         [['h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!'],  1],
-         [['he', 'll', 'o,', ' w', 'or', 'ld', '!']                        ,  2],
-         [['hel', 'lo,', ' wo', 'rld', '!']                                ,  3],
-         [['hell', 'o, w', 'orld', '!']                                    ,  4],
-         [['hello', ', wor', 'ld!']                                        ,  5],
-         [['hello,', ' world', '!']                                        ,  6],
-         [['hello, ', 'world!']                                            ,  7],
-         [['hello, w', 'orld!']                                            ,  8],
-         [['hello, wo', 'rld!']                                            ,  9],
-         [['hello, wor', 'ld!']                                            , 10],
-         [['hello, worl', 'd!']                                            , 11],
-         [['hello, world', '!']                                            , 12],
-         [['hello, world!']                                                , 13],
+         [['h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!'], $this->platitude,  1],
+         [['he', 'll', 'o,', ' w', 'or', 'ld', '!']                        , $this->platitude,  2],
+         [['hel', 'lo,', ' wo', 'rld', '!']                                , $this->platitude,  3],
+         [['hell', 'o, w', 'orld', '!']                                    , $this->platitude,  4],
+         [['hello', ', wor', 'ld!']                                        , $this->platitude,  5],
+         [['hello,', ' world', '!']                                        , $this->platitude,  6],
+         [['hello, ', 'world!']                                            , $this->platitude,  7],
+         [['hello, w', 'orld!']                                            , $this->platitude,  8],
+         [['hello, wo', 'rld!']                                            , $this->platitude,  9],
+         [['hello, wor', 'ld!']                                            , $this->platitude, 10],
+         [['hello, worl', 'd!']                                            , $this->platitude, 11],
+         [['hello, world', '!']                                            , $this->platitude, 12],
+         [['hello, world!']                                                , $this->platitude, 13],
+
+         [['こ', 'ん', 'に', 'ち', 'は', '、', '世', '界', '！'], $this->mb_platitude, 1],
+         [['こん', 'にち', 'は、', '世界', '！']                , $this->mb_platitude, 2],
+         [['こんに', 'ちは、', '世界！']                        , $this->mb_platitude, 3],
+         [['こんにち', 'は、世界', '！']                        , $this->mb_platitude, 4],
+         [['こんにちは', '、世界！']                            , $this->mb_platitude, 5],
+         [['こんにちは、', '世界！']                            , $this->mb_platitude, 6],
+         [['こんにちは、世', '界！']                            , $this->mb_platitude, 7],
+         [['こんにちは、世界', '！']                            , $this->mb_platitude, 8],
+         [['こんにちは、世界！']                                , $this->mb_platitude, 9],
       ];
-      foreach ($patterns as list($expected, $width)) {
-         $this->assertEquals($expected, mb_str_split($this->platitude, $width));
-      }
-      $mb_patterns = [
-         [['こ', 'ん', 'に', 'ち', 'は', '、', '世', '界', '！'], 1],
-         [['こん', 'にち', 'は、', '世界', '！']                , 2],
-         [['こんに', 'ちは、', '世界！']                        , 3],
-         [['こんにち', 'は、世界', '！']                        , 4],
-         [['こんにちは', '、世界！']                            , 5],
-         [['こんにちは、', '世界！']                            , 6],
-         [['こんにちは、世', '界！']                            , 7],
-         [['こんにちは、世界', '！']                            , 8],
-         [['こんにちは、世界！']                                , 9],
-      ];
-      foreach ($mb_patterns as list($expected, $width)) {
-         $this->assertEquals($expected, mb_str_split($this->mb_platitude, $width));
+      foreach ($patterns as list($expected, $string, $width)) {
+         $this->assertEquals($expected, mb_str_split($string, $width));
       }
    }
 
