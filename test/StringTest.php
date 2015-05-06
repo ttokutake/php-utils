@@ -20,8 +20,8 @@ class StringTest extends PHPUnit_Framework_TestCase
    {
       $tag   = 'p';
       $class = 'greeting';
-      $this->assertEquals("<$tag>{$this->platitude}</$tag>", wrap_by_tag($this->platitude, $tag));
-      $this->assertEquals("<$tag class=\"$class\">$this->mb_platitude</$tag>", wrap_by_tag($this->mb_platitude, $tag, $class));
+      $this->assertEquals("<$tag>{$this->platitude}</$tag>"                    , wrap_by_tag($this->platitude   , $tag        ));
+      $this->assertEquals("<$tag class=\"$class\">{$this->mb_platitude}</$tag>", wrap_by_tag($this->mb_platitude, $tag, $class));
    }
 
    public function testFollowJoin()

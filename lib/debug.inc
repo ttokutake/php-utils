@@ -139,7 +139,6 @@ function hf_echoln($var, $comment_out = true)
 {
    echo html_friendly(withln($var), $comment_out);
 }
-
 /**
  * Output html-friendly pretty().
  *
@@ -150,7 +149,6 @@ function hf_pretty($var, $comment_out = true)
 {
    echo html_friendly(pretty($var), $comment_out);
 }
-
 /**
  * Output html-friendly var_export().
  *
@@ -161,7 +159,6 @@ function hf_var_export($var, $comment_out = true)
 {
    echo html_friendly(var_detail($var), $comment_out);
 }
-
 /**
  * Output html-friendly print_r().
  *

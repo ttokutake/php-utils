@@ -4,43 +4,8 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class DebugTest extends PHPUnit_Framework_TestCase
 {
-   private $patterns = [
-      ['null' , null ],
-      ['false', false],
-      ['true' , true ],
-      ['0'    , 0    ],
-      ['1'    , 1    ],
-      ['0.0'  , 0.0  ],
-      ['0.04' , 0.04 ],
-      ['1.0'  , 1.00 ],
-   ];
-
-   public function testToString()
-   {
-      $closure = function() { return 'closure'; };
-      $added_patterns = [
-         [''                                , ''      ],
-         ['0'                               , '0'     ],
-         ['a'                               , 'a'     ],
-         ['array'                           , []      ],
-         ['object of ' . get_class($closure), $closure],
-      ];
-      foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
-         $this->assertEquals($expected, to_string($var));
-      }
-
-      $resource = fopen('testToString', 'w');
-      $this->assertEquals('resource <' . get_resource_type($resource) . '> #' . intval($resource), to_string($resource));
-      unlink('testToString');
-
-      // class test?
-   }
-
    private $platitude = 'hello, world!';
 
-   /**
-    * @depends testToString
-    */
    public function testWithln()
    {
       $this->assertEquals($this->platitude . PHP_EOL, withln($this->platitude));
@@ -69,26 +34,37 @@ class DebugTest extends PHPUnit_Framework_TestCase
     */
    public function testPretty()
    {
-      $added_patterns = [
-         ['""'             , '' ],
-         ['"0"'            , '0'],
-         ['"a"'            , 'a'],
-         [withln('[') . ']', [] ],
+      $patterns = [
+         ['null'           , null ],
+         ['false'          , false],
+         ['true'           , true ],
+         ['0'              , 0    ],
+         ['1'              , 1    ],
+         ['0.0'            , 0.0  ],
+         ['0.0'            , 0.   ],
+         ['0.04'           , 0.04 ],
+         ['1.0'            , 1.00 ],
+         ['""'             , ''   ],
+         ['"0"'            , '0'  ],
+         ['"a"'            , 'a'  ],
+         [withln('[') . ']', []   ],
       ];
-      foreach (array_merge($this->patterns, $added_patterns) as list($expected, $var)) {
+      foreach ($patterns as list($expected, $var)) {
          $this->assertEquals(withln($expected), pretty($var));
       }
 
-      $expected = array_reduce([
-            '!! ['                        ,
-            '!!    "windows" => "10"'     ,
-            '!!    "osx"     => "10.10"'  ,
-            '!!    "linux"   => ['        ,
-            '!!       "ubuntu" => "15.04"',
-            '!!       "rhel"   => "7"'    ,
-            '!!    ]'                     ,
-            '!! ]'                        ,
-         ], function($text, $row) { return $text . withln($row); }, '');
+      $prefix = '>> ';
+
+      $array_expected = array_reduce([
+            '['                        ,
+            '   "windows" => "10"'     ,
+            '   "osx"     => "10.10"'  ,
+            '   "linux"   => ['        ,
+            '      "ubuntu" => "15.04"',
+            '      "rhel"   => "7"'    ,
+            '   ]'                     ,
+            ']'                        ,
+         ], function($text, $row) use($prefix) { return $text . withln("$prefix$row"); }, '');
       $array = [
          'windows' => '10'   ,
          'osx'     => '10.10',
@@ -97,8 +73,20 @@ class DebugTest extends PHPUnit_Framework_TestCase
             'rhel'   => '7'    ,
          ]
       ];
-      $this->assertEquals($expected, pretty($array, '!! '));
+      $this->assertEquals($array_expected, pretty($array, $prefix));
 
-      // class test?
+      $object_expected = array_reduce([
+            'object of Closure {'      ,
+            '   object properties => [',
+            '   ]'                     ,
+            '   static properties => [',
+            '   ]'                     ,
+            '   methods           => [',
+            '      0 => "bind"'        ,
+            '      1 => "bindTo"'      ,
+            '   ]'                     ,
+            '}'                        ,
+         ], function($text, $row) use($prefix) { return $text . withln("$prefix$row"); }, '');
+      $this->assertEquals($object_expected, pretty(function() { echo 'testPretty'; }, $prefix));
    }
 }
