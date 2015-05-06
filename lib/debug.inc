@@ -9,6 +9,7 @@
  */
 
 
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'cover.inc' ));
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc' ));
 require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'string.inc'));
 

@@ -22,6 +22,7 @@ function create_path(array $dirs)
 
 define('PATH_TO_LIB_FOR_PHP_UTILS', create_path(array(__DIR__, 'lib')));
 
+require_once PATH_TO_LIB_FOR_PHP_UTILS . 'cover.inc'         ;
 require_once PATH_TO_LIB_FOR_PHP_UTILS . 'error.inc'         ;
 require_once PATH_TO_LIB_FOR_PHP_UTILS . 'debug.inc'         ;
 require_once PATH_TO_LIB_FOR_PHP_UTILS . 'general.inc'       ;

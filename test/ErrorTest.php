@@ -4,15 +4,7 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ErrorTest extends PHPUnit_Framework_TestCase
 {
-   public function testStringOrDefault()
-   {
-      $this->assertEquals('string'    , string_or_default('string', 'non-string'));
-      $this->assertEquals('non-string', string_or_default(       1, 'non-string'));
-      $this->assertEquals(''          , string_or_default(     1.1,            1));
-   }
-
    /**
-    * @depends           testStringOrDefault
     * @expectedException LogicException
     */
    public function testEnsure()
@@ -20,7 +12,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure(false, 'Message for LogicException');
    }
    /**
-    * @depends           testStringOrDefault
+    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureWithNonStringMessage()
@@ -28,7 +20,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure(false, 1);
    }
    /**
-    * @depends           testStringOrDefault
+    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureWithNonBoolean()
@@ -37,7 +29,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends           testStringOrDefault
     * @expectedException RuntimeException
     */
    public function testPlague()
@@ -45,7 +36,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       $success = false or plague('Message for RuntimeException');
    }
    /**
-    * @depends           testStringOrDefault
+    * @depends           testPlague
     * @expectedException RuntimeException
     */
    public function testPlagueWithNonStringMessage()
@@ -54,52 +45,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testToType()
-   {
-      $this->assertEquals('null'     , to_type(null                        ));
-      $this->assertEquals('boolean'  , to_type(true                        ));
-      $this->assertEquals('integer'  , to_type(1                           ));
-      $this->assertEquals('float'    , to_type(1.1                         ));
-      $this->assertEquals('string'   , to_type('string'                    ));
-      $f = fopen('testToType', 'w');
-      $this->assertEquals('resource' , to_type($f                          ));
-      fclose($f);
-      unlink('testToType');
-      $this->assertEquals('array'    , to_type([1, 2, 3]                   ));
-      $this->assertEquals('Closure'  , to_type(function ($a) { return $a; }));
-      $this->assertEquals('Exception', to_type(new Exception('class test') ));
-   }
-
-   public function testToString()
-   {
-      $this->assertEquals('null'               , to_string(null                        ));
-      $this->assertEquals('true'               , to_string(true                        ));
-      $this->assertEquals('false'              , to_string(false                       ));
-      $this->assertEquals('1'                  , to_string(1                           ));
-      $this->assertEquals('1.0'                , to_string(1.0                         ));
-      $this->assertEquals('1.01'               , to_string(1.010                       ));
-      $this->assertEquals('string'             , to_string('string'                    ));
-      $this->assertEquals('array'              , to_string([1, 2, 3]                   ));
-      $this->assertEquals('object of Closure'  , to_string(function ($a) { return $a; }));
-      $this->assertEquals('object of Exception', to_string(new Exception('class test') ));
-   }
-
-   public function testWrapIfString()
-   {
-      $this->assertEquals('"string"', wrap_if_string('string'));
-      $this->assertEquals(         1, wrap_if_string(       1));
-   }
-
-
-   public function testForceNonNegativeInt()
-   {
-      $this->assertEquals(1, force_non_negative_int(  1));
-      $this->assertEquals(0, force_non_negative_int('1'));
-   }
-
-
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureNonNull()
@@ -108,7 +54,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_non_null($null, 'this');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureBool()
@@ -117,7 +62,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_bool($not_bool, 'argument');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureInt()
@@ -126,7 +70,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_int($not_int, 'must');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureFloat()
@@ -135,7 +78,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_float($not_float, 'be');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureNumeric()
@@ -144,7 +86,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_numeric($not_numeric, 'the');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureString()
@@ -153,7 +94,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_string($not_string, 'subject');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureScalar()
@@ -164,7 +104,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_scalar($not_scalar, 'of');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureResource()
@@ -173,7 +112,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_resource($not_resource, 'the');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureArray()
@@ -182,7 +120,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_array($not_array, 'error');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureCallable()
@@ -191,7 +128,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_callable($not_callable, 'message');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureObject()
@@ -201,7 +137,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureNonEmpty()
@@ -211,7 +146,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsurePositiveInt()
@@ -220,7 +154,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_positive_int($non_positive, 'you');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureNonPositiveInt()
@@ -232,7 +165,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
 
     private $blowser = ['chrome', 'firefox', 'safari'];
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureInArray()
@@ -241,7 +173,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_in_array($not_in_array, $this->blowser, '?');
    }
    /**
-    * @depends           testEnsure
     * @expectedException LogicException
     */
    public function testEnsureNotInArray()
