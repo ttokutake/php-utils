@@ -8,6 +8,7 @@ This library is mainly affected by [Scala](http://www.scala-lang.org/).
 
 | file name          | description                                                                                        |
 |--------------------|----------------------------------------------------------------------------------------------------|
+| cover.inc          | defines the functions which throw no Exception                                                     |
 | error.inc          | defines the functions which are usefull for throwing some exception                                |
 | string.inc         | defines the functions which complement PHP standard functions for "string"                         |
 | debug.inc          | defines the functions which help developers to debug                                               |
