@@ -14,7 +14,7 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'));
 
 /**
  * Run "require_once" that is equal to "require_once __DIR__ . DIRECTORY_SEPARATOR . $file;".
- * Notice: Global variables can't be created.
+ * Notice: If you want to create global variables, use $GLOBAL.
  *
  * @param string $file
  */
@@ -52,7 +52,7 @@ function is_odd($num)
 {
    ensure_numeric($num, 'The first argument');
 
-   return in_z($num) ? ($num % 2 == 1) : false;
+   return in_z($num) && abs($num % 2) == 1;
 }
 
 /**
@@ -65,7 +65,7 @@ function is_even($num)
 {
    ensure_numeric($num, 'The first argument');
 
-   return in_z($num) ? ($num % 2 == 0) : false;
+   return in_z($num) && abs($num % 2) == 0;
 }
 
 /**
