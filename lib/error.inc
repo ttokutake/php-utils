@@ -75,7 +75,7 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
 
 
 /**
- * Throw the LogicException if $var is not "boolean".
+ * Throw the DomainException if $var is not "boolean".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -84,12 +84,12 @@ function ensure_bool(&$var, $which_one)
 {
    if (!is_bool($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'boolean', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'boolean', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "integer".
+ * Throw the DomainException if $var is not "integer".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -98,12 +98,12 @@ function ensure_int(&$var, $which_one)
 {
    if (!is_int($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'integer', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'integer', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "float".
+ * Throw the DomainException if $var is not "float".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -112,12 +112,12 @@ function ensure_float(&$var, $which_one)
 {
    if (!is_float($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'float', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'float', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "numeric".
+ * Throw the DomainException if $var is not "numeric".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -126,12 +126,12 @@ function ensure_numeric(&$var, $which_one)
 {
    if (!is_numeric($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'numeric', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'numeric', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "string".
+ * Throw the DomainException if $var is not "string".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -140,12 +140,12 @@ function ensure_string(&$var, $which_one)
 {
    if (!is_string($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'string', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'string', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "scalar".
+ * Throw the DomainException if $var is not "scalar".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -154,12 +154,12 @@ function ensure_scalar(&$var, $which_one)
 {
    if (!is_scalar($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'scalar', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'scalar', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "resource".
+ * Throw the DomainException if $var is not "resource".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -168,12 +168,12 @@ function ensure_resource(&$var, $which_one)
 {
    if (!is_resource($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'resource', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'resource', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "array".
+ * Throw the DomainException if $var is not "array".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -182,12 +182,12 @@ function ensure_array(&$var, $which_one)
 {
    if (!is_array($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'array', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'array', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "callable".
+ * Throw the DomainException if $var is not "callable".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -196,12 +196,12 @@ function ensure_callable(&$var, $which_one)
 {
    if (!is_callable($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'Closure', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'Closure', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "object".
+ * Throw the DomainException if $var is not "object".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -210,13 +210,13 @@ function ensure_object(&$var, $which_one)
 {
    if (!is_object($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'object', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'object', to_type($var)));
    }
 }
 
 
 /**
- * Throw the LogicException if $var is null.
+ * Throw the DomainException if $var is null.
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -225,12 +225,12 @@ function ensure_non_null(&$var, $which_one)
 {
    if (is_null($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'non-null', to_type($var)));
+      throw new DomainException(variable_violation_message($which_one, 'non-null', to_type($var)));
    }
 }
 
 /**
- * Throw the LogicException if $var is "empty".
+ * Throw the DomainException if $var is "empty".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -239,12 +239,12 @@ function ensure_non_empty(&$var, $which_one)
 {
    if (empty($var)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'non-empty', to_string(wrap_if_string($var))));
+      throw new DomainException(variable_violation_message($which_one, 'non-empty', to_string(wrap_if_string($var))));
    }
 }
 
 /**
- * Throw the LogicException if $var is not "positive integer".
+ * Throw the DomainException if $var is not "positive integer".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -253,12 +253,12 @@ function ensure_positive_int(&$var, $which_one)
 {
    if (!(is_int($var) && $var > 0)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'positive integer', to_string(wrap_if_string($var))));
+      throw new DomainException(variable_violation_message($which_one, 'positive integer', to_string(wrap_if_string($var))));
    }
 }
 
 /**
- * Throw the LogicException if $var is "negative integer".
+ * Throw the DomainException if $var is "negative integer".
  *
  * @param mixed  &$var
  * @param string  $which_one
@@ -267,12 +267,12 @@ function ensure_non_negative_int(&$var, $which_one)
 {
    if (!(is_int($var) && $var >= 0)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'non-negative integer', to_string(wrap_if_string($var))));
+      throw new DomainException(variable_violation_message($which_one, 'non-negative integer', to_string(wrap_if_string($var))));
    }
 }
 
 /**
- * Throw the LogicException if $var is not in elements of the array.
+ * Throw the DomainException if $var is not in elements of the array.
  *
  * @param mixed  &$var
  * @param array  &$white_list
@@ -283,12 +283,12 @@ function ensure_in_array(&$var, array &$white_list, $which_one)
    if (!in_array($var, $white_list)) {
       $which_one = string_or_default($which_one, 'The variable');
       $white = implode(', ', $white_list);
-      throw new LogicException(variable_violation_message($which_one, "in [$white]", to_string(wrap_if_string($var))));
+      throw new DomainException(variable_violation_message($which_one, "in [$white]", to_string(wrap_if_string($var))));
    }
 }
 
 /**
- * Throw the LogicException if $var is in elements of the array.
+ * Throw the DomainException if $var is in elements of the array.
  *
  * @param mixed  &$var
  * @param array  &$black_list
@@ -299,6 +299,6 @@ function ensure_not_in_array(&$var, array &$black_list, $which_one)
    if (in_array($var, $black_list)) {
       $which_one = string_or_default($which_one, 'The variable');
       $black = implode(' ,', $black_list);
-      throw new LogicException(variable_violation_message($which_one, "out of [$black]", to_string(wrap_if_string($var))));
+      throw new DomainException(variable_violation_message($which_one, "out of [$black]", to_string(wrap_if_string($var))));
    }
 }

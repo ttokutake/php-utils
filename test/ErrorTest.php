@@ -73,7 +73,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureBool
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureBoolWithoutBoolean()
    {
@@ -88,7 +88,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureIntWithoutInt()
    {
@@ -103,7 +103,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureFloat
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureFloatWithoutFloat()
    {
@@ -127,7 +127,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNumeric
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNumericWithoutNumeric()
    {
@@ -142,7 +142,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureString
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureStringWithoutString()
    {
@@ -164,7 +164,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureScalar
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureScalarWithoutScalar()
    {
@@ -182,7 +182,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureResource
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureResourceWithoutResource()
    {
@@ -197,7 +197,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureArray
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureArrayWithoutArray()
    {
@@ -212,7 +212,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureCallable
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureCallableWithoutCallable()
    {
@@ -227,7 +227,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureObject
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureObjectWithoutObject()
    {
@@ -253,7 +253,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonNull
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonNullWithNull()
    {
@@ -276,7 +276,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithNull()
    {
@@ -285,7 +285,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithFalse()
    {
@@ -294,7 +294,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithZero()
    {
@@ -303,7 +303,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithZeroDotZero()
    {
@@ -312,7 +312,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithEmptyString()
    {
@@ -321,7 +321,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonEmpty
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonEmptyWithEmptyArray()
    {
@@ -338,7 +338,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsurePositiveInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsurePositiveIntWithZero()
    {
@@ -347,7 +347,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsurePositiveInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsurePositiveIntWithMinInt()
    {
@@ -356,7 +356,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsurePositiveInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsurePositiveIntWithoutInt()
    {
@@ -373,7 +373,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonNegativeInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonNegativeIntWithMinusOne()
    {
@@ -382,7 +382,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonNegativeInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonNegativeIntWithMinInt()
    {
@@ -391,7 +391,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNonNegativeInt
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNonNegativeIntWithoutInt()
    {
@@ -410,7 +410,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureInArray
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureInArrayWithoutElementInArray()
    {
@@ -425,7 +425,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
    /**
     * @depends           testEnsureNotInArray
-    * @expectedException LogicException
+    * @expectedException DomainException
     */
    public function testEnsureNotInArrayWithElementInArray()
    {
