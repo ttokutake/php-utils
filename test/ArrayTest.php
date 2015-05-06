@@ -95,8 +95,9 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    public function testArrayGet()
    {
       $this->assertNull(array_get($this->array, 'undefined key'));
-      $this->assertNull(array_get($this->array, 'defined key'  ));
-      $this->assertTrue(array_get($this->array, 'not null'     ));
+      foreach ($this->array as $key => $value) {
+         $this->assertEquals($value, array_get($this->array, $key));
+      }
    }
 
    /**
@@ -104,21 +105,27 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayGetOrElse()
    {
-      $default = false;
-      $this->assertFalse(array_get_or_else($this->array, 'undefined key', $default));
-      $this->assertNull (array_get_or_else($this->array, 'defined key'  , $default));
-      $this->assertTrue (array_get_or_else($this->array, 'not null'     , $default));
+      $default = new Exception('testArrayGetOrElse');
+
+      $this->assertEquals($default, array_get_or_else($this->array, 'undefined key', $default));
+      foreach ($this->array as $key => $value) {
+         $this->assertEquals($value, array_get_or_else($this->array, $key, $default));
+      }
    }
 
    /**
+    * @depands testArrayUnset
     * @depends testPhpNotice
     */
    public function testArrayGetNonNull()
    {
-      $default = false;
-      $this->assertFalse(array_get_non_null($this->array, 'undefined key', $default));
-      $this->assertFalse(array_get_non_null($this->array, 'defined key'  , $default));
-      $this->assertTrue (array_get_non_null($this->array, 'not null'     , $default));
+      $default = new Exception('testArrayGetNonNull');
+
+      $this->assertEquals($default, array_get_non_null($this->array, 'undefined key', $default));
+      $this->assertEquals($default, array_get_non_null($this->array, 'defined key'  , $default));
+      foreach (array_unset($this->array, 'defined key') as $key => $value) {
+         $this->assertEquals($value, array_get_non_null($this->array, $key, $default));
+      }
    }
 
    /**
@@ -127,11 +134,13 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArrayGetNonEmpty()
    {
-      $default = 1;
+      $default = new Exception('testArrayGetNonEmpty');
+
+      $this->assertEquals($default                , array_get_non_empty($this->array, 'undefined key', $default));
+      $this->assertEquals($this->array['not null'], array_get_non_empty($this->array, 'not null'     , $default));
       foreach (array_keys(array_unset($this->array, 'not null')) as $key) {
          $this->assertEquals($default, array_get_non_empty($this->array, $key, $default));
       }
-      $this->assertTrue(array_get_or_else($this->array, 'not null', $default));
    }
 
    public function testArrayFilterNot()

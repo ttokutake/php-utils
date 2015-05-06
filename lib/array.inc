@@ -224,9 +224,7 @@ function array_filter_with_key(array $array, $closure)
  */
 function array_flat(array $array)
 {
-   return array_reduce($array, function($carry, $item) {
-         return array_merge($carry, is_array($item) ? $item : array($item));
-      }, array());
+   return array_reduce($array, function($flatten, $e) { return array_merge($flatten, is_array($e) ? $e : array($e)); }, array());
 }
 
 
@@ -239,21 +237,20 @@ function array_flat(array $array)
 function array_zip()
 {
    $arrays = func_get_args();
+   if (count($arrays) < 2) {
+      throw new BadFunctionCallException(error_message('Specify two arguments at least'));
+   }
    foreach ($arrays as $array) {
       ensure_array($array, 'Each argument');
    }
 
-   $formatted_arrays = array_map('to_seq', $arrays);
-   $min_length       = min(array_map('count', $formatted_arrays));
-
-   $zipped_array = array();
-   for ($i = 0; $i < $min_length; $i++) {
-      $zipped_array[] = array_reduce($formatted_arrays, function($carry, $array) use($i) {
-            return array_shoe($carry, $array[$i]);
-         }, array());
-   }
-
-   return $zipped_array;
+   $sequences = array_map('to_seq', $arrays);
+   return array_map(
+      function($i) use($sequences) {
+         return array_reduce($sequences, function($piled, $array) use($i) { return array_shoe($piled, $array[$i]); }, array());
+      },
+      incremental_range(0, min(array_map('count', $sequences)) - 1)
+   );
 }
 
 
@@ -416,12 +413,11 @@ function array_split(array $array, $offset)
    $former = $latter = array();
    $count  = 0;
    foreach ($array as $key => $value) {
-      if ($count < $offset) {
+      if ($count++ < $offset) {
          $former[$key] = $value;
       } else {
          $latter[$key] = $value;
       }
-      $count++;
    }
    return array($former, $latter);
 }
@@ -457,8 +453,7 @@ function array_for_all(array $array, $closure)
 {
    ensure_callable($closure, 'The second argument');
 
-   $closure_not = function($value) use($closure) { return !$closure($value); };
-   return !array_exist($array, $closure_not);
+   return !array_exist($array, reverse_closure($closure));
 }
 
 /**
