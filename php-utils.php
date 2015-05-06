@@ -9,6 +9,9 @@
  */
 
 
+define('PHP_INT_MIN', ~PHP_INT_MAX);
+
+
 /**
  * Return the path with DIRECTORY_SEPARATOR.
  *

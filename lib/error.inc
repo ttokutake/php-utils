@@ -9,7 +9,7 @@
  */
 
 
-require_once implode(DIRECTORY_SEPARATOR, [__DIR__, 'cover.inc']);
+require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'cover.inc'));
 
 
 /**
@@ -73,20 +73,6 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
    return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative_int($added_depth));
 }
 
-
-/**
- * Throw the LogicException if $var is null.
- *
- * @param mixed  &$var
- * @param string  $which_one
- */
-function ensure_non_null(&$var, $which_one)
-{
-   if (is_null($var)) {
-      $which_one = string_or_default($which_one, 'The variable');
-      throw new LogicException(variable_violation_message($which_one, 'non-null', to_type($var)));
-   }
-}
 
 /**
  * Throw the LogicException if $var is not "boolean".
@@ -230,6 +216,20 @@ function ensure_object(&$var, $which_one)
 
 
 /**
+ * Throw the LogicException if $var is null.
+ *
+ * @param mixed  &$var
+ * @param string  $which_one
+ */
+function ensure_non_null(&$var, $which_one)
+{
+   if (is_null($var)) {
+      $which_one = string_or_default($which_one, 'The variable');
+      throw new LogicException(variable_violation_message($which_one, 'non-null', to_type($var)));
+   }
+}
+
+/**
  * Throw the LogicException if $var is "empty".
  *
  * @param mixed  &$var
@@ -275,10 +275,10 @@ function ensure_non_negative_int(&$var, $which_one)
  * Throw the LogicException if $var is not in elements of the array.
  *
  * @param mixed  &$var
- * @param array   $white_list
+ * @param array  &$white_list
  * @param string  $which_one
  */
-function ensure_in_array(&$var, array $white_list, $which_one)
+function ensure_in_array(&$var, array &$white_list, $which_one)
 {
    if (!in_array($var, $white_list)) {
       $which_one = string_or_default($which_one, 'The variable');
@@ -291,10 +291,10 @@ function ensure_in_array(&$var, array $white_list, $which_one)
  * Throw the LogicException if $var is in elements of the array.
  *
  * @param mixed  &$var
- * @param array   $black_list
+ * @param array  &$black_list
  * @param string  $which_one
  */
-function ensure_not_in_array(&$var, array $black_list, $which_one)
+function ensure_not_in_array(&$var, array &$black_list, $which_one)
 {
    if (in_array($var, $black_list)) {
       $which_one = string_or_default($which_one, 'The variable');

@@ -8,7 +8,7 @@ This library is mainly affected by [Scala](http://www.scala-lang.org/).
 
 | file name          | description                                                                                        |
 |--------------------|----------------------------------------------------------------------------------------------------|
-| cover.inc          | defines the functions which throw no Exception                                                     |
+| cover.inc          | defines the functions which throw no exception                                                     |
 | error.inc          | defines the functions which are usefull for throwing some exception                                |
 | string.inc         | defines the functions which complement PHP standard functions for "string"                         |
 | debug.inc          | defines the functions which help developers to debug                                               |
@@ -34,13 +34,13 @@ MIT Licence
 require_once PATH_TO_PHP_UTILS . 'php-utils.php'; // you need to define PATH_TO_PHP_UTILS
 
 $sample_array = [
-   'null'    => null                             ,
-   'boolean' => true                             ,
-   'int'     => 1                                ,
-   'double'  => 1.1                              ,
-   'string'  => 'hello, world!'                  ,
-   'array'   => [1, 2, 3]                        ,
-   'closure' => function () { return 'closure'; },
+   'null'    => null                            ,
+   'boolean' => true                            ,
+   'int'     => 1                               ,
+   'double'  => 1.1                             ,
+   'string'  => 'hello, world!'                 ,
+   'array'   => [1, 2, 3]                       ,
+   'closure' => function() { return 'closure'; },
 ];
 
 echo pretty($sample_array);

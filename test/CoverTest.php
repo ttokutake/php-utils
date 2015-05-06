@@ -25,31 +25,31 @@ class CoverTest extends PHPUnit_Framework_TestCase
 
    public function testToType()
    {
-      $this->assertEquals('null'     , to_type(null                        ));
-      $this->assertEquals('boolean'  , to_type(true                        ));
-      $this->assertEquals('integer'  , to_type(1                           ));
-      $this->assertEquals('float'    , to_type(1.1                         ));
-      $this->assertEquals('string'   , to_type('string'                    ));
+      $this->assertEquals('null'     , to_type(null                             ));
+      $this->assertEquals('boolean'  , to_type(true                             ));
+      $this->assertEquals('integer'  , to_type(1                                ));
+      $this->assertEquals('float'    , to_type(1.1                              ));
+      $this->assertEquals('string'   , to_type('string'                         ));
       $f = fopen('testToType', 'w');
-      $this->assertEquals('resource' , to_type($f                          ));
+      $this->assertEquals('resource' , to_type($f                               ));
       fclose($f);
       unlink('testToType');
-      $this->assertEquals('array'    , to_type([1, 2, 3]                   ));
-      $this->assertEquals('Closure'  , to_type(function ($a) { return $a; }));
-      $this->assertEquals('Exception', to_type(new Exception('class test') ));
+      $this->assertEquals('array'    , to_type([1, 2, 3]                        ));
+      $this->assertEquals('Closure'  , to_type(function() { echo 'testToType'; }));
+      $this->assertEquals('Exception', to_type(new Exception('testToType')      ));
    }
 
    public function testToString()
    {
-      $this->assertEquals('null'               , to_string(null                        ));
-      $this->assertEquals('true'               , to_string(true                        ));
-      $this->assertEquals('false'              , to_string(false                       ));
-      $this->assertEquals('1'                  , to_string(1                           ));
-      $this->assertEquals('1.0'                , to_string(1.0                         ));
-      $this->assertEquals('1.01'               , to_string(1.010                       ));
-      $this->assertEquals('string'             , to_string('string'                    ));
-      $this->assertEquals('array'              , to_string([1, 2, 3]                   ));
-      $this->assertEquals('object of Closure'  , to_string(function ($a) { return $a; }));
-      $this->assertEquals('object of Exception', to_string(new Exception('class test') ));
+      $this->assertEquals('null'               , to_string(null                               ));
+      $this->assertEquals('true'               , to_string(true                               ));
+      $this->assertEquals('false'              , to_string(false                              ));
+      $this->assertEquals('1'                  , to_string(1                                  ));
+      $this->assertEquals('1.0'                , to_string(1.0                                ));
+      $this->assertEquals('1.01'               , to_string(1.010                              ));
+      $this->assertEquals('string'             , to_string('string'                           ));
+      $this->assertEquals('array'              , to_string([1, 2, 3]                          ));
+      $this->assertEquals('object of Closure'  , to_string(function() { echo 'testToString'; }));
+      $this->assertEquals('object of Exception', to_string(new Exception('testToString')      ));
    }
 }
