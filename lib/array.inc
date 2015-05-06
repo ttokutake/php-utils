@@ -401,7 +401,17 @@ function array_split(array $array, $offset)
 {
    ensure_int($offset, 'The second argument');
 
-   return array(array_slice($array, 0, $offset), array_slice($array, $offset));
+   $offset = $offset < 0 ? count($array) + $offset : $offset;
+   $former = $latter = array();
+   $count  = 0;
+   foreach ($array as $key => $value) {
+      if ($count++ < $offset) {
+         $former[$key] = $value;
+      } else {
+         $latter[$key] = $value;
+      }
+   }
+   return is_seq($array) ? array_map('to_seq', array($former, $latter)) : array($former, $latter);
 }
 
 
