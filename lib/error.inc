@@ -121,7 +121,7 @@ function wrap_if_string($var)
  * @param  mixed $var
  * @return int
  */
-function force_non_negative($var)
+function force_non_negative_int($var)
 {
    return (is_int($var) && $var >= 0) ? $var : 0;
 }
@@ -136,7 +136,7 @@ function force_non_negative($var)
 function error_message($message, $added_depth = 0)
 {
    $backtrace = debug_backtrace();
-   $depth     = 1 + force_non_negative($added_depth);
+   $depth     = 1 + force_non_negative_int($added_depth);
    $call      = isset($backtrace[$depth]) ? $backtrace[$depth] : $backtrace[count($backtrace) - 1];
    $class     = isset($call['class']) ? $call['class'] : ''       ;
    $type      = isset($call['type' ]) ? $call['type' ] : ''       ;
@@ -160,7 +160,7 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
    $which_one = string_or_default($which_one, 'The variable'  );
    $expected  = string_or_default($expected , 'expected one'  );
    $actual    = string_or_default($actual   , 'unexpected one');
-   return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative($added_depth));
+   return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative_int($added_depth));
 }
 
 

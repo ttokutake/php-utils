@@ -72,26 +72,29 @@ class ErrorTest extends PHPUnit_Framework_TestCase
 
    public function testToString()
    {
-      $this->assertEquals('null'                 , to_string(null                        ));
-      $this->assertEquals('true'                 , to_string(true                        ));
-      $this->assertEquals('false'                , to_string(false                       ));
-      $this->assertEquals('1'                    , to_string(1                           ));
-      $this->assertEquals('1.0'                  , to_string(1.0                         ));
-      $this->assertEquals('1.01'                 , to_string(1.010                       ));
-      $this->assertEquals('string'               , to_string('string'                    ));
-      //$f = fopen('testToString', 'w');
-      //$this->assertEquals('resource <stream> #78', to_string($f                          ));
-      //fclose($f);
-      //unlink('testToString');
-      $this->assertEquals('array'                , to_string([1, 2, 3]                   ));
-      $this->assertEquals('object of Closure'    , to_string(function ($a) { return $a; }));
-      $this->assertEquals('object of Exception'  , to_string(new Exception('class test') ));
+      $this->assertEquals('null'               , to_string(null                        ));
+      $this->assertEquals('true'               , to_string(true                        ));
+      $this->assertEquals('false'              , to_string(false                       ));
+      $this->assertEquals('1'                  , to_string(1                           ));
+      $this->assertEquals('1.0'                , to_string(1.0                         ));
+      $this->assertEquals('1.01'               , to_string(1.010                       ));
+      $this->assertEquals('string'             , to_string('string'                    ));
+      $this->assertEquals('array'              , to_string([1, 2, 3]                   ));
+      $this->assertEquals('object of Closure'  , to_string(function ($a) { return $a; }));
+      $this->assertEquals('object of Exception', to_string(new Exception('class test') ));
    }
 
    public function testWrapIfString()
    {
       $this->assertEquals('"string"', wrap_if_string('string'));
       $this->assertEquals(         1, wrap_if_string(       1));
+   }
+
+
+   public function testForceNonNegativeInt()
+   {
+      $this->assertEquals(1, force_non_negative_int(  1));
+      $this->assertEquals(0, force_non_negative_int('1'));
    }
 
 
