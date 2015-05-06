@@ -65,7 +65,7 @@ function follow_join($glue, array $pieces)
  *
  * @param string $encoding
  */
-function set_encoding($encoding = 'UTF-8')
+function set_jp_encoding($encoding = 'UTF-8')
 {
    $enable_encodings = array('ISO-8859-1', 'ASCII', 'JIS', 'UTF-8', 'EUC-JP', 'SJIS');
    ensure_in_array($encoding, $enable_encodings, 'The first argument');
