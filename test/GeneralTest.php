@@ -4,35 +4,20 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class GeneralTest extends PHPUnit_Framework_TestCase
 {
-   /**
-    * @expectedException LogicException
-    */
-   public function testInZException()
-   {
-      in_z('not a number');
-   }
-   /**
-    * @depends testInZException
-    */
+   private $reals = [1.5, -1.5, '1.5', '-1.5'];
+   private $odds  = [1, 3, 5, -1, 1.0, -1.0, 1., -1., '1', '-1', '1.0', '-1.0', '1.', '-1.', '1.00', '-1.00'];
+   private $evens = [0, 2, 4, -2, 2.0, -2.0, 2., -2., '2', '-2', '2.0', '-2.0', '2.', '-2.', '2.00', '-2.00'];
+
    public function testInZ()
    {
-      $this->assertTrue(in_z(  1 ));
-      $this->assertTrue(in_z( -1 ));
-      $this->assertTrue(in_z( "1"));
-      $this->assertTrue(in_z("-1"));
+      foreach (array_merge($this->odds, $this->evens) as $integer) {
+         $this->assertTrue(in_z($integer));
+      }
 
-      $this->assertTrue(in_z( 1.0));
-      $this->assertTrue(in_z(-1.0));
-      $this->assertTrue(in_z( '1.'  ));
-      $this->assertTrue(in_z( '1.00'));
-      $this->assertTrue(in_z('-1.00'));
-
-      $this->assertFalse(in_z( 1.5));
-      $this->assertFalse(in_z(-1.5));
+      foreach ($this->reals as $real) {
+         $this->assertFalse(in_z($real));
+      }
    }
-
-   private $odds  = [1, 3, 5, 1.0, '1.0'];
-   private $evens = [0, 2, 4, 0.0, '0.0'];
 
    /**
     * @depends testInZ
@@ -47,7 +32,9 @@ class GeneralTest extends PHPUnit_Framework_TestCase
          $this->assertFalse(is_odd($even));
       }
 
-      $this->assertFalse(is_odd(1.5));
+      foreach ($this->reals as $real) {
+         $this->assertFalse(is_odd($real));
+      }
    }
 
    /**
@@ -63,26 +50,39 @@ class GeneralTest extends PHPUnit_Framework_TestCase
          $this->assertFalse(is_even($odd));
       }
 
-      $this->assertFalse(is_even(1.5));
+      foreach ($this->reals as $real) {
+         $this->assertFalse(is_even($real));
+      }
    }
 
    public function testBetween()
    {
-      $patterns = [
-         [true , 0,  0,  5],
-         [true , 0, -5,  0],
-         [true , 0, -5,  5],
-         [false, 0,  1,  5],
-         [false, 0, -5, -1],
-         [false, 0,  5, -5],
-      ];
-      foreach ($patterns as list($expected, $num, $min, $max)) {
-         $this->assertEquals($expected, between($num, $min, $max));
-      }
+      $target_int =  0;
+      $min_int    = -5;
+      $max_int    =  5;
 
-      $iso8601 = '1987-04-20 00:00:00';
-      $this->assertTrue (between($iso8601, '1987-04-01 00:00:00', '1987-04-30 00:00:00'));
-      $this->assertFalse(between($iso8601, '1987-05-01 00:00:00', '1987-05-31 00:00:00'));
+      $target_iso8601 = '1987-04-20 00:00:00';
+      $min_iso8601    = '1987-04-01 00:00:00';
+      $max_iso8601    = '1987-04-30 00:00:00';
+
+      $patterns = [
+         [true , $target_int, $target_int, $max_int   ],
+         [true , $target_int, $min_int   , $target_int],
+         [true , $target_int, $min_int   , $max_int   ],
+         [false, $target_int, 1          , $max_int   ],
+         [false, $target_int, $min_int   , -1         ],
+         [false, $target_int, $max_int   , $min_int   ],
+
+         [true , $target_iso8601, $target_iso8601      , $max_iso8601         ],
+         [true , $target_iso8601, $min_iso8601         , $target_iso8601      ],
+         [true , $target_iso8601, $min_iso8601         , $max_iso8601         ],
+         [false, $target_iso8601, '1987-04-20 00:00:01', $max_iso8601         ],
+         [false, $target_iso8601, $min_iso8601         , '1987-04-19 23:59:59'],
+         [false, $target_iso8601, $max_iso8601         , $min_iso8601         ],
+      ];
+      foreach ($patterns as list($expected, $target, $min, $max)) {
+         $this->assertEquals($expected, between($target, $min, $max));
+      }
    }
 
    public function testIncrementalRange()
@@ -107,7 +107,20 @@ class GeneralTest extends PHPUnit_Framework_TestCase
 
    public function testReverseClosure()
    {
-      $not_int = reverse_closure('is_int');
-      $this->assertTrue($not_int(1.1));
+      $is_non_int = reverse_closure('is_int');
+
+      $non_ints = [
+         null,
+         true,
+         1.0 ,
+         '1' ,
+         []  ,
+
+         function() { echo 'testReverseClosure'; },
+      ];
+      foreach ($non_ints as $non_int) {
+         $this->assertTrue($is_non_int($non_int));
+      }
+      $this->assertFalse($is_non_int(1));
    }
 }
