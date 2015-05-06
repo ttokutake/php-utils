@@ -520,6 +520,9 @@ function array_slide(array $array, $size, $step = 1)
    $slided = array();
    for ($offset = 0; $offset < $length; $offset += $step) {
       $slided[] = array_slice($array, $offset, $size);
+      if ($offset + $size == $length) {
+         break;
+      }
    }
    return $slided;
 }

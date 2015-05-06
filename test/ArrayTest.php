@@ -6,24 +6,20 @@ class ArrayTest extends PHPUnit_Framework_TestCase
 {
    public function testIsSeq()
    {
-      $true_expectations = [
-         [       ],
-         [1      ],
-         [1, 2   ],
-         [1, 2, 3],
+      $patterns = [
+         [true, [       ]],
+         [true, [1      ]],
+         [true, [1, 2   ]],
+         [true, [1, 2, 3]],
 
-         [ 0  => 1,  1  => 2,  2  => 3],
-         ['0' => 1, '1' => 2, '2' => 3],
+         [true, [ 0  => 1,  1  => 2,  2  => 3]],
+         [true, ['0' => 1, '1' => 2, '2' => 3]],
+
+         [false, [ 1  => 1,  2  => 2,  3  => 3]],
+         [false, ['a' => 1, 'b' => 2, 'c' => 3]],
       ];
-      foreach ($true_expectations as $array) {
-         $this->assertTrue(is_seq($array));
-      }
-      $false_expectations = [
-         [ 1  => 1,  2  => 2,  3  => 3],
-         ['a' => 1, 'b' => 2, 'c' => 3],
-      ];
-      foreach ($false_expectations as $array) {
-         $this->assertFalse(is_seq($array));
+      foreach ($patterns as list($expected, $array)) {
+         $this->assertEquals($expected, is_seq($array));
       }
    }
 
@@ -42,10 +38,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
 
    public function testArrayUnset()
    {
-      $array = [
-         0     => true ,
-         'key' => false,
-      ];
+      $array    = [0 => true, 'key' => false];
       $patterns = [
          [['key' => false], 0       ],
          [[0     => true ], 'key'   ],
@@ -129,18 +122,15 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * @depands testArrayUnset
     * @depends testPhpNotice
     */
    public function testArrayGetNonEmpty()
    {
       $default = 1;
-      $this->assertEquals($default, array_get_non_empty($this->array, 'undefined key', $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'defined key'  , $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'empty bool'   , $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'empty int'    , $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'empty floaat' , $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'empty string' , $default));
-      $this->assertEquals($default, array_get_non_empty($this->array, 'empty array'  , $default));
+      foreach (array_keys(array_unset($this->array, 'not null')) as $key) {
+         $this->assertEquals($default, array_get_non_empty($this->array, $key, $default));
+      }
       $this->assertTrue(array_get_or_else($this->array, 'not null', $default));
    }
 
@@ -182,7 +172,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayFlatten()
+   public function testArrayFlat()
    {
       $patterns = [
          [[       ], [             ]],
@@ -468,29 +458,56 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     */
    public function testArraySlide()
    {
-      $expectations = [
-         [[1]          ],
-         [[1], [2]     ],
-         [[1], [2], [3]],
+      $patterns = [
+         [
+            [
+               [[1]          ],
+               [[1], [2]     ],
+               [[1], [2], [3]],
 
-         [['one' => 1]                              ],
-         [['one' => 1], ['two' => 2]                ],
-         [['one' => 1], ['two' => 2], ['three' => 3]],
-      ];
-      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
-         $this->assertEquals($expected, array_slide($array, 1));
-      }
-      $expectations = [
-         [[1   ]             ],
-         [[1, 2], [2   ]     ],
-         [[1, 2], [2, 3], [3]],
+               [['one' => 1]                              ],
+               [['one' => 1], ['two' => 2]                ],
+               [['one' => 1], ['two' => 2], ['three' => 3]],
+            ], 1, 1
+         ],
+         [
+            [
+               [[1]     ],
+               [[1]     ],
+               [[1], [3]],
 
-         [['one' => 1            ]                                            ],
-         [['one' => 1, 'two' => 2], ['two' => 2              ]                ],
-         [['one' => 1, 'two' => 2], ['two' => 2, 'three' => 3], ['three' => 3]],
+               [['one' => 1]                ],
+               [['one' => 1]                ],
+               [['one' => 1], ['three' => 3]],
+            ], 1, 2
+         ],
+         [
+            [
+               [[1   ]        ],
+               [[1, 2]        ],
+               [[1, 2], [2, 3]],
+
+               [['one' => 1            ]                            ],
+               [['one' => 1, 'two' => 2]                            ],
+               [['one' => 1, 'two' => 2], ['two' => 2, 'three' => 3]],
+            ], 2, 1
+         ],
+         [
+            [
+               [[1   ]     ],
+               [[1, 2]     ],
+               [[1, 2], [3]],
+
+               [['one' => 1            ]                ],
+               [['one' => 1, 'two' => 2]                ],
+               [['one' => 1, 'two' => 2], ['three' => 3]],
+            ], 2, 2
+         ],
       ];
-      foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
-         $this->assertEquals($expected, array_slide($array, 2));
+      foreach ($patterns as list($expectations, $size, $step)) {
+         foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+            $this->assertEquals($expected, array_slide($array, $size, $step));
+         }
       }
    }
 }
