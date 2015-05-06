@@ -25,31 +25,42 @@ class CoverTest extends PHPUnit_Framework_TestCase
 
    public function testToType()
    {
-      $this->assertEquals('null'     , to_type(null                             ));
-      $this->assertEquals('boolean'  , to_type(true                             ));
-      $this->assertEquals('integer'  , to_type(1                                ));
-      $this->assertEquals('float'    , to_type(1.1                              ));
-      $this->assertEquals('string'   , to_type('string'                         ));
       $f = fopen('testToType', 'w');
-      $this->assertEquals('resource' , to_type($f                               ));
+      $patterns = [
+         ['null'     , null                             ],
+         ['boolean'  , true                             ],
+         ['integer'  , 1                                ],
+         ['float'    , 1.1                              ],
+         ['string'   , 'string'                         ],
+         ['resource' , $f                               ],
+         ['array'    , [1, 2, 3]                        ],
+         ['Closure'  , function() { echo 'testToType'; }],
+         ['Exception', new Exception('testToType')      ],
+      ];
+      foreach ($patterns as list($expected, $var)) {
+         $this->assertEquals($expected, to_type($var));
+      }
       fclose($f);
       unlink('testToType');
-      $this->assertEquals('array'    , to_type([1, 2, 3]                        ));
-      $this->assertEquals('Closure'  , to_type(function() { echo 'testToType'; }));
-      $this->assertEquals('Exception', to_type(new Exception('testToType')      ));
    }
 
    public function testToString()
    {
-      $this->assertEquals('null'               , to_string(null                               ));
-      $this->assertEquals('true'               , to_string(true                               ));
-      $this->assertEquals('false'              , to_string(false                              ));
-      $this->assertEquals('1'                  , to_string(1                                  ));
-      $this->assertEquals('1.0'                , to_string(1.0                                ));
-      $this->assertEquals('1.01'               , to_string(1.010                              ));
-      $this->assertEquals('string'             , to_string('string'                           ));
-      $this->assertEquals('array'              , to_string([1, 2, 3]                          ));
-      $this->assertEquals('object of Closure'  , to_string(function() { echo 'testToString'; }));
-      $this->assertEquals('object of Exception', to_string(new Exception('testToString')      ));
+      $patterns = [
+         ['null'               , null                               ],
+         ['true'               , true                               ],
+         ['false'              , false                              ],
+         ['1'                  , 1                                  ],
+         ['1.'                 , 1.                                 ],
+         ['1.0'                , 1.0                                ],
+         ['1.01'               , 1.010                              ],
+         ['string'             , 'string'                           ],
+         ['array'              , [1, 2, 3]                          ],
+         ['object of Closure'  , function() { echo 'testToString'; }],
+         ['object of Exception', new Exception('testToString')      ],
+      ];
+      foreach ($patterns as list($expected, $var)) {
+         $this->assertEquals($expected, to_string($var));
+      }
    }
 }
