@@ -4,20 +4,53 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ErrorTest extends PHPUnit_Framework_TestCase
 {
+   public function testStringOrDefault()
+   {
+      $this->assertEquals('string'    , string_or_default('string', 'non-string'));
+      $this->assertEquals('non-string', string_or_default(       1, 'non-string'));
+      $this->assertEquals(''          , string_or_default(     1.1,            1));
+   }
+
    /**
+    * @depends           testStringOrDefault
     * @expectedException LogicException
     */
    public function testEnsure()
    {
       ensure(false, 'Message for LogicException');
    }
+   /**
+    * @depends           testStringOrDefault
+    * @expectedException LogicException
+    */
+   public function testEnsureWithNonStringMessage()
+   {
+      ensure(false, 1);
+   }
+   /**
+    * @depends           testStringOrDefault
+    * @expectedException LogicException
+    */
+   public function testEnsureWithNonBoolean()
+   {
+      ensure(1, 'next to non-boolean');
+   }
 
    /**
+    * @depends           testStringOrDefault
     * @expectedException RuntimeException
     */
    public function testPlague()
    {
       $success = false or plague('Message for RuntimeException');
+   }
+   /**
+    * @depends           testStringOrDefault
+    * @expectedException RuntimeException
+    */
+   public function testPlagueWithNonStringMessage()
+   {
+      $success = false or plague(1);
    }
 
 
