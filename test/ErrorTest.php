@@ -221,19 +221,29 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_callable($not_callable, 'message');
    }
 
-   function testEnsureObject()
+   function testEnsureInstanceOf()
    {
-      $object = new Exception('testEnsureObject');
-      $this->assertNull(ensure_object($object, ':p'));
+      $object = new UnexpectedValueException('testEnsureInstanceOf');
+      $this->assertNull(ensure_instance_of($object, 'UnexpectedValueException'          , ':p'));
+      $this->assertNull(ensure_instance_of($object, new RuntimeException('parent class'), ':p'));
    }
    /**
-    * @depends           testEnsureObject
+    * @depends           testEnsureInstanceOf
     * @expectedException DomainException
     */
-   function testEnsureObjectWithoutObject()
+   function testEnsureInstanceOfWithOtherObject()
    {
-      $non_object = null;
-      ensure_object($non_object, ':p');
+      $object = new InvalidArgumentException('testEnsureInstanceOfWithOtherObject');
+      ensure_instance_of($object, 'Iterator', ':p');
+   }
+   /**
+    * @depends           testEnsureInstanceOf
+    * @expectedException DomainException
+    */
+   function testEnsureInstanceOfWithoutObject()
+   {
+      $non_object = false;
+      ensure_instance_of($non_object, 'Closure', ':p');
    }
 
 

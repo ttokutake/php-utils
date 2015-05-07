@@ -201,16 +201,20 @@ function ensure_callable(&$var, $which_one)
 }
 
 /**
- * Throw the DomainException if $var is not "object".
+ * Throw the DomainException if $var is not instance of specified class.
  *
  * @param mixed  &$var
+ * @param mixed   $class
  * @param string  $which_one
  */
-function ensure_object(&$var, $which_one)
+function ensure_instance_of(&$var, $class, $which_one)
 {
-   if (!is_object($var)) {
+   $class_name = is_object($class) ? get_class($class) : $class;
+   ensure_string($class_name, 'The second argument');
+
+   if (!($var instanceof $class_name)) {
       $which_one = string_or_default($which_one, 'The variable');
-      throw new DomainException(variable_violation_message($which_one, 'object', to_type($var), 1));
+      throw new DomainException(variable_violation_message($which_one, "instance of $class_name", to_type($var), 1));
    }
 }
 
