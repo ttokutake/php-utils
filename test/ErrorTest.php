@@ -432,4 +432,47 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       $in_array = 'chrome';
       ensure_not_in_array($in_array, $this->blowsers, ':)');
    }
+
+
+   public function testEnsureArgcAtLeast()
+   {
+      $pairs = [
+         [0, 0],
+         [1, 0],
+         [1, 1],
+         [2, 1],
+      ];
+      foreach ($pairs as list($argc, $min)) {
+         ensure_argc_at_least($argc, $min);
+      }
+   }
+   /**
+    * @depends           testEnsureArgcAtLeast
+    * @expectedException BadFunctionCallException
+    */
+   public function testEnsureArgcAtLeastWithLessArgc()
+   {
+      ensure_argc_at_least(0, 1);
+   }
+
+   public function testEnsureArgcAtMost()
+   {
+      $pairs = [
+         [0, 0],
+         [0, 1],
+         [1, 1],
+         [1, 2],
+      ];
+      foreach ($pairs as list($argc, $min)) {
+         ensure_argc_at_most($argc, $min);
+      }
+   }
+   /**
+    * @depends           testEnsureArgcAtMost
+    * @expectedException BadFunctionCallException
+    */
+   public function testEnsureArgcAtMostWithMoreArgc()
+   {
+      ensure_argc_at_most(1, 0);
+   }
 }

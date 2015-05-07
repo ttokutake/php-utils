@@ -237,9 +237,7 @@ function array_flat(array $array)
 function array_zip()
 {
    $arrays = func_get_args();
-   if (count($arrays) < 2) {
-      throw new BadFunctionCallException(error_message('Specify two arguments at least'));
-   }
+   ensure_argc_at_least(count($arrays), 2);
    foreach ($arrays as $array) {
       ensure_array($array, 'Each argument');
    }
