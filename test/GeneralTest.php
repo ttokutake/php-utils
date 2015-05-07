@@ -8,7 +8,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    private $odds  = [1, 3, 5, -1, 1.0, -1.0, 1., -1., '1', '-1', '1.0', '-1.0', '1.', '-1.', '1.00', '-1.00'];
    private $evens = [0, 2, 4, -2, 2.0, -2.0, 2., -2., '2', '-2', '2.0', '-2.0', '2.', '-2.', '2.00', '-2.00'];
 
-   public function testInZ()
+   function testInZ()
    {
       foreach (array_merge($this->odds, $this->evens) as $integer) {
          $this->assertTrue(in_z($integer));
@@ -22,7 +22,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testInZ
     */
-   public function testIsOdd()
+   function testIsOdd()
    {
       foreach ($this->odds as $odd) {
          $this->assertTrue(is_odd($odd));
@@ -40,7 +40,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testInZ
     */
-   public function testIsEven()
+   function testIsEven()
    {
       foreach ($this->evens as $even) {
          $this->assertTrue(is_even($even));
@@ -55,7 +55,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testBetween()
+   function testBetween()
    {
       $target_int =  0;
       $min_int    = -5;
@@ -85,7 +85,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testIncrementalRange()
+   function testIncrementalRange()
    {
       $this->assertEquals([       ], incremental_range(0, -1));
       $this->assertEquals([0      ], incremental_range(0,  0));
@@ -96,7 +96,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testIncrementalRange
     */
-   public function testDecrementalRange()
+   function testDecrementalRange()
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));
@@ -105,7 +105,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testReverseClosure()
+   function testReverseClosure()
    {
       $is_non_int = reverse_closure('is_int');
 

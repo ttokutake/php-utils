@@ -4,7 +4,7 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ArrayTest extends PHPUnit_Framework_TestCase
 {
-   public function testIsSeq()
+   function testIsSeq()
    {
       $patterns = [
          [true, [       ]],
@@ -24,7 +24,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testArraySet()
+   function testArraySet()
    {
       $array    = [0 => null];
       $patterns = [
@@ -36,7 +36,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayUnset()
+   function testArrayUnset()
    {
       $array    = [0 => true, 'key' => false];
       $patterns = [
@@ -49,7 +49,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayHat()
+   function testArrayHat()
    {
       $patterns = [
          [[0   ], [ ], 0],
@@ -60,7 +60,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayShoe()
+   function testArrayShoe()
    {
       $patterns = [
          [[0   ], [ ], 0],
@@ -84,7 +84,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException PHPUnit_Framework_Error_Notice
     */
-   public function testPhpNotice()
+   function testPhpNotice()
    {
       echo $this->array['undefined key'];
    }
@@ -92,7 +92,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testPhpNotice
     */
-   public function testArrayGet()
+   function testArrayGet()
    {
       $this->assertNull(array_get($this->array, 'undefined key'));
       foreach ($this->array as $key => $value) {
@@ -103,7 +103,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testPhpNotice
     */
-   public function testArrayGetOrElse()
+   function testArrayGetOrElse()
    {
       $default = new Exception('testArrayGetOrElse');
 
@@ -117,7 +117,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     * @depands testArrayUnset
     * @depends testPhpNotice
     */
-   public function testArrayGetNonNull()
+   function testArrayGetNonNull()
    {
       $default = new Exception('testArrayGetNonNull');
 
@@ -132,7 +132,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
     * @depands testArrayUnset
     * @depends testPhpNotice
     */
-   public function testArrayGetNonEmpty()
+   function testArrayGetNonEmpty()
    {
       $default = new Exception('testArrayGetNonEmpty');
 
@@ -143,14 +143,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayFilterNot()
+   function testArrayFilterNot()
    {
       $array = [0, 1, 2];
       $this->assertEquals([0 => 0], array_filter_not($array           ));
       $this->assertEquals([1 => 1], array_filter_not($array, 'is_even'));
    }
 
-   public function testArrayMapWithKey()
+   function testArrayMapWithKey()
    {
       $patterns = [
          [['one' => 'one => 1'], ['one' => 1], function($key, $value) { return "$key => $value"; }],
@@ -160,7 +160,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayReduceWithKey()
+   function testArrayReduceWithKey()
    {
       $patterns = [
          ['- key => value', ['key' => 'value'], function($carry, $key, $value) { return "$carry$key => $value"; }],
@@ -170,7 +170,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayFilterWithKey()
+   function testArrayFilterWithKey()
    {
       $patterns = [
          [[1 => 1], [1 => 1], function($key, $value) { return is_even($key + $value); }],
@@ -181,7 +181,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArrayFlat()
+   function testArrayFlat()
    {
       $patterns = [
          [[       ], [             ]],
@@ -201,7 +201,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayShoe
     */
-   public function testArrayZip()
+   function testArrayZip()
    {
       $patterns = [
          [[], [ ], [ ]],
@@ -232,14 +232,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException LogicException
     */
-   public function testArrayBeheadException()
+   function testArrayBeheadException()
    {
       array_behead($this->array['empty array']);
    }
    /**
     * @depends testArrayZip
     */
-   public function testArrayBehead()
+   function testArrayBehead()
    {
       $expectations = [
          [1, [    ]],
@@ -258,14 +258,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException LogicException
     */
-   public function testArrayDepeditateException()
+   function testArrayDepeditateException()
    {
       array_depeditate($this->array['empty array']);
    }
    /**
     * @depends testArrayZip
     */
-   public function testArrayDepeditate()
+   function testArrayDepeditate()
    {
       $expectations = [
          [[    ], 1],
@@ -285,14 +285,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException LogicException
     */
-   public function testArrayTakeException()
+   function testArrayTakeException()
    {
       array_take([1, 2, 3], -1);
    }
    /**
     * @depends testArrayZip
     */
-   public function testArrayTake()
+   function testArrayTake()
    {
       $expectations = [
          [1   ],
@@ -310,7 +310,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayTake
     */
-   public function testArrayTakeRight()
+   function testArrayTakeRight()
    {
       $expectations = [
          [1   ],
@@ -329,14 +329,14 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException LogicException
     */
-   public function testArrayDropException()
+   function testArrayDropException()
    {
       array_drop([1, 2, 3], -1);
    }
    /**
     * @depends testArrayZip
     */
-   public function testArrayDrop()
+   function testArrayDrop()
    {
       $expectations = [
          [ ],
@@ -354,7 +354,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayDrop
     */
-   public function testArrayDropRight()
+   function testArrayDropRight()
    {
       $expectations = [
          [ ],
@@ -370,7 +370,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testArraySplit()
+   function testArraySplit()
    {
       $seq   = [1, 2, 3];
       $assoc = ['one' => 1, 'two' => 2, 'three' => 3];
@@ -404,7 +404,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayExist()
+   function testArrayExist()
    {
       $odd_expectations = array_fill(0, 6, true);
       foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
@@ -419,7 +419,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayExist
     */
-   public function testArrayForAll()
+   function testArrayForAll()
    {
       $odd_expectations = [true, false, false, true, false, false];
       foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
@@ -434,7 +434,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayFind()
+   function testArrayFind()
    {
       $odd_expectations = array_fill(0, 6, 1);
       foreach (array_zip($odd_expectations, $this->arrays) as list($expected, $array)) {
@@ -449,7 +449,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArrayPartition()
+   function testArrayPartition()
    {
       $odd_expectations = [
          [[1   ], [ ]],
@@ -481,7 +481,7 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testArrayZip
     */
-   public function testArraySlide()
+   function testArraySlide()
    {
       $patterns = [
          [

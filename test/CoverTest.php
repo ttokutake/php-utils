@@ -4,26 +4,26 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class CoverTest extends PHPUnit_Framework_TestCase
 {
-   public function testStringOrDefault()
+   function testStringOrDefault()
    {
       $this->assertEquals('string'    , string_or_default('string', 'non-string'));
       $this->assertEquals('non-string', string_or_default(       1, 'non-string'));
       $this->assertEquals(''          , string_or_default(     1.1,            1));
    }
 
-   public function testForceNonNegativeInt()
+   function testForceNonNegativeInt()
    {
       $this->assertEquals(1, force_non_negative_int(  1));
       $this->assertEquals(0, force_non_negative_int('1'));
    }
 
-   public function testWrapIfString()
+   function testWrapIfString()
    {
       $this->assertEquals('"string"', wrap_if_string('string'));
       $this->assertEquals(         1, wrap_if_string(       1));
    }
 
-   public function testToType()
+   function testToType()
    {
       $f = fopen('testToType', 'w');
       $patterns = [
@@ -44,7 +44,7 @@ class CoverTest extends PHPUnit_Framework_TestCase
       unlink('testToType');
    }
 
-   public function testToString()
+   function testToString()
    {
       $patterns = [
          ['null'               , null                               ],

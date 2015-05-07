@@ -10,13 +10,13 @@ class StringTest extends PHPUnit_Framework_TestCase
    private $mb_platitude = 'こんにちは、世界！';
 
 
-   public function testWrap()
+   function testWrap()
    {
       $wrapper = '/';
       $this->assertEquals("$wrapper{$this->platitude}$wrapper", wrap($this->platitude, $wrapper));
    }
 
-   public function testWrapByTag()
+   function testWrapByTag()
    {
       $tag   = 'p';
       $class = 'greeting';
@@ -24,7 +24,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       $this->assertEquals("<$tag class=\"$class\">{$this->mb_platitude}</$tag>", wrap_by_tag($this->mb_platitude, $tag, $class));
    }
 
-   public function testFollowJoin()
+   function testFollowJoin()
    {
       $eol      = PHP_EOL;
       $expected = "{$this->platitude}$eol{$this->mb_platitude}$eol";
@@ -32,7 +32,7 @@ class StringTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testStartWith()
+   function testStartWith()
    {
       $patterns = [
          [true , $this->platitude, 'hello'],
@@ -46,7 +46,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testEndWith()
+   function testEndWith()
    {
       $patterns = [
          [true , $this->platitude, 'world!'],
@@ -61,7 +61,7 @@ class StringTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testSplitAt()
+   function testSplitAt()
    {
       $patterns = [
          [['', 'hello, world!'], $this->platitude, -14],
@@ -89,7 +89,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testMbStrSplit()
+   function testMbStrSplit()
    {
       $patterns = [
          [['h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!'], $this->platitude,  1],
@@ -134,7 +134,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       '　'  ,
    ];
 
-   public function testIsBlank()
+   function testIsBlank()
    {
       foreach ($this->blanks as $blank) {
          $this->assertTrue(is_blank($blank));
@@ -150,7 +150,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testMbTrim()
+   function testMbTrim()
    {
       $expected = 'remain';
       foreach ($this->blanks as $blank) {
@@ -158,7 +158,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testIncludeMb()
+   function testIncludeMb()
    {
       $this->assertFalse(include_mb($this->platitude   ));
       $this->assertTrue (include_mb($this->mb_platitude));

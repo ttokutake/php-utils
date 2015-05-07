@@ -4,7 +4,7 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class AoaTest extends PHPUnit_Framework_TestCase
 {
-   public function testAoaSet()
+   function testAoaSet()
    {
       $aoa      = [0 => ['key' => 100]];
       $value    = 200;
@@ -18,7 +18,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   public function testAoaUnset()
+   function testAoaUnset()
    {
       $aoa      = [0 => ['key' => 100]];
       $patterns = [
@@ -32,7 +32,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
    }
 
 
-   public function testAoaTranspose()
+   function testAoaTranspose()
    {
       $inputs = [
          [
@@ -91,7 +91,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
       ],
    ];
 
-   public function testAoaValues()
+   function testAoaValues()
    {
       $expected = ['hoge', 'fuga', 'piyo'];
       $this->assertEquals($expected, aoa_values($this->aoa, 'name'));
@@ -100,14 +100,14 @@ class AoaTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testAoaValues
     */
-   public function testAoaSum()
+   function testAoaSum()
    {
       $key      = 'point';
       $expected = array_sum(aoa_values($this->aoa, $key));
       $this->assertEquals($expected, aoa_sum($this->aoa, $key));
    }
 
-   public function testAoaMap()
+   function testAoaMap()
    {
       $key      = 'point';
       $square   = function($num) { return pow($num, 2); };
@@ -120,14 +120,14 @@ class AoaTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testAoaValues
     */
-   public function testAoaReduce()
+   function testAoaReduce()
    {
       $connect  = function($carry, $str) { return "$carry/$str"; };
       $expected = '/hoge/fuga/piyo';
       $this->assertEquals($expected, aoa_reduce($this->aoa, 'name', $connect, ''));
    }
 
-   public function testAoaFilter()
+   function testAoaFilter()
    {
       $key      = 'id';
       $expected = array_filter($this->aoa, function($array) use($key) { return is_odd($array[$key]); });
@@ -137,7 +137,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testAoaValues
     */
-   public function testAoaSort()
+   function testAoaSort()
    {
       $this->assertEquals([2, 1, 3], aoa_values(aoa_sort($this->aoa, 'name'           ), 'id'));
       $this->assertEquals([3, 2, 1], aoa_values(aoa_sort($this->aoa, 'id'  , SORT_DESC), 'id'));
@@ -146,7 +146,7 @@ class AoaTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testAoaValues
     */
-   public function testAoaAssociate()
+   function testAoaAssociate()
    {
       $target    = 'email';
       $keys      = aoa_values($this->aoa, $target);

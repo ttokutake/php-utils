@@ -4,7 +4,7 @@ require_once implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'php-utils.php']);
 
 class ErrorTest extends PHPUnit_Framework_TestCase
 {
-   public function testEnsure()
+   function testEnsure()
    {
       $true_equations = [
          is_null  (null),
@@ -23,7 +23,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsure
     * @expectedException LogicException
     */
-   public function testEnsureWithFalseEquation()
+   function testEnsureWithFalseEquation()
    {
       ensure(0 < 0, 'Message for LogicException');
    }
@@ -31,7 +31,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsure
     * @expectedException LogicException
     */
-   public function testEnsureWithoutBoolean()
+   function testEnsureWithoutBoolean()
    {
       ensure(1, 'next to non-boolean');
    }
@@ -39,12 +39,12 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsure
     * @expectedException LogicException
     */
-   public function testEnsureWithoutStringMessage()
+   function testEnsureWithoutStringMessage()
    {
       ensure(1 < 1, 1);
    }
 
-   public function testPlague()
+   function testPlague()
    {
       $f = fopen('testPlague', 'w') or plague('This line will not be passed!');
       fclose($f);
@@ -54,20 +54,20 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    /**
     * @expectedException RuntimeException
     */
-   public function testPlagueWithEmptyEquation()
+   function testPlagueWithEmptyEquation()
    {
       $f = false or plague('Message for RuntimeException');
    }
    /**
     * @expectedException RuntimeException
     */
-   public function testPlagueWithoutString()
+   function testPlagueWithoutString()
    {
       $f = false or plague(1);
    }
 
 
-   public function testEnsureBool()
+   function testEnsureBool()
    {
       $bool = false;
       $this->assertNull(ensure_bool($bool, 'argument'));
@@ -76,13 +76,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureBool
     * @expectedException DomainException
     */
-   public function testEnsureBoolWithoutBoolean()
+   function testEnsureBoolWithoutBoolean()
    {
       $non_bool = 0;
       ensure_bool($non_bool, 'argument');
    }
 
-   public function testEnsureInt()
+   function testEnsureInt()
    {
       $int = 0;
       $this->assertNull(ensure_int($int, 'must'));
@@ -91,13 +91,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureInt
     * @expectedException DomainException
     */
-   public function testEnsureIntWithoutInt()
+   function testEnsureIntWithoutInt()
    {
       $non_int = 0.0;
       ensure_int($non_int, 'must');
    }
 
-   public function testEnsureFloat()
+   function testEnsureFloat()
    {
       $float = 0.0;
       $this->assertNull(ensure_float($float, 'be'));
@@ -106,13 +106,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureFloat
     * @expectedException DomainException
     */
-   public function testEnsureFloatWithoutFloat()
+   function testEnsureFloatWithoutFloat()
    {
       $non_float = '0.0';
       ensure_float($non_float, 'be');
    }
 
-   public function testEnsureNumeric()
+   function testEnsureNumeric()
    {
       $numerics = [
          0   ,
@@ -130,13 +130,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNumeric
     * @expectedException DomainException
     */
-   public function testEnsureNumericWithoutNumeric()
+   function testEnsureNumericWithoutNumeric()
    {
       $not_numeric = 'string';
       ensure_numeric($not_numeric, 'the');
    }
 
-   public function testEnsureString()
+   function testEnsureString()
    {
       $string = 'string';
       $this->assertNull(ensure_string($string, 'subject'));
@@ -145,13 +145,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureString
     * @expectedException DomainException
     */
-   public function testEnsureStringWithoutString()
+   function testEnsureStringWithoutString()
    {
       $non_string = true;
       ensure_string($non_string, 'subject');
    }
 
-   public function testEnsureScalar()
+   function testEnsureScalar()
    {
       $scalars = [
          false,
@@ -167,14 +167,14 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureScalar
     * @expectedException DomainException
     */
-   public function testEnsureScalarWithoutScalar()
+   function testEnsureScalarWithoutScalar()
    {
       $not_scalar = fopen('testEnsureScalarWithoutScalar', 'w');
       unlink('testEnsureScalarWithoutScalar');
       ensure_scalar($not_scalar, 'of');
    }
 
-   public function testEnsureResource()
+   function testEnsureResource()
    {
       $resource = fopen('testEnsureResource', 'w');
       $this->assertNull(ensure_resource($resource, 'the'));
@@ -185,13 +185,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureResource
     * @expectedException DomainException
     */
-   public function testEnsureResourceWithoutResource()
+   function testEnsureResourceWithoutResource()
    {
       $non_resource = [1, 2, 3];
       ensure_resource($non_resource, 'the');
    }
 
-   public function testEnsureArray()
+   function testEnsureArray()
    {
       $array = [];
       $this->assertNull(ensure_array($array, 'error'));
@@ -200,13 +200,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureArray
     * @expectedException DomainException
     */
-   public function testEnsureArrayWithoutArray()
+   function testEnsureArrayWithoutArray()
    {
       $non_array = function() { echo 'testEnsureArray'; };
       ensure_array($non_array, 'error');
    }
 
-   public function testEnsureCallable()
+   function testEnsureCallable()
    {
       $callable = function() { echo 'testEnsureCallable'; };
       $this->assertNull(ensure_callable($callable, 'message'));
@@ -215,13 +215,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureCallable
     * @expectedException DomainException
     */
-   public function testEnsureCallableWithoutCallable()
+   function testEnsureCallableWithoutCallable()
    {
       $not_callable = new Exception('testEnsureCallableWithoutCallable');
       ensure_callable($not_callable, 'message');
    }
 
-   public function testEnsureObject()
+   function testEnsureObject()
    {
       $object = new Exception('testEnsureObject');
       $this->assertNull(ensure_object($object, ':p'));
@@ -230,14 +230,14 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureObject
     * @expectedException DomainException
     */
-   public function testEnsureObjectWithoutObject()
+   function testEnsureObjectWithoutObject()
    {
       $non_object = null;
       ensure_object($non_object, ':p');
    }
 
 
-   public function testEnsureNonNull()
+   function testEnsureNonNull()
    {
       $non_nulls = [
          false,
@@ -256,13 +256,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonNull
     * @expectedException DomainException
     */
-   public function testEnsureNonNullWithNull()
+   function testEnsureNonNullWithNull()
    {
       $null = null;
       ensure_non_null($null, 'this');
    }
 
-   public function testEnsureNonEmpty()
+   function testEnsureNonEmpty()
    {
       $non_empties = [
          true,
@@ -279,7 +279,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithNull()
+   function testEnsureNonEmptyWithNull()
    {
       $subject = null;
       ensure_non_empty($subject, 'The subject');
@@ -288,7 +288,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithFalse()
+   function testEnsureNonEmptyWithFalse()
    {
       $subject = false;
       ensure_non_empty($subject, 'The subject');
@@ -297,7 +297,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithZero()
+   function testEnsureNonEmptyWithZero()
    {
       $subject = 0;
       ensure_non_empty($subject, 'The subject');
@@ -306,7 +306,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithZeroDotZero()
+   function testEnsureNonEmptyWithZeroDotZero()
    {
       $subject = 0.0;
       ensure_non_empty($subject, 'The subject');
@@ -315,7 +315,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithEmptyString()
+   function testEnsureNonEmptyWithEmptyString()
    {
       $subject = '';
       ensure_non_empty($subject, 'The subject');
@@ -324,13 +324,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonEmpty
     * @expectedException DomainException
     */
-   public function testEnsureNonEmptyWithEmptyArray()
+   function testEnsureNonEmptyWithEmptyArray()
    {
       $subject = [];
       ensure_non_empty($subject, 'The subject');
    }
 
-   public function testEnsurePositiveInt()
+   function testEnsurePositiveInt()
    {
       $positive_ints = [1, PHP_INT_MAX];
       foreach ($positive_ints as $positive_int) {
@@ -341,7 +341,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsurePositiveInt
     * @expectedException DomainException
     */
-   public function testEnsurePositiveIntWithZero()
+   function testEnsurePositiveIntWithZero()
    {
       $non_positive = 0;
       ensure_positive_int($non_positive, 'next to zero');
@@ -350,7 +350,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsurePositiveInt
     * @expectedException DomainException
     */
-   public function testEnsurePositiveIntWithMinInt()
+   function testEnsurePositiveIntWithMinInt()
    {
       $non_positive = PHP_INT_MIN;
       ensure_positive_int($non_positive, 'next to min int');
@@ -359,13 +359,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsurePositiveInt
     * @expectedException DomainException
     */
-   public function testEnsurePositiveIntWithoutInt()
+   function testEnsurePositiveIntWithoutInt()
    {
       $non_int = 1.0;
       ensure_positive_int($non_int, 'next to non-int');
    }
 
-   public function testEnsureNonNegativeInt()
+   function testEnsureNonNegativeInt()
    {
       $non_negative_ints = [0, PHP_INT_MAX];
       foreach ($non_negative_ints as $non_negative_int) {
@@ -376,7 +376,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonNegativeInt
     * @expectedException DomainException
     */
-   public function testEnsureNonNegativeIntWithMinusOne()
+   function testEnsureNonNegativeIntWithMinusOne()
    {
       $negative = -1;
       ensure_non_negative_int($negative, 'next to -1');
@@ -385,7 +385,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonNegativeInt
     * @expectedException DomainException
     */
-   public function testEnsureNonNegativeIntWithMinInt()
+   function testEnsureNonNegativeIntWithMinInt()
    {
       $negative = PHP_INT_MIN;
       ensure_non_negative_int($negative, 'next to min int');
@@ -394,7 +394,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNonNegativeInt
     * @expectedException DomainException
     */
-   public function testEnsureNonNegativeIntWithoutInt()
+   function testEnsureNonNegativeIntWithoutInt()
    {
       $non_int = '1';
       ensure_non_negative_int($non_int, 'next to non-int');
@@ -403,7 +403,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
 
    private $blowsers = ['chrome', 'firefox', 'safari'];
 
-   public function testEnsureInArray()
+   function testEnsureInArray()
    {
       foreach ($this->blowsers as $blowser) {
          $this->assertNull(ensure_in_array($blowser, $this->blowsers, 'This line will be passed!'));
@@ -413,13 +413,13 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureInArray
     * @expectedException DomainException
     */
-   public function testEnsureInArrayWithoutElementInArray()
+   function testEnsureInArrayWithoutElementInArray()
    {
       $not_in_array = 'ie';
       ensure_in_array($not_in_array, $this->blowsers, '?');
    }
 
-   public function testEnsureNotInArray()
+   function testEnsureNotInArray()
    {
       $non_in_array = 'ie';
       $this->assertNull(ensure_not_in_array($non_in_array, $this->blowsers, '?'));
@@ -428,14 +428,14 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureNotInArray
     * @expectedException DomainException
     */
-   public function testEnsureNotInArrayWithElementInArray()
+   function testEnsureNotInArrayWithElementInArray()
    {
       $in_array = 'chrome';
       ensure_not_in_array($in_array, $this->blowsers, ':)');
    }
 
 
-   public function testEnsureArgcAtLeast()
+   function testEnsureArgcAtLeast()
    {
       $pairs = [
          [0, 0],
@@ -451,12 +451,12 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureArgcAtLeast
     * @expectedException BadFunctionCallException
     */
-   public function testEnsureArgcAtLeastWithLessArgc()
+   function testEnsureArgcAtLeastWithLessArgc()
    {
       ensure_argc_at_least(0, 1);
    }
 
-   public function testEnsureArgcAtMost()
+   function testEnsureArgcAtMost()
    {
       $pairs = [
          [0, 0],
@@ -472,7 +472,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     * @depends           testEnsureArgcAtMost
     * @expectedException BadFunctionCallException
     */
-   public function testEnsureArgcAtMostWithMoreArgc()
+   function testEnsureArgcAtMostWithMoreArgc()
    {
       ensure_argc_at_most(1, 0);
    }

@@ -6,7 +6,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
 {
    private $platitude = 'hello, world!';
 
-   public function testWithln()
+   function testWithln()
    {
       $this->assertEquals($this->platitude . PHP_EOL, withln($this->platitude));
    }
@@ -14,7 +14,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testWithln
     */
-   public function testEcholn()
+   function testEcholn()
    {
       $this->expectOutputString($this->platitude . PHP_EOL);
       echoln($this->platitude);
@@ -23,7 +23,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testWithln
     */
-   public function testHtmlFriendly()
+   function testHtmlFriendly()
    {
       $this->assertEquals(withln('<!--<pre>') . $this->platitude . withln('</pre>-->'), html_friendly($this->platitude       ));
       $this->assertEquals(withln(    '<pre>') . $this->platitude . withln('</pre>'   ), html_friendly($this->platitude, false));
@@ -32,7 +32,7 @@ class DebugTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testWithln
     */
-   public function testPretty()
+   function testPretty()
    {
       $patterns = [
          ['null'           , null ],
