@@ -16,7 +16,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          is_callable(function() { echo "testEnsure"; }),
       ];
       foreach ($true_equations as $true_equation) {
-         $this->assertNull(ensure($true_equation, 'This line will be passed!'));
+         $this->assertNull(ensure($true_equation, 'The subject'));
       }
    }
    /**
@@ -70,7 +70,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    function testEnsureBool()
    {
       $bool = false;
-      $this->assertNull(ensure_bool($bool, 'argument'));
+      $this->assertNull(ensure_bool($bool, 'This argument'));
    }
    /**
     * @depends           testEnsureBool
@@ -79,7 +79,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    function testEnsureBoolWithoutBoolean()
    {
       $non_bool = 0;
-      ensure_bool($non_bool, 'argument');
+      ensure_bool($non_bool, 'This argument');
    }
 
    function testEnsureInt()
@@ -249,7 +249,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          function() { echo 'testEnsureNonNull'; },
       ];
       foreach ($non_nulls as $non_null) {
-         $this->assertNull(ensure_non_null($non_null, 'this'));
+         $this->assertNull(ensure_non_null($non_null, 'The subject'));
       }
    }
    /**
@@ -259,7 +259,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    function testEnsureNonNullWithNull()
    {
       $null = null;
-      ensure_non_null($null, 'this');
+      ensure_non_null($null, 'The subject');
    }
 
    function testEnsureNonEmpty()
@@ -334,7 +334,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    {
       $positive_ints = [1, PHP_INT_MAX];
       foreach ($positive_ints as $positive_int) {
-         $this->assertNull(ensure_positive_int($positive_int, 'This line will be passed!'));
+         $this->assertNull(ensure_positive_int($positive_int, 'The subject'));
       }
    }
    /**
@@ -369,7 +369,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    {
       $non_negative_ints = [0, PHP_INT_MAX];
       foreach ($non_negative_ints as $non_negative_int) {
-         $this->assertNull(ensure_non_negative_int($non_negative_int, 'This line will be passed!'));
+         $this->assertNull(ensure_non_negative_int($non_negative_int, 'The subject'));
       }
    }
    /**
@@ -406,7 +406,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    function testEnsureInArray()
    {
       foreach ($this->blowsers as $blowser) {
-         $this->assertNull(ensure_in_array($blowser, $this->blowsers, 'This line will be passed!'));
+         $this->assertNull(ensure_in_array($blowser, $this->blowsers, 'The subject'));
       }
    }
    /**
