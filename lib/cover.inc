@@ -92,6 +92,9 @@ function to_string($var)
       case 'resource':
          $string = 'resource <' . get_resource_type($var) . '> #' . intval($var);
          break;
+      case 'array':
+         $string = empty($var) ? '[]' : $type;
+         break;
       case 'object':
          $string = 'object of ' . get_class($var);
          break;

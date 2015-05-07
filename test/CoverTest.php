@@ -55,6 +55,7 @@ class CoverTest extends PHPUnit_Framework_TestCase
          ['1.0'                , 1.0                                ],
          ['1.04'               , 1.040                              ],
          ['string'             , 'string'                           ],
+         ['[]'                 , []                                 ],
          ['array'              , [1, 2, 3]                          ],
          ['object of Closure'  , function() { echo 'testToString'; }],
          ['object of Exception', new Exception('testToString')      ],
