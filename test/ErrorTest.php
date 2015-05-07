@@ -16,7 +16,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          is_callable(function() { echo "testEnsure"; }),
       ];
       foreach ($true_equations as $true_equation) {
-         ensure($true_equation, 'This line will be passed!');
+         $this->assertNull(ensure($true_equation, 'This line will be passed!'));
       }
    }
    /**
@@ -49,6 +49,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       $f = fopen('testPlague', 'w') or plague('This line will not be passed!');
       fclose($f);
       unlink('testPlague');
+      $this->assertFalse(is_resource($f));
    }
    /**
     * @expectedException RuntimeException
@@ -69,7 +70,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureBool()
    {
       $bool = false;
-      ensure_bool($bool, 'argument');
+      $this->assertNull(ensure_bool($bool, 'argument'));
    }
    /**
     * @depends           testEnsureBool
@@ -84,7 +85,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureInt()
    {
       $int = 0;
-      ensure_int($int, 'must');
+      $this->assertNull(ensure_int($int, 'must'));
    }
    /**
     * @depends           testEnsureInt
@@ -99,7 +100,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureFloat()
    {
       $float = 0.0;
-      ensure_float($float, 'be');
+      $this->assertNull(ensure_float($float, 'be'));
    }
    /**
     * @depends           testEnsureFloat
@@ -122,7 +123,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          '0.',
       ];
       foreach ($numerics as $numeric) {
-         ensure_numeric($numeric, 'the');
+         $this->assertNull(ensure_numeric($numeric, 'the'));
       }
    }
    /**
@@ -138,7 +139,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureString()
    {
       $string = 'string';
-      ensure_string($string, 'subject');
+      $this->assertNull(ensure_string($string, 'subject'));
    }
    /**
     * @depends           testEnsureString
@@ -159,7 +160,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          ''   ,
       ];
       foreach ($scalars as $scalar) {
-         ensure_scalar($scalar, 'of');
+         $this->assertNull(ensure_scalar($scalar, 'of'));
       }
    }
    /**
@@ -176,7 +177,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureResource()
    {
       $resource = fopen('testEnsureResource', 'w');
-      ensure_resource($resource, 'the');
+      $this->assertNull(ensure_resource($resource, 'the'));
       fclose($resource);
       unlink('testEnsureResource');
    }
@@ -193,7 +194,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureArray()
    {
       $array = [];
-      ensure_array($array, 'error');
+      $this->assertNull(ensure_array($array, 'error'));
    }
    /**
     * @depends           testEnsureArray
@@ -208,7 +209,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureCallable()
    {
       $callable = function() { echo 'testEnsureCallable'; };
-      ensure_callable($callable, 'message');
+      $this->assertNull(ensure_callable($callable, 'message'));
    }
    /**
     * @depends           testEnsureCallable
@@ -223,7 +224,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureObject()
    {
       $object = new Exception('testEnsureObject');
-      ensure_object($object, ':p');
+      $this->assertNull(ensure_object($object, ':p'));
    }
    /**
     * @depends           testEnsureObject
@@ -248,7 +249,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          function() { echo 'testEnsureNonNull'; },
       ];
       foreach ($non_nulls as $non_null) {
-         ensure_non_null($non_null, 'this');
+         $this->assertNull(ensure_non_null($non_null, 'this'));
       }
    }
    /**
@@ -271,7 +272,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          [1] ,
       ];
       foreach ($non_empties as $non_empty) {
-         ensure_non_empty($non_empty, 'This line is passed!');
+         $this->assertNull(ensure_non_empty($non_empty, 'This line is passed!'));
       }
    }
    /**
@@ -333,7 +334,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    {
       $positive_ints = [1, PHP_INT_MAX];
       foreach ($positive_ints as $positive_int) {
-         ensure_positive_int($positive_int, 'This line will be passed!');
+         $this->assertNull(ensure_positive_int($positive_int, 'This line will be passed!'));
       }
    }
    /**
@@ -368,7 +369,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    {
       $non_negative_ints = [0, PHP_INT_MAX];
       foreach ($non_negative_ints as $non_negative_int) {
-         ensure_non_negative_int($non_negative_int, 'This line will be passed!');
+         $this->assertNull(ensure_non_negative_int($non_negative_int, 'This line will be passed!'));
       }
    }
    /**
@@ -405,7 +406,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureInArray()
    {
       foreach ($this->blowsers as $blowser) {
-         ensure_in_array($blowser, $this->blowsers, 'This line will be passed!');
+         $this->assertNull(ensure_in_array($blowser, $this->blowsers, 'This line will be passed!'));
       }
    }
    /**
@@ -421,7 +422,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    public function testEnsureNotInArray()
    {
       $non_in_array = 'ie';
-      ensure_not_in_array($non_in_array, $this->blowsers, '?');
+      $this->assertNull(ensure_not_in_array($non_in_array, $this->blowsers, '?'));
    }
    /**
     * @depends           testEnsureNotInArray
@@ -443,7 +444,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          [2, 1],
       ];
       foreach ($pairs as list($argc, $min)) {
-         ensure_argc_at_least($argc, $min);
+         $this->assertNull(ensure_argc_at_least($argc, $min));
       }
    }
    /**
@@ -464,7 +465,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
          [1, 2],
       ];
       foreach ($pairs as list($argc, $min)) {
-         ensure_argc_at_most($argc, $min);
+         $this->assertNull(ensure_argc_at_most($argc, $min));
       }
    }
    /**
