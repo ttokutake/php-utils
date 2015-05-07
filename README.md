@@ -1,4 +1,5 @@
-# php-utils [![Build Status](https://travis-ci.org/ttokutake/php-utils.svg?branch=master)](https://travis-ci.org/ttokutake/php-utils)
+# php-utils [![Build Status](https://travis-ci.org/ttokutake/php-utils.svg?branch=master)](https://travis-ci.org/ttokutake/php-utils) [![Coverage Status](https://coveralls.io/repos/ttokutake/php-utils/badge.png?branch=master)](https://coveralls.io/r/ttokutake/php-utils)
+
 
 "php-utils" is the function group which extends [PHP](http://php.net/) standard functions.
 
