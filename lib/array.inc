@@ -231,13 +231,14 @@ function array_flat(array $array)
 /**
  * Return an array consisting of the pairs of each element for two arrays.
  *
+ * @param  array $first
+ * @param  array $second
  * @param  array ...
  * @return array
  */
-function array_zip()
+function array_zip(array $first, array $second)
 {
    $arrays = func_get_args();
-   ensure_argc_at_least(count($arrays), 2);
    foreach ($arrays as $array) {
       ensure_array($array, 'Each argument');
    }

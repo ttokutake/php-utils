@@ -221,31 +221,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_callable($not_callable, 'message');
    }
 
-   function testEnsureInstanceOf()
-   {
-      $object = new UnexpectedValueException('testEnsureInstanceOf');
-      $this->assertNull(ensure_instance_of($object, 'UnexpectedValueException'          , ':p'));
-      $this->assertNull(ensure_instance_of($object, new RuntimeException('parent class'), ':p'));
-   }
-   /**
-    * @depends           testEnsureInstanceOf
-    * @expectedException DomainException
-    */
-   function testEnsureInstanceOfWithOtherObject()
-   {
-      $object = new InvalidArgumentException('testEnsureInstanceOfWithOtherObject');
-      ensure_instance_of($object, 'Iterator', ':p');
-   }
-   /**
-    * @depends           testEnsureInstanceOf
-    * @expectedException DomainException
-    */
-   function testEnsureInstanceOfWithoutObject()
-   {
-      $non_object = false;
-      ensure_instance_of($non_object, 'Closure', ':p');
-   }
-
 
    function testEnsureNonNull()
    {
@@ -445,45 +420,56 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    }
 
 
-   function testEnsureArgcAtLeast()
+   /**
+    * @depends testEnsureStringWithoutString
+    */
+   function testEnsureClassExists()
    {
-      $pairs = [
-         [0, 0],
-         [1, 0],
-         [1, 1],
-         [2, 1],
+      $class_names = [
+         'Iterator' ,
+         'Closure'  ,
+         'Exception',
       ];
-      foreach ($pairs as list($argc, $min)) {
-         $this->assertNull(ensure_argc_at_least($argc, $min));
+      foreach ($class_names as $class_name) {
+         $this->assertNull(ensure_class_exists($class_name));
       }
    }
    /**
-    * @depends           testEnsureArgcAtLeast
-    * @expectedException BadFunctionCallException
+    * @depends           testEnsureClassExists
+    * @expectedException DomainException
     */
-   function testEnsureArgcAtLeastWithLessArgc()
+   function testEnsureClassExistsWithNonExistingClass()
    {
-      ensure_argc_at_least(0, 1);
+      $non_existing_class = 'NonExistingClass';
+      ensure_class_exists($non_existing_class);
    }
 
-   function testEnsureArgcAtMost()
+   /**
+    * @depends testEnsureStringWithoutString
+    * @depends testEnsureClassExistsWithNonExistingClass
+    */
+   function testEnsureInstanceOf()
    {
-      $pairs = [
-         [0, 0],
-         [0, 1],
-         [1, 1],
-         [1, 2],
-      ];
-      foreach ($pairs as list($argc, $min)) {
-         $this->assertNull(ensure_argc_at_most($argc, $min));
-      }
+      $object = new UnexpectedValueException('testEnsureInstanceOf');
+      $this->assertNull(ensure_instance_of($object, ':p', 'UnexpectedValueException'          ));
+      $this->assertNull(ensure_instance_of($object, ':p', new RuntimeException('parent class')));
    }
    /**
-    * @depends           testEnsureArgcAtMost
-    * @expectedException BadFunctionCallException
+    * @depends           testEnsureInstanceOf
+    * @expectedException DomainException
     */
-   function testEnsureArgcAtMostWithMoreArgc()
+   function testEnsureInstanceOfWithOtherObject()
    {
-      ensure_argc_at_most(1, 0);
+      $object = new InvalidArgumentException('testEnsureInstanceOfWithOtherObject');
+      ensure_instance_of($object, ':p', 'Iterator');
+   }
+   /**
+    * @depends           testEnsureInstanceOf
+    * @expectedException DomainException
+    */
+   function testEnsureInstanceOfWithoutObject()
+   {
+      $non_object = false;
+      ensure_instance_of($non_object, ':p', 'Closure');
    }
 }

@@ -200,24 +200,6 @@ function ensure_callable(&$var, $which_one)
    }
 }
 
-/**
- * Throw the DomainException if $var is not instance of specified class.
- *
- * @param mixed  &$var
- * @param mixed   $class
- * @param string  $which_one
- */
-function ensure_instance_of(&$var, $class, $which_one)
-{
-   $class_name = is_object($class) ? get_class($class) : $class;
-   ensure_string($class_name, 'The second argument');
-
-   if (!($var instanceof $class_name)) {
-      $which_one = string_or_default($which_one, 'The variable');
-      throw new DomainException(variable_violation_message($which_one, "instance of $class_name", to_type($var), 1));
-   }
-}
-
 
 /**
  * Throw the DomainException if $var is null.
@@ -309,33 +291,42 @@ function ensure_not_in_array(&$var, array &$black_list, $which_one)
 
 
 /**
- * Throw the BadFunctionCallException if $argc is less than $min.
+ * Throw DomainException if class or interface is not defined.
  *
- * @param int $argc
- * @param int $min
+ * @param string $class_name
  */
-function ensure_argc_at_least($argc, $min)
+function ensure_class_exists($class_name)
 {
-   ensure_non_negative_int($argc, 'The first argument' );
-   ensure_non_negative_int($min , 'The second argument');
+   ensure_string($class_name, 'The first argument');
 
-   if ($argc < $min) {
-      throw new BadFunctionCallException(error_message("Specify $min arguments at least, actually $argc arguments", 1));
+   if (!(class_exists($class_name) || interface_exists($class_name))) {
+      throw new DomainException(error_message("class or interface \"$class_name\" is not defined", 1));
    }
 }
 
 /**
- * Throw the BadFunctionCallException if $argc is more than $min.
+ * Throw the DomainException if $var is not one of objects of specified classes.
  *
- * @param int $argc
- * @param int $max
+ * @param mixed  &$var
+ * @param string  $which_one
+ * @param mixed   $class
+ * @param mixed   ...
  */
-function ensure_argc_at_most($argc, $max)
+function ensure_instance_of(&$var, $which_one, $class)
 {
-   ensure_non_negative_int($argc, 'The first argument' );
-   ensure_non_negative_int($max , 'The second argument');
-
-   if ($argc > $max) {
-      throw new BadFunctionCallException(error_message("Specify $max arguments at most, actually $argc arguments", 1));
+   $classes     = array_slice(func_get_args(), 2); // should use array_drop()
+   $class_names = array_map(function ($class) { return is_object($class) ? get_class($class) : $class; }, $classes);
+   foreach ($class_names as $class_name) {
+      ensure_string($class_name, 'Arguments following second one');
+      ensure_class_exists($class_name);
    }
+
+   foreach ($class_names as $class_name) { // should use array_exist() or array_for_all()
+      if ($var instanceof $class_name) {
+         return;
+      }
+   }
+   $which_one = string_or_default($which_one, 'The variable');
+   $joined    = implode(', ', $class_names);
+   throw new DomainException(variable_violation_message($which_one, "one of instances [$joined]", to_type($var), 1));
 }
