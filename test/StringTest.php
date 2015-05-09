@@ -60,6 +60,18 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   function testStrReplaceFirst()
+   {
+      $patterns = [
+         ['healo, world!', 'l' , 'a' , $this->platitude],
+         ['home/troy/'   , '/' , ''  , '/home/troy/'   ],
+         ['せいぜい'     , 'ぜ', 'せ', 'ぜいぜい'      ],
+      ];
+      foreach ($patterns as list($expected, $search, $replace, $subject)) {
+         $this->assertEquals($expected, str_replace_first($search, $replace, $subject));
+      }
+   }
+
 
    function testSplitAt()
    {

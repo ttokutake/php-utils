@@ -105,6 +105,23 @@ function end_with($haystack, $needle)
    return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }
 
+/**
+ * Return first only version of str_replace().
+ *
+ * @param  string $search
+ * @param  string $replace
+ * @param  string $subject
+ * @return string
+ */
+function str_replace_first($search, $replace, $subject)
+{
+   ensure_string($search , 'The first argument' );
+   ensure_string($replace, 'The second argument');
+   ensure_string($subject, 'The third argument' );
+
+   return preg_replace('/' . preg_quote($search, '/') . '/u', $replace, $subject, 1);
+}
+
 
 /**
  * Split the multibyte characters by num of former characters.
