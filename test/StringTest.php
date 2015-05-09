@@ -158,10 +158,10 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   function testHaveMb()
+   function testHaveMbChar()
    {
-      $this->assertFalse(have_mb($this->platitude   ));
-      $this->assertTrue (have_mb($this->mb_platitude));
-      $this->assertTrue (have_mb('JAM パターン'     ));
+      $this->assertFalse(have_mb_char($this->platitude   ));
+      $this->assertTrue (have_mb_char($this->mb_platitude));
+      $this->assertTrue (have_mb_char('JAM パターン'     ));
    }
 }

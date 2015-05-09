@@ -177,7 +177,7 @@ function mb_trim($string)
  * @param  string  $string
  * @return boolean
  */
-function have_mb($string)
+function have_mb_char_char($string)
 {
    ensure_string($string, 'The first argument');
 
