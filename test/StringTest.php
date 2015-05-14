@@ -156,6 +156,8 @@ class StringTest extends PHPUnit_Framework_TestCase
          'a' ,
          'A' ,
          'あ',
+         '[' ,
+         '?' ,
       ];
       foreach ($false_patterns as $string) {
          $this->assertFalse(is_blank($string));
@@ -164,7 +166,7 @@ class StringTest extends PHPUnit_Framework_TestCase
 
    function testMbTrim()
    {
-      $expected = 'remain';
+      $expected = '[remain]';
       foreach ($this->blanks as $blank) {
          $this->assertEquals($expected, mb_trim("{$blank}{$expected}{$blank}"));
       }
