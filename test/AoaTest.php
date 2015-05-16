@@ -31,6 +31,23 @@ class AoaTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   function testAoaCollect()
+   {
+      $aoa = [
+         'main' => [
+            'title'   => 'FF V',
+            'authors' => ['A'],
+            'words'   => ['crystal', 'job'],
+         ],
+         'subs' => [
+            ['title' => 'FF IV', 'authors' => ['B', 'U'], 'words' => ['crystal', 'dark knight']],
+            ['title' => 'FF VI', 'authors' => ['C', 'V'], 'words' => ['magic'  , 'magic stone']],
+         ],
+      ];
+      $expected = [['A'], ['B', 'U'], ['C', 'V']];
+      $this->assertEquals($expected, aoa_collect($aoa, 'authors'));
+   }
+
 
    function testAoaTranspose()
    {

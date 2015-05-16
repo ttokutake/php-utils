@@ -62,6 +62,26 @@ function aoa_unset(array $aoa, array $keys)
    return $aoa;
 }
 
+/**
+ * Return the array collected by specified key.
+ *
+ * @param  array $aoa
+ * @param  mixed $key
+ * @return array
+ */
+function aoa_collect(array $aoa, $key)
+{
+   $collected = array();
+   foreach ($aoa as $k => $v) {
+      if ($k === $key) {
+         $collected[] = $v;
+      } else if (is_array($v)) {
+         $collected = array_merge($collected, aoa_collect($v, $key));
+      }
+   }
+   return $collected;
+}
+
 
 /**
  * Return the transposed matrix
