@@ -23,7 +23,7 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'array.inc'));
  */
 function aoa_set(array $aoa, array $keys, $value)
 {
-   ensure_non_empty($keys, 'The second argument');
+   ensure_non_empty($keys, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $pointer = &$aoa;
    foreach ($keys as $key) {
@@ -46,7 +46,7 @@ function aoa_set(array $aoa, array $keys, $value)
  */
 function aoa_unset(array $aoa, array $keys)
 {
-   ensure_non_empty($keys, 'The second argument');
+   ensure_non_empty($keys, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $pointer = &$aoa;
    list($init, $last) = array_depeditate($keys);
@@ -71,6 +71,8 @@ function aoa_unset(array $aoa, array $keys)
  */
 function aoa_collect(array $aoa, $key)
 {
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
+
    $collected = array();
    foreach ($aoa as $k => $v) {
       if ($k === $key) {
@@ -111,7 +113,7 @@ function aoa_transpose(array $matrix)
  */
 function aoa_values(array $aoa, $key)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_map(function($array) use($key) { return array_get($array, $key); }, $aoa);
 }
@@ -125,7 +127,7 @@ function aoa_values(array $aoa, $key)
  */
 function aoa_sum(array $aoa, $key)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_reduce($aoa, function($sum, $array) use($key) { return $sum + array_get_or_else($array, $key, 0); }, 0);
 }
@@ -140,8 +142,8 @@ function aoa_sum(array $aoa, $key)
  */
 function aoa_map(array $aoa, $key, $closure)
 {
-   ensure_scalar  ($key    , 'The second argument');
-   ensure_callable($closure, 'The third argument' );
+   ensure_scalar  ($key    , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_callable($closure, SUBJECT_FOR_THIRD_ARGUMENT );
 
    $result = array();
    foreach ($aoa as $k => $array) {
@@ -165,8 +167,8 @@ function aoa_map(array $aoa, $key, $closure)
  */
 function aoa_reduce(array $aoa, $key, $closure, $initial)
 {
-   ensure_scalar  ($key    , 'The second argument');
-   ensure_callable($closure, 'The third argument' );
+   ensure_scalar  ($key    , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_callable($closure, SUBJECT_FOR_THIRD_ARGUMENT );
 
    return array_reduce(aoa_values($aoa, $key), $closure, $initial);
 }
@@ -181,8 +183,8 @@ function aoa_reduce(array $aoa, $key, $closure, $initial)
  */
 function aoa_filter(array $aoa, $key, $closure)
 {
-   ensure_scalar  ($key    , 'The second argument');
-   ensure_callable($closure, 'The third argument' );
+   ensure_scalar  ($key    , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_callable($closure, SUBJECT_FOR_THIRD_ARGUMENT );
 
    $result = array();
    foreach ($aoa as $k => $array) {
@@ -203,7 +205,7 @@ function aoa_filter(array $aoa, $key, $closure)
  */
 function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    array_multisort(aoa_values($aoa, $key), $order, $option, $aoa);
    return $aoa;
@@ -218,7 +220,7 @@ function aoa_sort(array $aoa, $key, $order = SORT_ASC, $option = SORT_REGULAR)
  */
 function aoa_associate(array $aoa, $key)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $associated = array();
    foreach ($aoa as $array) {

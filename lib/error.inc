@@ -74,6 +74,12 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
 }
 
 
+const SUBJECT_FOR_FIRST_ARGUMENT  = 'The first argument';
+const SUBJECT_FOR_SECOND_ARGUMENT = 'The second argument';
+const SUBJECT_FOR_THIRD_ARGUMENT  = 'The third argument';
+const SUBJECT_FOR_FOURTH_ARGUMENT = 'The fourth argument';
+const SUBJECT_FOR_FIFTH_ARGUMENT  = 'The fifth argument';
+
 /**
  * Throw the DomainException if $var is not "boolean".
  *
@@ -283,7 +289,7 @@ function ensure_not_in_array(&$var, array &$black_list, $which_one)
  */
 function ensure_class_exists($class_name)
 {
-   ensure_string($class_name, 'The first argument');
+   ensure_string($class_name, SUBJECT_FOR_FIRST_ARGUMENT);
 
    if (!(class_exists($class_name) || interface_exists($class_name))) {
       throw new DomainException(error_message("class or interface \"$class_name\" is not defined", 1));

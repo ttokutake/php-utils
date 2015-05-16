@@ -20,7 +20,7 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'));
  */
 function require_relative($file)
 {
-   ensure_string($file, 'The first argument');
+   ensure_string($file, SUBJECT_FOR_FIRST_ARGUMENT);
 
    list($first) = debug_backtrace();
    $base_dir    = dirname($first['file']);
@@ -37,7 +37,7 @@ function require_relative($file)
  */
 function in_z($num)
 {
-   ensure_numeric($num, 'The first argument');
+   ensure_numeric($num, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return preg_match('/^-?\d+(?:\.0*)?$/', $num) === 1;
 }
@@ -50,7 +50,7 @@ function in_z($num)
  */
 function is_odd($num)
 {
-   ensure_numeric($num, 'The first argument');
+   ensure_numeric($num, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return in_z($num) && abs($num % 2) == 1;
 }
@@ -63,7 +63,7 @@ function is_odd($num)
  */
 function is_even($num)
 {
-   ensure_numeric($num, 'The first argument');
+   ensure_numeric($num, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return in_z($num) && abs($num % 2) == 0;
 }
@@ -90,8 +90,8 @@ function between($var, $min, $max)
  */
 function incremental_range($first, $last)
 {
-   ensure_int($first, 'The first argument' );
-   ensure_int($last , 'The second argument');
+   ensure_int($first, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
 
    return $first <= $last ? range($first, $last) : array();
 }
@@ -105,8 +105,8 @@ function incremental_range($first, $last)
  */
 function decremental_range($first, $last)
 {
-   ensure_int($first, 'The first argument' );
-   ensure_int($last , 'The second argument');
+   ensure_int($first, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_reverse(incremental_range($last, $first));
 }
@@ -120,7 +120,7 @@ function decremental_range($first, $last)
  */
 function reverse_closure($closure)
 {
-   ensure_callable($closure, 'The first argument');
+   ensure_callable($closure, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return function($var) use($closure) { return !$closure($var); };
 }

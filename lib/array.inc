@@ -44,7 +44,7 @@ function to_seq(array $array)
  */
 function seq_filter(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $result = array();
    foreach ($array as $value) {
@@ -67,7 +67,7 @@ function seq_filter(array $array, $closure)
  */
 function array_set(array $array, $key, $value)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $array[$key] = $value;
    return $array;
@@ -82,7 +82,7 @@ function array_set(array $array, $key, $value)
  */
 function array_unset(array $array, $key)
 {
-   ensure_scalar($key, 'The second argument');
+   ensure_scalar($key, SUBJECT_FOR_SECOND_ARGUMENT);
 
    unset($array[$key]);
    return $array;
@@ -178,7 +178,7 @@ function array_filter_not(array $array, $closure = null)
    if (is_null($closure)) {
       $closure = function($value) { return $value; };
    }
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_filter($array, reverse_closure($closure));
 }
@@ -192,7 +192,7 @@ function array_filter_not(array $array, $closure = null)
  */
 function array_map_with_key(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $result = array();
    foreach ($array as $key => $value) {
@@ -211,7 +211,7 @@ function array_map_with_key(array $array, $closure)
  */
 function array_reduce_with_key(array $array, $closure, $initial)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    foreach ($array as $key => $value) {
       $initial = $closure($initial, $key, $value);
@@ -228,7 +228,7 @@ function array_reduce_with_key(array $array, $closure, $initial)
  */
 function array_filter_with_key(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $result = array();
    foreach ($array as $key => $value) {
@@ -284,7 +284,7 @@ function array_zip(array $first, array $second)
  */
 function array_behead(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return array(array_head($array), array_tail($array));
 }
@@ -297,7 +297,7 @@ function array_behead(array $array)
  */
 function array_head(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return reset($array);
 }
@@ -310,7 +310,7 @@ function array_head(array $array)
  */
 function array_tail(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return array_slice($array, 1);
 }
@@ -324,7 +324,7 @@ function array_tail(array $array)
  */
 function array_depeditate(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return array(array_init($array), array_last($array));
 }
@@ -337,7 +337,7 @@ function array_depeditate(array $array)
  */
 function array_init(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return array_slice($array, 0, count($array) - 1);
 }
@@ -350,7 +350,7 @@ function array_init(array $array)
  */
 function array_last(array $array)
 {
-   ensure_non_empty($array, 'The first argument');
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return end($array);
 }
@@ -365,7 +365,7 @@ function array_last(array $array)
  */
 function array_take(array $array, $num)
 {
-   ensure_non_negative_int($num, 'The second argument');
+   ensure_non_negative_int($num, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_slice($array, 0, $num);
 }
@@ -379,7 +379,7 @@ function array_take(array $array, $num)
  */
 function array_take_right(array $array, $num)
 {
-   ensure_non_negative_int($num, 'The second argument');
+   ensure_non_negative_int($num, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_reverse(array_take(array_reverse($array), $num, 1));
 }
@@ -393,7 +393,7 @@ function array_take_right(array $array, $num)
  */
 function array_drop(array $array, $num)
 {
-   ensure_non_negative_int($num, 'The second argument');
+   ensure_non_negative_int($num, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_slice($array, $num);
 }
@@ -407,7 +407,7 @@ function array_drop(array $array, $num)
  */
 function array_drop_right(array $array, $num)
 {
-   ensure_non_negative_int($num, 'The second argument');
+   ensure_non_negative_int($num, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_reverse(array_drop(array_reverse($array), $num, 1));
 }
@@ -421,7 +421,7 @@ function array_drop_right(array $array, $num)
  */
 function array_split(array $array, $offset)
 {
-   ensure_int($offset, 'The second argument');
+   ensure_int($offset, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $offset = $offset < 0 ? count($array) + $offset : $offset;
    $former = $latter = array();
@@ -446,7 +446,7 @@ function array_split(array $array, $offset)
  */
 function array_exist(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    foreach ($array as $value) {
       if ($closure($value)) {
@@ -465,7 +465,7 @@ function array_exist(array $array, $closure)
  */
 function array_for_all(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return !array_exist($array, reverse_closure($closure));
 }
@@ -479,7 +479,7 @@ function array_for_all(array $array, $closure)
  */
 function array_find(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    foreach ($array as $value) {
       if ($closure($value)) {
@@ -498,7 +498,7 @@ function array_find(array $array, $closure)
  */
 function array_partition(array $array, $closure)
 {
-   ensure_callable($closure, 'The second argument');
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
 
    $former = $latter = array();
    foreach ($array as $key => $value) {
@@ -521,7 +521,7 @@ function array_partition(array $array, $closure)
  */
 function array_group(array $array, $size)
 {
-   ensure_positive_int($size, 'The second argument');
+   ensure_positive_int($size, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return array_chunk($array, $size);
 }
@@ -536,8 +536,8 @@ function array_group(array $array, $size)
  */
 function array_slide(array $array, $size, $step = 1)
 {
-   ensure_non_negative_int($size, 'The second argument');
-   ensure_non_negative_int($step, 'The third argument' );
+   ensure_non_negative_int($size, SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_non_negative_int($step, SUBJECT_FOR_THIRD_ARGUMENT );
 
    $length = count($array);
    $slided = array();

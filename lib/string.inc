@@ -21,8 +21,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'error.inc'  ));
  */
 function wrap($string, $wrapper)
 {
-   ensure_string($string , 'The first argument' );
-   ensure_string($wrapper, 'The second argument');
+   ensure_string($string , SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_string($wrapper, SUBJECT_FOR_SECOND_ARGUMENT);
 
    return "$wrapper$string$wrapper";
 }
@@ -37,9 +37,9 @@ function wrap($string, $wrapper)
  */
 function wrap_by_tag($string, $tag, $class = '')
 {
-   ensure_string($string, 'The first argument' );
-   ensure_string($tag   , 'The second argument');
-   ensure_string($class , 'The third argument' );
+   ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_string($tag   , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_string($class , SUBJECT_FOR_THIRD_ARGUMENT );
 
    $attr = empty($class) ? $class : " class=\"$class\"";
    return "<$tag$attr>$string</$tag>";
@@ -54,7 +54,7 @@ function wrap_by_tag($string, $tag, $class = '')
  */
 function follow_join($glue, array $pieces)
 {
-   ensure_string($glue, 'The first argument');
+   ensure_string($glue, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return array_reduce($pieces, function($carry, $piece) use($glue) { return "$carry$piece$glue"; }, '');
 }
@@ -68,7 +68,7 @@ function follow_join($glue, array $pieces)
 function set_jp_encoding($encoding = 'UTF-8')
 {
    $enable_encodings = array('ISO-8859-1', 'ASCII', 'JIS', 'UTF-8', 'EUC-JP', 'SJIS');
-   ensure_in_array($encoding, $enable_encodings, 'The first argument');
+   ensure_in_array($encoding, $enable_encodings, SUBJECT_FOR_FIRST_ARGUMENT);
 
    mb_internal_encoding($encoding);
    mb_regex_encoding($encoding);
@@ -84,8 +84,8 @@ function set_jp_encoding($encoding = 'UTF-8')
  */
 function start_with($haystack, $needle)
 {
-   ensure_string($haystack, 'The first argument' );
-   ensure_string($needle  , 'The second argument');
+   ensure_string($haystack, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_string($needle  , SUBJECT_FOR_SECOND_ARGUMENT);
 
    return $needle === '' || strpos($haystack, $needle) === 0;
 }
@@ -99,8 +99,8 @@ function start_with($haystack, $needle)
  */
 function end_with($haystack, $needle)
 {
-   ensure_string($haystack, 'The first argument' );
-   ensure_string($needle  , 'The second argument');
+   ensure_string($haystack, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_string($needle  , SUBJECT_FOR_SECOND_ARGUMENT);
 
    return $needle === '' || mb_strrpos($haystack, $needle, 0) === (mb_strlen($haystack) - mb_strlen($needle));
 }
@@ -115,9 +115,9 @@ function end_with($haystack, $needle)
  */
 function str_replace_first($search, $replace, $subject)
 {
-   ensure_string($search , 'The first argument' );
-   ensure_string($replace, 'The second argument');
-   ensure_string($subject, 'The third argument' );
+   ensure_string($search , SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_string($replace, SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_string($subject, SUBJECT_FOR_THIRD_ARGUMENT );
 
    return preg_replace('/' . preg_quote($search, '/') . '/u', $replace, $subject, 1);
 }
@@ -133,8 +133,8 @@ function str_replace_first($search, $replace, $subject)
  */
 function split_at($string, $at)
 {
-   ensure_string($string, 'The first argument' );
-   ensure_int   ($at    , 'The second argument');
+   ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_int   ($at    , SUBJECT_FOR_SECOND_ARGUMENT);
 
    $former = mb_substr($string,   0,  $at);
    $latter = mb_substr($string, $at, null);
@@ -150,8 +150,8 @@ function split_at($string, $at)
  */
 function mb_str_split($string, $width = 1)
 {
-   ensure_string      ($string, 'The first argument' );
-   ensure_positive_int($width , 'The second argument');
+   ensure_string      ($string, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_positive_int($width , SUBJECT_FOR_SECOND_ARGUMENT);
 
    $split  = array();
    $length = mb_strlen($string);
@@ -170,7 +170,7 @@ function mb_str_split($string, $width = 1)
  */
 function is_blank($string)
 {
-   ensure_string($string, 'The first argument');
+   ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return preg_match('/^\s*$/u', $string) ? true : false;
 }
@@ -183,7 +183,7 @@ function is_blank($string)
  */
 function mb_trim($string)
 {
-   ensure_string($string, 'The first argument');
+   ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return preg_replace('/(^\s+|\s+$)/u', '', $string);
 }
@@ -196,7 +196,7 @@ function mb_trim($string)
  */
 function have_mb_char($string)
 {
-   ensure_string($string, 'The first argument');
+   ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return strlen($string) != mb_strlen($string);
 }
