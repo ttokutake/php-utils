@@ -23,6 +23,19 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   function testSeqFilter()
+   {
+      $array   = [1, 2, 3];
+      $pattern = [
+         [[1, 3], 'is_odd'   ],
+         [[2   ], 'is_even'  ],
+         [[    ], 'is_string'],
+      ];
+      foreach ($pattern as list($expected, $closure)) {
+         $this->assertEquals($expected, seq_filter($array, $closure));
+      }
+   }
+
 
    function testArraySet()
    {

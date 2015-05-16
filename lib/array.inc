@@ -19,7 +19,8 @@ require_once implode(DIRECTORY_SEPARATOR, array(__DIR__, 'general.inc'));
  * @param  array   $array
  * @return boolean
  */
-function is_seq(array $array) {
+function is_seq(array $array)
+{
    return array_keys($array) === incremental_range(0, count($array) - 1);
 }
 
@@ -29,8 +30,30 @@ function is_seq(array $array) {
  * @param  array $array
  * @return array
  */
-function to_seq(array $array) {
+function to_seq(array $array)
+{
    return array_values($array);
+}
+
+/**
+ * Return array_filter() whose indices is sequal.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return array
+ */
+function seq_filter(array $array, $closure)
+{
+   ensure_callable($closure, 'The second argument');
+
+   $result = array();
+   foreach ($array as $value) {
+      if ($closure($value)) {
+         $result[] = $value;
+      }
+   }
+   return $result;
+
 }
 
 
