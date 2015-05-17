@@ -423,31 +423,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
    /**
     * @depends testEnsureStringWithoutString
     */
-   function testEnsureClassExists()
-   {
-      $class_names = [
-         'Iterator' ,
-         'Closure'  ,
-         'Exception',
-      ];
-      foreach ($class_names as $class_name) {
-         $this->assertNull(ensure_class_exists($class_name));
-      }
-   }
-   /**
-    * @depends           testEnsureClassExists
-    * @expectedException DomainException
-    */
-   function testEnsureClassExistsWithNonExistingClass()
-   {
-      $non_existing_class = 'NonExistingClass';
-      ensure_class_exists($non_existing_class);
-   }
-
-   /**
-    * @depends testEnsureStringWithoutString
-    * @depends testEnsureClassExistsWithNonExistingClass
-    */
    function testEnsureInstanceOf()
    {
       $object = new UnexpectedValueException('testEnsureInstanceOf');

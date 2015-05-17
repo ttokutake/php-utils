@@ -283,20 +283,6 @@ function ensure_not_in_array(&$var, array &$black_list, $which_one)
 
 
 /**
- * Throw DomainException if class or interface is not defined.
- *
- * @param string $class_name
- */
-function ensure_class_exists($class_name)
-{
-   ensure_string($class_name, SUBJECT_FOR_FIRST_ARGUMENT);
-
-   if (!(class_exists($class_name) || interface_exists($class_name))) {
-      throw new DomainException(error_message("class or interface \"$class_name\" is not defined", 1));
-   }
-}
-
-/**
  * Throw the DomainException if $var is not one of objects of specified classes.
  *
  * @param mixed  &$var
@@ -310,7 +296,9 @@ function ensure_instance_of(&$var, $which_one, $class)
    $class_names = array_map(function ($class) { return is_object($class) ? get_class($class) : $class; }, $classes);
    foreach ($class_names as $class_name) {
       ensure_string($class_name, 'Arguments following second one');
-      ensure_class_exists($class_name);
+      if (!(class_exists($class_name) || interface_exists($class_name))) {
+         throw new DomainException(error_message("class or interface \"$class_name\" is not defined"));
+      }
    }
 
    foreach ($class_names as $class_name) { // should use array_exist() or array_for_all()
@@ -318,6 +306,6 @@ function ensure_instance_of(&$var, $which_one, $class)
          return;
       }
    }
-   $joined    = implode(', ', $class_names);
+   $joined = implode(', ', $class_names);
    throw new DomainException(variable_violation_message($which_one, "one of instances [$joined]", to_type($var), 1));
 }
