@@ -37,13 +37,13 @@ function plague($error_message)
 
 
 /**
- * Return the error message.
+ * Return the message with debug information.
  *
  * @param  string $message
  * @param  int    $added_depth
  * @return string
  */
-function error_message($message, $added_depth = 0)
+function append_debug_info($message, $added_depth = 0)
 {
    $backtrace = debug_backtrace();
    $depth     = 1 + force_non_negative_int($added_depth);
@@ -70,7 +70,7 @@ function variable_violation_message($which_one, $expected, $actual, $added_depth
    $which_one = string_or_default($which_one, 'The variable'  );
    $expected  = string_or_default($expected , 'expected one'  );
    $actual    = string_or_default($actual   , 'unexpected one');
-   return error_message("$which_one must be $expected, actually $actual", 1 + force_non_negative_int($added_depth));
+   return append_debug_info("$which_one must be $expected, actually $actual", 1 + force_non_negative_int($added_depth));
 }
 
 
@@ -297,7 +297,7 @@ function ensure_instance_of(&$var, $which_one, $class)
    foreach ($class_names as $class_name) {
       ensure_string($class_name, 'Arguments following second one');
       if (!(class_exists($class_name) || interface_exists($class_name))) {
-         throw new DomainException(error_message("class or interface \"$class_name\" is not defined"));
+         throw new DomainException(append_debug_info("class or interface \"$class_name\" is not defined"));
       }
    }
 
