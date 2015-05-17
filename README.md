@@ -17,6 +17,8 @@ This library is mainly affected by [Scala](http://www.scala-lang.org/).
 | array.inc          | defines the functions which complement PHP standard functions for "array"                          |
 | array_of_array.inc | defines the functions which help computations of "array" having "array" elements, like RDB records |
 
+If you want to know details, go to [wiki page](https://github.com/ttokutake/php-utils/wiki/)!
+
 ## Requirements
 
 - PHP 5.3 or higher
@@ -47,7 +49,7 @@ $sample_array = [
 echo pretty($sample_array);
 ```
 The above code lead to the following result,
-```
+```bash
 $ php example.php
 [
    "null"    => null
