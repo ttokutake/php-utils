@@ -106,13 +106,13 @@ function end_with($haystack, $needle)
 }
 
 /**
- * Judge if any one of $needles is in $haystack.
+ * Judge if any of $needles is in $haystack.
  *
  * @param  string  $haystack
  * @param  array   $needles
  * @return boolean
  */
-function str_search($haystack, array $needles)
+function match_any($haystack, array $needles)
 {
    ensure_string($haystack, SUBJECT_FOR_FIRST_ARGUMENT);
 
