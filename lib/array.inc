@@ -513,20 +513,6 @@ function array_partition(array $array, $closure)
 
 
 /**
- * Return array_chunk().
- *
- * @param  array $array
- * @param  int   $size
- * @return array
- */
-function array_group(array $array, $size)
-{
-   ensure_positive_int($size, SUBJECT_FOR_SECOND_ARGUMENT);
-
-   return array_chunk($array, $size);
-}
-
-/**
  * Return the cluster of slided array.
  *
  * @param  array $array
