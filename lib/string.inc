@@ -114,7 +114,11 @@ function end_with($haystack, $needle)
  */
 function match_any($haystack, array $needles)
 {
-   ensure_string($haystack, SUBJECT_FOR_FIRST_ARGUMENT);
+   ensure_string   ($haystack, SUBJECT_FOR_FIRST_ARGUMENT );
+   ensure_non_empty($needles , SUBJECT_FOR_SECOND_ARGUMENT);
+   foreach ($needles as $needle) {
+      ensure_string($needle, 'Each element of the second argument');
+   }
 
    $escaped = array_map(function($n) { return preg_quote($n, '/'); }, $needles);
    return preg_match('/(' . implode('|', $escaped) . ')/u', $haystack) === 1;
