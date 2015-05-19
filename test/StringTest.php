@@ -60,6 +60,30 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   function testStrSearch()
+   {
+      $true_patterns = [
+         ['This is a pen.', ['paper', 'pen', 'eraser']],
+         ['This is a pen.', ['This' , 'is' , 'a'     ]],
+
+         ['これはペンです。', ['紙'    , 'ペン', '消しゴム']],
+         ['これはペンです。', ['これは', 'です', '一つの'  ]],
+
+         ['google-chrome,fire-fox.safari$internet-explorer', ['fire-fox', 'opera', 'sleipnir']],
+      ];
+      foreach ($true_patterns as list($haystack, $needles)) {
+         $this->assertTrue(str_search($haystack, $needles));
+      }
+      $false_patterns = [
+         ['This is a pen', ['There', 'are', 'apples']],
+
+         ['これはペンです。', ['リンゴが', 'あり', 'ます']],
+      ];
+      foreach ($false_patterns as list($haystack, $needles)) {
+         $this->assertFalse(str_search($haystack, $needles));
+      }
+   }
+
    function testStrReplaceFirst()
    {
       $patterns = [

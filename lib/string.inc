@@ -106,6 +106,21 @@ function end_with($haystack, $needle)
 }
 
 /**
+ * Judge if any one of $needles is in $haystack.
+ *
+ * @param  string  $haystack
+ * @param  array   $needles
+ * @return boolean
+ */
+function str_search($haystack, array $needles)
+{
+   ensure_string($haystack, SUBJECT_FOR_FIRST_ARGUMENT);
+
+   $escaped = array_map(function($n) { return preg_quote($n, '/'); }, $needles);
+   return preg_match('/(' . implode('|', $escaped) . ')/u', $haystack) === 1;
+}
+
+/**
  * Return first only version of str_replace().
  *
  * @param  string $search
@@ -172,7 +187,7 @@ function is_blank($string)
 {
    ensure_string($string, SUBJECT_FOR_FIRST_ARGUMENT);
 
-   return preg_match('/^\s*$/u', $string) ? true : false;
+   return preg_match('/^\s*$/u', $string) === 1;
 }
 
 /**
