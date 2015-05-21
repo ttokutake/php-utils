@@ -112,7 +112,7 @@ function end_with($haystack, $needle)
  * @param  array   $needles
  * @return boolean
  */
-function match_any($haystack, array $needles)
+function have_any($haystack, array $needles)
 {
    ensure_string   ($haystack, SUBJECT_FOR_FIRST_ARGUMENT );
    ensure_non_empty($needles , SUBJECT_FOR_SECOND_ARGUMENT);

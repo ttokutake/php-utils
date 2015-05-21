@@ -60,7 +60,7 @@ class StringTest extends PHPUnit_Framework_TestCase
       }
    }
 
-   function testMatchAny()
+   function testHaveAny()
    {
       $true_patterns = [
          ['This is a pen.', ['paper', 'pen', 'eraser']],
@@ -72,7 +72,7 @@ class StringTest extends PHPUnit_Framework_TestCase
          ['google-chrome,fire-fox.safari$internet-explorer', ['fire-fox', 'opera', 'sleipnir']],
       ];
       foreach ($true_patterns as list($haystack, $needles)) {
-         $this->assertTrue(match_any($haystack, $needles));
+         $this->assertTrue(have_any($haystack, $needles));
       }
       $false_patterns = [
          ['This is a pen', ['There', 'are', 'apples']],
@@ -80,7 +80,7 @@ class StringTest extends PHPUnit_Framework_TestCase
          ['これはペンです。', ['リンゴが', 'あり', 'ます']],
       ];
       foreach ($false_patterns as list($haystack, $needles)) {
-         $this->assertFalse(match_any($haystack, $needles));
+         $this->assertFalse(have_any($haystack, $needles));
       }
    }
 
