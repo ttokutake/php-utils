@@ -66,7 +66,7 @@ function pretty($var, $row_prefix = '')
          $space_nums = array_map(function($len) use($max) { return $max - $len; }, $lengths);
          $spaces     = array_map(function($num) { return str_repeat(' ', $num); }, $space_nums);
 
-         $pretty .= withln('[');
+         $pretty .= withln('(count: ' . count($var) . ')[');
          foreach ($var as $key => $elem) {
             $pretty .= "$next_indent{$pretties[$key]}{$spaces[$key]} => " . pretty($elem, "$next_indent");
          }

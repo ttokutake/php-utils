@@ -57,17 +57,17 @@ $ php example.php
    "int"     => 1
    "double"  => 1.1
    "string"  => "hello, world!"
-   "array"   => [
+   "array"   => (count: 3)[
       0 => 1
       1 => 2
       2 => 3
    ]
    "closure" => object of Closure {
-      object properties => [
+      object properties => (count: 0)[
       ]
-      static properties => [
+      static properties => (count: 0)[
       ]
-      methods           => [
+      methods           => (count: 2)[
          0 => "bind"
          1 => "bindTo"
       ]

@@ -35,19 +35,19 @@ class DebugTest extends PHPUnit_Framework_TestCase
    function testPretty()
    {
       $patterns = [
-         ['null'           , null ],
-         ['false'          , false],
-         ['true'           , true ],
-         ['0'              , 0    ],
-         ['1'              , 1    ],
-         ['0.0'            , 0.0  ],
-         ['0.0'            , 0.   ],
-         ['0.04'           , 0.04 ],
-         ['1.0'            , 1.00 ],
-         ['""'             , ''   ],
-         ['"0"'            , '0'  ],
-         ['"a"'            , 'a'  ],
-         [withln('[') . ']', []   ],
+         ['null'                     , null ],
+         ['false'                    , false],
+         ['true'                     , true ],
+         ['0'                        , 0    ],
+         ['1'                        , 1    ],
+         ['0.0'                      , 0.0  ],
+         ['0.0'                      , 0.   ],
+         ['0.04'                     , 0.04 ],
+         ['1.0'                      , 1.00 ],
+         ['""'                       , ''   ],
+         ['"0"'                      , '0'  ],
+         ['"a"'                      , 'a'  ],
+         [withln('(count: 0)[') . ']', []   ],
       ];
       foreach ($patterns as list($expected, $var)) {
          $this->assertEquals(withln($expected), pretty($var));
@@ -56,14 +56,14 @@ class DebugTest extends PHPUnit_Framework_TestCase
       $prefix = '>> ';
 
       $array_expected = array_reduce([
-            '['                        ,
-            '   "windows" => "10"'     ,
-            '   "osx"     => "10.10"'  ,
-            '   "linux"   => ['        ,
-            '      "ubuntu" => "15.04"',
-            '      "rhel"   => "7"'    ,
-            '   ]'                     ,
-            ']'                        ,
+            '(count: 3)['                ,
+            '   "windows" => "10"'       ,
+            '   "osx"     => "10.10"'    ,
+            '   "linux"   => (count: 2)[',
+            '      "ubuntu" => "15.04"'  ,
+            '      "rhel"   => "7"'      ,
+            '   ]'                       ,
+            ']'                          ,
          ], function($text, $row) use($prefix) { return $text . withln("$prefix$row"); }, '');
       $array = [
          'windows' => '10'   ,
@@ -76,16 +76,16 @@ class DebugTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($array_expected, pretty($array, $prefix));
 
       $object_expected = array_reduce([
-            'object of Closure {'      ,
-            '   object properties => [',
-            '   ]'                     ,
-            '   static properties => [',
-            '   ]'                     ,
-            '   methods           => [',
-            '      0 => "bind"'        ,
-            '      1 => "bindTo"'      ,
-            '   ]'                     ,
-            '}'                        ,
+            'object of Closure {'                ,
+            '   object properties => (count: 0)[',
+            '   ]'                               ,
+            '   static properties => (count: 0)[',
+            '   ]'                               ,
+            '   methods           => (count: 2)[',
+            '      0 => "bind"'                  ,
+            '      1 => "bindTo"'                ,
+            '   ]'                               ,
+            '}'                                  ,
          ], function($text, $row) use($prefix) { return $text . withln("$prefix$row"); }, '');
       $this->assertEquals($object_expected, pretty(function() { echo 'testPretty'; }, $prefix));
    }
