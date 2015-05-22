@@ -1,0 +1,18 @@
+- ドキュメントの整理
+  - general.inc
+  - array.inc
+  - array_of_array.inc
+- バージョンタグ付ける
+- 新たなライブラリ
+   - time.inc
+   - uri.inc
+   - html.inc (wrap_by_tag() はここに移動させる)
+- array.inc を sequel.inc と associative.inc に分ける
+   - sequel.inc:
+      - 結果の配列は必ず key が 0 から始まる連続した数字となる
+      - 受け取る無名関数は value が渡されることを想定 => $closure($value)
+      - 関数名は seq_*()
+   - associative.inc
+      - 結果の配列は元の配列の key と value 組み合わせを維持
+      - 受け取る無名関数は key, value が渡されることを想定 => $closure($key, $value)
+      - 関数名は assoc_*()
