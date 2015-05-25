@@ -122,5 +122,20 @@ class GeneralTest extends PHPUnit_Framework_TestCase
          $this->assertTrue($is_non_int($non_int));
       }
       $this->assertFalse($is_non_int(1));
+
+
+      $not_in_array = reverse_closure('in_array', 2);
+
+      $array = ['hop', 'step', 'jump'];
+      foreach ($array as $e) {
+         $this->assertFalse($not_in_array($e, $array));
+      }
+      $this->assertTrue($not_in_array('fly', $array));
+
+
+      $not_between = reverse_closure('between', 3);
+
+      $this->assertTrue ($not_between(0, 1, 1));
+      $this->assertFalse($not_between(0, 0, 0));
    }
 }

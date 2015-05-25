@@ -116,11 +116,22 @@ function decremental_range($first, $last)
  * Return the Closure object which is equal to reversed $closure.
  *
  * @param Closure $closure
+ * @param int     $argc
  * @param Closure
  */
-function reverse_closure($closure)
+function reverse_closure($closure, $argc = 1)
 {
    ensure_callable($closure, SUBJECT_FOR_FIRST_ARGUMENT);
+   ensure_between ($argc   , 1, 3, SUBJECT_FOR_SECOND_ARGUMENT);
 
-   return function($var) use($closure) { return !$closure($var); };
+   switch ($argc) {
+      case 1:
+        return function($first) use($closure) { return !$closure($first); };
+      case 2:
+        return function($first, $second) use($closure) { return !$closure($first, $second); };
+      case 3:
+        return function($first, $second, $third) use($closure) { return !$closure($first, $second, $third); };
+      default:
+        throw new RuntimeException('This line must not be passed!');
+   }
 }
