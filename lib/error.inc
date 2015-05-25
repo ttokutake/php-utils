@@ -253,6 +253,11 @@ function ensure_non_negative_int(&$var, $which_one)
 
 /**
  * Throw the DomainException if $var is not less than or equal to $min and greater than or equal to $max.
+ *
+ * @param mixed  &$var
+ * @param mixed   $min
+ * @param mixed   $max
+ * @param string  $which_one
  */
 function ensure_between(&$var, $min, $max, $which_one)
 {
