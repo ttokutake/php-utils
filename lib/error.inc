@@ -252,6 +252,17 @@ function ensure_non_negative_int(&$var, $which_one)
 }
 
 /**
+ * Throw the DomainException if $var is not less than or equal to $min and greater than or equal to $max.
+ */
+function ensure_between(&$var, $min, $max, $which_one)
+{
+   if (!(is_scalar($var) && $min <= $var && $var <= $max)) {
+      $which_one = string_or_default($which_one, 'The variable');
+      throw new DomainException(variable_violation_message($which_one, "gte $min or lte $max", to_string(wrap_if_string($var)), 1));
+   }
+}
+
+/**
  * Throw the DomainException if $var is not in elements of the array.
  *
  * @param mixed  &$var

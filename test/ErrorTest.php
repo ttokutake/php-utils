@@ -385,6 +385,42 @@ class ErrorTest extends PHPUnit_Framework_TestCase
       ensure_non_negative_int($non_int, 'next to non-int');
    }
 
+   function testEnsureBetween()
+   {
+      $pattern = [
+         [0,  0, 0],
+         [0,  0, 1],
+         [0, -1, 0],
+         [0, -1, 1],
+
+         ['2014-05-20', '2014-05-20', '2014-05-20'],
+         ['2014-05-20', '2014-05-20', '2014-05-31'],
+         ['2014-05-20', '2014-05-01', '2014-05-20'],
+         ['2014-05-20', '2014-05-01', '2014-05-31'],
+      ];
+      foreach($pattern as list($var, $min, $max)) {
+         $this->assertNull(ensure_between($var, $min, $max, 'The subject'));
+      }
+   }
+   /**
+    * @depends           testEnsureBetween
+    * @expectedException DomainException
+    */
+   function testEnsureBetweenWithLessThan()
+   {
+      $less_than = 0;
+      ensure_between($less_than, 1, 1, 'less than');
+   }
+   /**
+    * @depends           testEnsureBetween
+    * @expectedException DomainException
+    */
+   function testEnsureBetweenWithGreaterThan()
+   {
+      $greater_than = 0;
+      ensure_between($less_than, -1, -1, 'greater than');
+   }
+
 
    private $blowsers = ['chrome', 'firefox', 'safari'];
 
