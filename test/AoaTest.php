@@ -124,33 +124,6 @@ class AoaTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($expected, aoa_sum($this->aoa, $key));
    }
 
-   function testAoaMap()
-   {
-      $key      = 'point';
-      $square   = function($num) { return pow($num, 2); };
-      $expected = array_map(function($array) use($key, $square) {
-            return array_set($array, $key, $square($array[$key]));
-         }, $this->aoa);
-      $this->assertEquals($expected, aoa_map($this->aoa, $key, $square));
-   }
-
-   /**
-    * @depends testAoaValues
-    */
-   function testAoaReduce()
-   {
-      $connect  = function($carry, $str) { return "$carry/$str"; };
-      $expected = '/hoge/fuga/piyo';
-      $this->assertEquals($expected, aoa_reduce($this->aoa, 'name', $connect, ''));
-   }
-
-   function testAoaFilter()
-   {
-      $key      = 'id';
-      $expected = array_filter($this->aoa, function($array) use($key) { return is_odd($array[$key]); });
-      $this->assertEquals($expected, aoa_filter($this->aoa, $key, 'is_odd'));
-   }
-
    /**
     * @depends testAoaValues
     */
