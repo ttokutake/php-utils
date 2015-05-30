@@ -37,6 +37,38 @@ class ArrayTest extends PHPUnit_Framework_TestCase
    }
 
 
+   function testAssocMap()
+   {
+      $patterns = [
+         [['one' => 'one => 1'], ['one' => 1], function($key, $value) { return "$key => $value"; }],
+      ];
+      foreach ($patterns as list($expected, $array, $closure)) {
+         $this->assertEquals($expected, assoc_map($array, $closure));
+      }
+   }
+
+   function testAssocReduce()
+   {
+      $patterns = [
+         ['- key => value', ['key' => 'value'], function($carry, $key, $value) { return "$carry$key => $value"; }],
+      ];
+      foreach ($patterns as list($expected, $array, $closure)) {
+         $this->assertEquals($expected, assoc_reduce($array, $closure, '- '));
+      }
+   }
+
+   function testAssocFilter()
+   {
+      $patterns = [
+         [[1 => 1], [1 => 1], function($key, $value) { return is_even($key + $value); }],
+         [[      ], [1 => 1], function($key, $value) { return is_odd ($key + $value); }],
+      ];
+      foreach ($patterns as list($expected, $array, $closure)) {
+         $this->assertEquals($expected, assoc_filter($array, $closure));
+      }
+   }
+
+
    function testArraySet()
    {
       $array    = [0 => null];
@@ -161,37 +193,6 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       $array = [0, 1, 2];
       $this->assertEquals([0 => 0], array_filter_not($array           ));
       $this->assertEquals([1 => 1], array_filter_not($array, 'is_even'));
-   }
-
-   function testArrayMapWithKey()
-   {
-      $patterns = [
-         [['one' => 'one => 1'], ['one' => 1], function($key, $value) { return "$key => $value"; }],
-      ];
-      foreach ($patterns as list($expected, $array, $closure)) {
-         $this->assertEquals($expected, array_map_with_key($array, $closure));
-      }
-   }
-
-   function testArrayReduceWithKey()
-   {
-      $patterns = [
-         ['- key => value', ['key' => 'value'], function($carry, $key, $value) { return "$carry$key => $value"; }],
-      ];
-      foreach ($patterns as list($expected, $array, $closure)) {
-         $this->assertEquals($expected, array_reduce_with_key($array, $closure, '- '));
-      }
-   }
-
-   function testArrayFilterWithKey()
-   {
-      $patterns = [
-         [[1 => 1], [1 => 1], function($key, $value) { return is_even($key + $value); }],
-         [[      ], [1 => 1], function($key, $value) { return is_odd ($key + $value); }],
-      ];
-      foreach ($patterns as list($expected, $array, $closure)) {
-         $this->assertEquals($expected, array_filter_with_key($array, $closure));
-      }
    }
 
    function testArrayFlat()

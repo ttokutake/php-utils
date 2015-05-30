@@ -53,7 +53,63 @@ function seq_filter(array $array, $closure)
       }
    }
    return $result;
+}
 
+
+/**
+ * Return array_map() which can use keys of the array.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return array
+ */
+function assoc_map(array $array, $closure)
+{
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
+
+   $result = array();
+   foreach ($array as $key => $value) {
+      $result[$key] = $closure($key, $value);
+   }
+   return $result;
+}
+
+/**
+ * Return array_reduce() which can use keys of the array.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @param  mixed   $initial
+ * @return mixed
+ */
+function assoc_reduce(array $array, $closure, $initial)
+{
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
+
+   foreach ($array as $key => $value) {
+      $initial = $closure($initial, $key, $value);
+   }
+   return $initial;
+}
+
+/**
+ * Return array_filter() which can use keys of the array.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return array
+ */
+function assoc_filter(array $array, $closure)
+{
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
+
+   $result = array();
+   foreach ($array as $key => $value) {
+      if ($closure($key, $value)) {
+         $result[$key] = $value;
+      }
+   }
+   return $result;
 }
 
 
@@ -184,62 +240,6 @@ function array_filter_not(array $array, $closure = null)
 }
 
 /**
- * Return array_map() which can use keys of the array.
- *
- * @param  array   $array
- * @param  Closure $closure
- * @return array
- */
-function array_map_with_key(array $array, $closure)
-{
-   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
-
-   $result = array();
-   foreach ($array as $key => $value) {
-      $result[$key] = $closure($key, $value);
-   }
-   return $result;
-}
-
-/**
- * Return array_reduce() which can use keys of the array.
- *
- * @param  array   $array
- * @param  Closure $closure
- * @param  mixed   $initial
- * @return mixed
- */
-function array_reduce_with_key(array $array, $closure, $initial)
-{
-   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
-
-   foreach ($array as $key => $value) {
-      $initial = $closure($initial, $key, $value);
-   }
-   return $initial;
-}
-
-/**
- * Return array_filter() which can use keys of the array.
- *
- * @param  array   $array
- * @param  Closure $closure
- * @return array
- */
-function array_filter_with_key(array $array, $closure)
-{
-   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
-
-   $result = array();
-   foreach ($array as $key => $value) {
-      if ($closure($key, $value)) {
-         $result[$key] = $value;
-      }
-   }
-   return $result;
-}
-
-/**
  * Return the flatten array.
  *
  * @param  array $array
@@ -277,19 +277,6 @@ function array_zip(array $first, array $second)
 
 
 /**
- * Return the pair of first element and the others of an array.
- *
- * @param  array $array
- * @return array
- */
-function array_behead(array $array)
-{
-   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
-
-   return array(array_head($array), array_tail($array));
-}
-
-/**
  * Return the first element of an array.
  *
  * @param  array $array
@@ -315,19 +302,19 @@ function array_tail(array $array)
    return array_slice($array, 1);
 }
 
-
 /**
- * Return the pair of last element and the others of an array.
+ * Return the pair of first element and the others of an array.
  *
  * @param  array $array
  * @return array
  */
-function array_depeditate(array $array)
+function array_behead(array $array)
 {
    ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
-   return array(array_init($array), array_last($array));
+   return array(array_head($array), array_tail($array));
 }
+
 
 /**
  * Return the array excluding the last element of an array.
@@ -353,6 +340,19 @@ function array_last(array $array)
    ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
 
    return end($array);
+}
+
+/**
+ * Return the pair of last element and the others of an array.
+ *
+ * @param  array $array
+ * @return array
+ */
+function array_depeditate(array $array)
+{
+   ensure_non_empty($array, SUBJECT_FOR_FIRST_ARGUMENT);
+
+   return array(array_init($array), array_last($array));
 }
 
 
