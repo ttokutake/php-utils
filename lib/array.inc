@@ -438,6 +438,30 @@ function array_split(array $array, $offset)
    return is_seq($array) ? array_map('to_seq', array($former, $latter)) : array($former, $latter);
 }
 
+/**
+ * Return the cluster of slided array.
+ *
+ * @param  array $array
+ * @param  int   $size
+ * @param  int   $step
+ * @return array
+ */
+function array_slide(array $array, $size, $step = 1)
+{
+   ensure_non_negative_int($size, SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_non_negative_int($step, SUBJECT_FOR_THIRD_ARGUMENT );
+
+   $length = count($array);
+   $slided = array();
+   for ($offset = 0; $offset < $length; $offset += $step) {
+      $slided[] = array_slice($array, $offset, $size);
+      if ($offset + $size == $length) {
+         break;
+      }
+   }
+   return $slided;
+}
+
 
 /**
  * Judge if the element which return true for $closure exists.
@@ -511,29 +535,4 @@ function array_partition(array $array, $closure)
       }
    }
    return is_seq($array) ? array_map('to_seq', array($former, $latter)) : array($former, $latter);
-}
-
-
-/**
- * Return the cluster of slided array.
- *
- * @param  array $array
- * @param  int   $size
- * @param  int   $step
- * @return array
- */
-function array_slide(array $array, $size, $step = 1)
-{
-   ensure_non_negative_int($size, SUBJECT_FOR_SECOND_ARGUMENT);
-   ensure_non_negative_int($step, SUBJECT_FOR_THIRD_ARGUMENT );
-
-   $length = count($array);
-   $slided = array();
-   for ($offset = 0; $offset < $length; $offset += $step) {
-      $slided[] = array_slice($array, $offset, $size);
-      if ($offset + $size == $length) {
-         break;
-      }
-   }
-   return $slided;
 }

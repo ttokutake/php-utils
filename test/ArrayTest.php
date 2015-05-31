@@ -414,6 +414,64 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   /**
+    * @depends testArrayZip
+    */
+   function testArraySlide()
+   {
+      $patterns = [
+         [
+            [
+               [[1]          ],
+               [[1], [2]     ],
+               [[1], [2], [3]],
+
+               [['one' => 1]                              ],
+               [['one' => 1], ['two' => 2]                ],
+               [['one' => 1], ['two' => 2], ['three' => 3]],
+            ], 1, 1
+         ],
+         [
+            [
+               [[1]     ],
+               [[1]     ],
+               [[1], [3]],
+
+               [['one' => 1]                ],
+               [['one' => 1]                ],
+               [['one' => 1], ['three' => 3]],
+            ], 1, 2
+         ],
+         [
+            [
+               [[1   ]        ],
+               [[1, 2]        ],
+               [[1, 2], [2, 3]],
+
+               [['one' => 1            ]                            ],
+               [['one' => 1, 'two' => 2]                            ],
+               [['one' => 1, 'two' => 2], ['two' => 2, 'three' => 3]],
+            ], 2, 1
+         ],
+         [
+            [
+               [[1   ]     ],
+               [[1, 2]     ],
+               [[1, 2], [3]],
+
+               [['one' => 1            ]                ],
+               [['one' => 1, 'two' => 2]                ],
+               [['one' => 1, 'two' => 2], ['three' => 3]],
+            ], 2, 2
+         ],
+      ];
+      foreach ($patterns as list($expectations, $size, $step)) {
+         foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
+            $this->assertEquals($expected, array_slide($array, $size, $step));
+         }
+      }
+   }
+
 
    /**
     * @depends testArrayZip
@@ -489,64 +547,6 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       ];
       foreach (array_zip($even_expectations, $this->arrays) as list($expected, $array)) {
          $this->assertEquals($expected, array_partition($array, 'is_even'));
-      }
-   }
-
-   /**
-    * @depends testArrayZip
-    */
-   function testArraySlide()
-   {
-      $patterns = [
-         [
-            [
-               [[1]          ],
-               [[1], [2]     ],
-               [[1], [2], [3]],
-
-               [['one' => 1]                              ],
-               [['one' => 1], ['two' => 2]                ],
-               [['one' => 1], ['two' => 2], ['three' => 3]],
-            ], 1, 1
-         ],
-         [
-            [
-               [[1]     ],
-               [[1]     ],
-               [[1], [3]],
-
-               [['one' => 1]                ],
-               [['one' => 1]                ],
-               [['one' => 1], ['three' => 3]],
-            ], 1, 2
-         ],
-         [
-            [
-               [[1   ]        ],
-               [[1, 2]        ],
-               [[1, 2], [2, 3]],
-
-               [['one' => 1            ]                            ],
-               [['one' => 1, 'two' => 2]                            ],
-               [['one' => 1, 'two' => 2], ['two' => 2, 'three' => 3]],
-            ], 2, 1
-         ],
-         [
-            [
-               [[1   ]     ],
-               [[1, 2]     ],
-               [[1, 2], [3]],
-
-               [['one' => 1            ]                ],
-               [['one' => 1, 'two' => 2]                ],
-               [['one' => 1, 'two' => 2], ['three' => 3]],
-            ], 2, 2
-         ],
-      ];
-      foreach ($patterns as list($expectations, $size, $step)) {
-         foreach (array_zip($expectations, $this->arrays) as list($expected, $array)) {
-            $this->assertEquals($expected, array_slide($array, $size, $step));
-         }
       }
    }
 }
