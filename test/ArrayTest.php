@@ -68,6 +68,26 @@ class ArrayTest extends PHPUnit_Framework_TestCase
       }
    }
 
+   function testAssocExist()
+   {
+      $assoc = ['one' => 1, 'two' => 2, 'three' => 3];
+      foreach ($assoc as $key => $value) {
+         $this->assertTrue(assoc_exist($assoc, function($k, $v) use($key, $value) { return "$k => $v" === "$key => $value"; }));
+      }
+      $this->assertFalse(assoc_exist($assoc, function($k, $v) { return "$k => $v" === 'four => 4'; }));
+   }
+
+   /**
+    * @depends testAssocExist
+    */
+   function testAssocForAll()
+   {
+      $assoc = ['one' => 1, 'two' => 2];
+      $added = array_merge($assoc, ['three' => 3]);
+      $this->assertTrue (assoc_for_all($assoc, function($k, $v) use($added) { return isset($added[$k]) && $added[$k] === $v; }));
+      $this->assertFalse(assoc_for_all($added, function($k, $v) use($assoc) { return isset($assoc[$k]) && $assoc[$k] === $v; }));
+   }
+
 
    function testArraySet()
    {

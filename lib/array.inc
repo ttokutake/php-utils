@@ -112,6 +112,39 @@ function assoc_filter(array $array, $closure)
    return $result;
 }
 
+/**
+ * Judge if the element which return true for $closure exists.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return boolean
+ */
+function assoc_exist(array $array, $closure)
+{
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
+
+   foreach ($array as $key => $value) {
+      if ($closure($key, $value)) {
+         return true;
+      }
+   }
+   return false;
+}
+
+/**
+ * Judge if all elements return true for $closure.
+ *
+ * @param  array   $array
+ * @param  Closure $closure
+ * @return boolean
+ */
+function assoc_for_all(array $array, $closure)
+{
+   ensure_callable($closure, SUBJECT_FOR_SECOND_ARGUMENT);
+
+   return !assoc_exist($array, reverse_closure($closure, 2));
+}
+
 
 /**
  * Return the array set the value.
