@@ -91,17 +91,20 @@ class GeneralTest extends PHPUnit_Framework_TestCase
       $this->assertEquals([0      ], incremental_range(0,  0));
       $this->assertEquals([0, 1   ], incremental_range(0,  1));
       $this->assertEquals([0, 1, 2], incremental_range(0,  2));
+
+      $this->assertEquals([0, 2], incremental_range(0, 2, 2));
+      $this->assertEquals([0, 3], incremental_range(0, 4, 3));
    }
 
-   /**
-    * @depends testIncrementalRange
-    */
    function testDecrementalRange()
    {
       $this->assertEquals([0, -1, -2], decremental_range(0, -2));
       $this->assertEquals([0, -1    ], decremental_range(0, -1));
       $this->assertEquals([0        ], decremental_range(0,  0));
       $this->assertEquals([         ], decremental_range(0,  1));
+
+      $this->assertEquals([0, -2], decremental_range(0, -2, 2));
+      $this->assertEquals([0, -3], decremental_range(0, -4, 3));
    }
 
 

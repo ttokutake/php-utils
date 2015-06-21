@@ -86,14 +86,16 @@ function between($var, $min, $max)
  *
  * @param  int   $first
  * @param  int   $last
+ * @param  int   $step
  * @return array
  */
-function incremental_range($first, $last)
+function incremental_range($first, $last, $step = 1)
 {
    ensure_int($first, SUBJECT_FOR_FIRST_ARGUMENT );
    ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_positive_int($step, SUBJECT_FOR_THIRD_ARGUMENT);
 
-   return $first <= $last ? range($first, $last) : array();
+   return $first <= $last ? range($first, $last, $step) : array();
 }
 
 /**
@@ -101,14 +103,16 @@ function incremental_range($first, $last)
  *
  * @param  int   $first
  * @param  int   $last
+ * @param  int   $step
  * @return array
  */
-function decremental_range($first, $last)
+function decremental_range($first, $last, $step = 1)
 {
    ensure_int($first, SUBJECT_FOR_FIRST_ARGUMENT );
    ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
+   ensure_positive_int($step, SUBJECT_FOR_THIRD_ARGUMENT);
 
-   return array_reverse(incremental_range($last, $first));
+   return $first >= $last ? range($first, $last, $step) : array();
 }
 
 
