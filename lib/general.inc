@@ -95,7 +95,11 @@ function incremental_range($first, $last, $step = 1)
    ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
    ensure_positive_int($step, SUBJECT_FOR_THIRD_ARGUMENT);
 
-   return $first <= $last ? range($first, $last, $step) : array();
+   if ($first <= $last) {
+      return $last - $first < $step ? array($first) : range($first, $last, $step);
+   } else {
+      return array();
+   }
 }
 
 /**
@@ -112,7 +116,11 @@ function decremental_range($first, $last, $step = 1)
    ensure_int($last , SUBJECT_FOR_SECOND_ARGUMENT);
    ensure_positive_int($step, SUBJECT_FOR_THIRD_ARGUMENT);
 
-   return $first >= $last ? range($first, $last, $step) : array();
+   if ($first >= $last) {
+      return $first - $last < $step ? array($first) : range($first, $last, $step);
+   } else {
+      return array();
+   }
 }
 
 

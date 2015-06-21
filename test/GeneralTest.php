@@ -94,6 +94,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
 
       $this->assertEquals([0, 2], incremental_range(0, 2, 2));
       $this->assertEquals([0, 3], incremental_range(0, 4, 3));
+      $this->assertEquals([0   ], incremental_range(0, 2, 3));
    }
 
    function testDecrementalRange()
@@ -105,6 +106,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase
 
       $this->assertEquals([0, -2], decremental_range(0, -2, 2));
       $this->assertEquals([0, -3], decremental_range(0, -4, 3));
+      $this->assertEquals([0    ], decremental_range(0, -2, 3));
    }
 
 
